@@ -3,7 +3,17 @@ import React, { useState } from "react";
 import RegisterStringInput from "./form/RegisterInput";
 
 interface RegisterPageProps {}
-
+export type InputType =
+  | "email"
+  | "id"
+  | "username"
+  | "password"
+  | "confirmPassword"
+  | "name"
+  | "age";
+export interface FormError {
+  errorType?: InputType;
+}
 const RegisterPage: React.FC<RegisterPageProps> = () => {
   const [email, setEmail] = useState<string>("");
   const [username, setUsername] = useState<string>("");
@@ -11,6 +21,7 @@ const RegisterPage: React.FC<RegisterPageProps> = () => {
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [name, setName] = useState<string>("");
   const [age, setAge] = useState<string>("");
+  const [error, setError] = useState<FormError>({});
 
   const handlePasswordMatch = () => {
     if (password !== confirmPassword) {
@@ -18,8 +29,13 @@ const RegisterPage: React.FC<RegisterPageProps> = () => {
     }
   };
 
+  const handleBlackEmail = () => {
+    if (email === "") setError({ errorType: "email" });
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    handleBlackEmail();
     // 실제 회원가입 로직을 처리하는 부분
     console.log("회원가입 정보:", { email, username, password, name, age });
   };
@@ -33,30 +49,39 @@ const RegisterPage: React.FC<RegisterPageProps> = () => {
           placeholder="이메일을 입력해주세요"
           setValue={setEmail}
           value={email}
+          type="email"
+          error={error}
         />
         <RegisterStringInput
           label="아이디"
           placeholder="아이디를 입력해주세요"
           setValue={setUsername}
           value={username}
+          type="id"
         />
         <RegisterStringInput
           label="비밀번호"
           placeholder="비밀번호를 8자 이상 입력해주세요"
           setValue={setPassword}
           value={password}
+          type="password"
+          error={error}
         />
         <RegisterStringInput
           label="비밀번호 확인"
           placeholder="비밀번호를 한번 더 입력해주세요"
           setValue={setConfirmPassword}
           value={confirmPassword}
+          type="confirmPassword"
+          error={error}
         />
         <RegisterStringInput
           label="사용자 이름"
           placeholder="00에서 사용하실 이름을 입력해주세요"
           setValue={setName}
           value={name}
+          type="username"
+          error={error}
         />
         <label
           htmlFor="age"
