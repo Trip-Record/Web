@@ -10,6 +10,9 @@ export interface InputProps {
   inputType?: "email" | "password" | "number" | "text";
 }
 
+export const REGISTER_LABEL =
+  "w-[160px] lg:w-[200px] text-left flex justify-between items-center font-semibold";
+
 export default function RegisterStringInput({
   label,
   placeholder,
@@ -21,11 +24,8 @@ export default function RegisterStringInput({
 }: InputProps) {
   return (
     <>
-      <div className="flex justify-between w-full flex-col sm:flex-row">
-        <label
-          htmlFor={label}
-          className="w-[160px] lg:w-[200px] lg:text-lg text-left flex justify-between items-center"
-        >
+      <div className="flex justify-between w-full flex-col gap-1">
+        <label htmlFor={label} className={REGISTER_LABEL}>
           {label}
         </label>
         <input
@@ -33,7 +33,7 @@ export default function RegisterStringInput({
           id={label}
           name={label}
           placeholder={placeholder}
-          className={`h-10 border-2 text-black p-2 w-full ${
+          className={`h-10 border border-black/20 shadow-sm rounded-md text-black p-2 w-full ${
             type === error?.errorType && "border-red-300"
           }`}
           value={value}

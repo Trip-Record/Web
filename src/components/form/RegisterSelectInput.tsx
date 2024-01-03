@@ -1,4 +1,4 @@
-import { InputProps } from "./RegisterInput";
+import { InputProps, REGISTER_LABEL } from "./RegisterInput";
 
 export interface AgeValue {
   value: string;
@@ -18,11 +18,8 @@ export default function RegisterSelectInput({
   options,
 }: SelectProps) {
   return (
-    <div className="flex justify-between w-full flex-col sm:flex-row">
-      <label
-        htmlFor={label}
-        className="w-[160px] lg:w-[200px] lg:text-lg mb-2 mt-2 text-left flex justify-between items-center"
-      >
+    <div className="flex justify-between w-full flex-col">
+      <label htmlFor={label} className={REGISTER_LABEL}>
         {label}
       </label>
       <select
