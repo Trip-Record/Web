@@ -68,7 +68,7 @@ const RegisterPage: React.FC<RegisterPageProps> = () => {
   };
 
   return (
-    <section className="bg-gray-50 flex justify-center w-full">
+    <section className=" flex justify-center w-full">
       <div className="flex flex-col items-center p-2 max-w-md w-full">
         <h1 className="text-4xl mb-4 mt-4 text-center font-extrabold">
           회원가입
