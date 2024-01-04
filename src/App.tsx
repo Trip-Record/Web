@@ -2,6 +2,7 @@ import "./App.css";
 import { Routes, Route, Link } from "react-router-dom";
 import RegisterPage from "./components/RegisterPage";
 import LoginPage from "./components/LoginPage";
+import SelectTravelStyle from "./components/SelectTravelStyle";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Route path="/" element={<div>메인 페이지</div>} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/test" element={<SelectTravelStyle />} />
       </Routes>
     </div>
   );
