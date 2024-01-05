@@ -1,7 +1,6 @@
 // RegisterPage.tsx
 import React, { useState } from "react";
 import RegisterStringInput from "./form/RegisterInput";
-import RegisterSelectInput, { AgeValue } from "./form/RegisterSelectInput";
 import { registerValidation } from "../validations/register";
 import Radios from "./form/Radios";
 
@@ -45,36 +44,23 @@ const BASIC_PROFILE = [
   },
 ];
 
-const AGE_VALUES: Array<AgeValue> = [
-  { text: "15세 미만", value: "15미만" },
-  { text: "16~20세", value: "16~20세" },
-  { text: "21~25세", value: "21~25세" },
-  { text: "26~30세", value: "26~30세" },
-  { text: "31~35세", value: "31~35세" },
-  { text: "36~40세", value: "36~40세" },
-  { text: "41~45세", value: "41~45세" },
-  { text: "46~50세", value: "46~50세" },
-  { text: "51~55세", value: "51~55세" },
-  { text: "56~60세", value: "56~60세" },
-  { text: "61~65세", value: "61~65세" },
-  { text: "65세 초과", value: "65세 초과" },
-];
-
 const RegisterPage: React.FC<RegisterPageProps> = () => {
   const [email, setEmail] = useState("");
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [name, setName] = useState("");
-  const [age, setAge] = useState("");
+  const [birthDay, setBirthDay] = useState("");
   const [error, setError] = useState<FormError>({});
   const [basicProfileValue, setBasicProfileValue] = useState("");
 
-  const date = new Date();
-  const year = date.getFullYear();
-  const month = ("0" + (date.getMonth() + 1)).slice(-2);
-  const day = ("0" + date.getDate()).slice(-2);
-  const today = `${year}-${month}-${day}`;
+  const getDateYYYYMMDD = (date: Date): string => {
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const day = date.getDate().toString().padStart(2, "0");
+    const dateString = year + "-" + month + "-" + day;
+    return dateString;
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -99,7 +85,14 @@ const RegisterPage: React.FC<RegisterPageProps> = () => {
     const nameError = registerValidation.name(name);
     if (nameError) return setError(nameError);
 
-    console.log("회원가입 정보:", { email, id, password, name, age });
+    console.log("회원가입 정보:", {
+      email,
+      id,
+      password,
+      name,
+      birthDay,
+      basicProfileValue,
+    });
   };
 
   return (
@@ -163,10 +156,12 @@ const RegisterPage: React.FC<RegisterPageProps> = () => {
             </label>
             <input
               type="date"
-              name="birth"
-              value={today}
+              name="birthDay"
               min="1950-01-01"
-              max={today}
+              max={getDateYYYYMMDD(new Date())}
+              onChange={(e) =>
+                setBirthDay(getDateYYYYMMDD(new Date(e.target.value)))
+              }
               className="h-10 border border-black/20 shadow-sm rounded-md text-black p-2 w-full"
             />
 
