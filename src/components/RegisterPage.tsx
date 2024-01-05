@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import RegisterStringInput from "./form/RegisterInput";
 import RegisterSelectInput, { AgeValue } from "./form/RegisterSelectInput";
 import { registerValidation } from "../validations/register";
+import Radios from "./form/Radios";
 
 interface RegisterPageProps {}
 export type InputType =
@@ -16,6 +17,33 @@ export interface FormError {
   errorType?: InputType;
   errorMessage?: string;
 }
+
+const BASIC_PROFILE = [
+  {
+    image: "/profile-icons/Cat.png",
+    title: "고양이",
+  },
+  {
+    image: "/profile-icons/Dog.png",
+    title: "강아지",
+  },
+  {
+    image: "/profile-icons/Elephant.png",
+    title: "코끼리",
+  },
+  {
+    image: "/profile-icons/Panda.png",
+    title: "팬더",
+  },
+  {
+    image: "/profile-icons/Rabbit.png",
+    title: "토끼",
+  },
+  {
+    image: "/profile-icons/Profile.png",
+    title: "프로필 없음",
+  },
+];
 
 const AGE_VALUES: Array<AgeValue> = [
   { text: "15세 미만", value: "15미만" },
@@ -40,6 +68,13 @@ const RegisterPage: React.FC<RegisterPageProps> = () => {
   const [name, setName] = useState("");
   const [age, setAge] = useState("");
   const [error, setError] = useState<FormError>({});
+  const [basicProfileValue, setBasicProfileValue] = useState("");
+
+  const date = new Date();
+  const year = date.getFullYear();
+  const month = ("0" + (date.getMonth() + 1)).slice(-2);
+  const day = ("0" + date.getDate()).slice(-2);
+  const today = `${year}-${month}-${day}`;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -74,7 +109,11 @@ const RegisterPage: React.FC<RegisterPageProps> = () => {
           회원가입
         </h1>
         <div className="flex flex-col w-full max-w-lg m-auto mt-10 items-center bg-white text-center rounded-lg text-black p-8 shadow">
-          <form onSubmit={handleSubmit} className="flex flex-col w-full gap-5">
+          <form
+            action="/aaaa"
+            onSubmit={handleSubmit}
+            className="flex flex-col w-full gap-5"
+          >
             <RegisterStringInput
               label="이메일"
               placeholder="이메일을 입력해주세요"
@@ -118,15 +157,31 @@ const RegisterPage: React.FC<RegisterPageProps> = () => {
               type="name"
               error={error}
             />
-            <RegisterSelectInput
-              label="나이"
-              value={age}
-              setValue={setAge}
-              placeholder="나이"
-              error={error}
-              type="age"
-              options={AGE_VALUES}
+
+            <label className="w-[160px] lg:w-[200px] text-left flex  justify-between items-center font-bold -mb-3">
+              생년월일
+            </label>
+            <input
+              type="date"
+              name="birth"
+              value={today}
+              min="1950-01-01"
+              max={today}
+              className="h-10 border border-black/20 shadow-sm rounded-md text-black p-2 w-full"
             />
+
+            <div className="w-[160px] lg:w-[200px] text-left flex justify-between items-center font-bold -mb-3">
+              프로필
+            </div>
+            <div className="grid grid-cols-3">
+              <Radios
+                className=""
+                valueList={BASIC_PROFILE}
+                setSelect={setBasicProfileValue}
+                hiddnTitle
+                imageBackGround={false}
+              />
+            </div>
             <input
               type="submit"
               value="회원가입"
