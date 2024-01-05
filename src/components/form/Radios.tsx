@@ -8,12 +8,14 @@ interface Props {
   setSelect?: (title: string) => void;
   hiddnTitle?: boolean;
   className?: string;
+  imageBackGround?: boolean;
 }
 export default function Radios({
   valueList,
   setSelect,
   hiddnTitle = false,
   className = "",
+  imageBackGround = true,
 }: Props) {
   return (
     <>
@@ -34,8 +36,18 @@ export default function Radios({
             htmlFor={title}
             className="flex flex-col items-center rounded-md p-2 border border-white hover:border-black/20 hover:shadow-md peer-checked:border peer-checked:bg-blue-50"
           >
-            <div className="p-1 bg-blue-300 rounded-full w-20 h-20 flex items-center justify-center">
-              <img src={image} alt="스타일" className="w-14 bg-blue-300" />
+            <div
+              className={`p-1 ${
+                imageBackGround ? "bg-blue-300" : "bg-none"
+              } rounded-full w-20 h-20 flex items-center justify-center `}
+            >
+              <img
+                src={image}
+                alt="스타일"
+                className={`w-14 h-14 ${
+                  imageBackGround ? "bg-blue-300" : "bg-none"
+                }`}
+              />
             </div>
             <div className="font-bold">{!hiddnTitle && title}</div>
             <div>{subtitle}</div>
