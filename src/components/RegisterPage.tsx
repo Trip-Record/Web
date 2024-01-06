@@ -1,8 +1,8 @@
 // RegisterPage.tsx
 import React, { useState } from "react";
 import RegisterStringInput from "./form/RegisterInput";
-import RegisterSelectInput, { AgeValue } from "./form/RegisterSelectInput";
 import { registerValidation } from "../validations/register";
+import Radios from "./form/Radios";
 
 interface RegisterPageProps {}
 export type InputType =
@@ -17,19 +17,31 @@ export interface FormError {
   errorMessage?: string;
 }
 
-const AGE_VALUES: Array<AgeValue> = [
-  { text: "15세 미만", value: "15미만" },
-  { text: "16~20세", value: "16~20세" },
-  { text: "21~25세", value: "21~25세" },
-  { text: "26~30세", value: "26~30세" },
-  { text: "31~35세", value: "31~35세" },
-  { text: "36~40세", value: "36~40세" },
-  { text: "41~45세", value: "41~45세" },
-  { text: "46~50세", value: "46~50세" },
-  { text: "51~55세", value: "51~55세" },
-  { text: "56~60세", value: "56~60세" },
-  { text: "61~65세", value: "61~65세" },
-  { text: "65세 초과", value: "65세 초과" },
+const BASIC_PROFILE = [
+  {
+    image: "/profile-icons/Cat.png",
+    title: "고양이",
+  },
+  {
+    image: "/profile-icons/Dog.png",
+    title: "강아지",
+  },
+  {
+    image: "/profile-icons/Elephant.png",
+    title: "코끼리",
+  },
+  {
+    image: "/profile-icons/Panda.png",
+    title: "팬더",
+  },
+  {
+    image: "/profile-icons/Rabbit.png",
+    title: "토끼",
+  },
+  {
+    image: "/profile-icons/Profile.png",
+    title: "프로필 없음",
+  },
 ];
 
 const RegisterPage: React.FC<RegisterPageProps> = () => {
@@ -38,8 +50,17 @@ const RegisterPage: React.FC<RegisterPageProps> = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [name, setName] = useState("");
-  const [age, setAge] = useState("");
+  const [birthDay, setBirthDay] = useState("");
   const [error, setError] = useState<FormError>({});
+  const [basicProfileValue, setBasicProfileValue] = useState("");
+
+  const getDateYYYYMMDD = (date: Date): string => {
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const day = date.getDate().toString().padStart(2, "0");
+    const dateString = year + "-" + month + "-" + day;
+    return dateString;
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -64,17 +85,28 @@ const RegisterPage: React.FC<RegisterPageProps> = () => {
     const nameError = registerValidation.name(name);
     if (nameError) return setError(nameError);
 
-    console.log("회원가입 정보:", { email, id, password, name, age });
+    console.log("회원가입 정보:", {
+      email,
+      id,
+      password,
+      name,
+      birthDay,
+      basicProfileValue,
+    });
   };
 
   return (
-    <section className="bg-gray-50 flex justify-center w-full">
+    <section className=" flex justify-center w-full">
       <div className="flex flex-col items-center p-2 max-w-md w-full">
         <h1 className="text-4xl mb-4 mt-4 text-center font-extrabold">
           회원가입
         </h1>
         <div className="flex flex-col w-full max-w-lg m-auto mt-10 items-center bg-white text-center rounded-lg text-black p-8 shadow">
-          <form onSubmit={handleSubmit} className="flex flex-col w-full gap-5">
+          <form
+            action="/aaaa"
+            onSubmit={handleSubmit}
+            className="flex flex-col w-full gap-5"
+          >
             <RegisterStringInput
               label="이메일"
               placeholder="이메일을 입력해주세요"
@@ -118,15 +150,33 @@ const RegisterPage: React.FC<RegisterPageProps> = () => {
               type="name"
               error={error}
             />
-            <RegisterSelectInput
-              label="나이"
-              value={age}
-              setValue={setAge}
-              placeholder="나이"
-              error={error}
-              type="age"
-              options={AGE_VALUES}
+
+            <label className="w-[160px] lg:w-[200px] text-left flex  justify-between items-center font-bold -mb-3">
+              생년월일
+            </label>
+            <input
+              type="date"
+              name="birthDay"
+              min="1950-01-01"
+              max={getDateYYYYMMDD(new Date())}
+              onChange={(e) =>
+                setBirthDay(getDateYYYYMMDD(new Date(e.target.value)))
+              }
+              className="h-10 border border-black/20 shadow-sm rounded-md text-black p-2 w-full"
             />
+
+            <div className="w-[160px] lg:w-[200px] text-left flex justify-between items-center font-bold -mb-3">
+              프로필
+            </div>
+            <div className="grid grid-cols-3">
+              <Radios
+                className=""
+                valueList={BASIC_PROFILE}
+                setSelect={setBasicProfileValue}
+                hiddnTitle
+                imageBackGround={false}
+              />
+            </div>
             <input
               type="submit"
               value="회원가입"
