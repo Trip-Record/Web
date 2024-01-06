@@ -8,10 +8,10 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
 
   return (
-    <section className=" flex justify-center w-full h-full">
+    <section className="flex justify-center w-full h-full">
       <div className="flex flex-col max-w-md items-center m-auto mt-40 text-center w-full">
         <h1 className="text-4xl font-bold mb-5">로그인</h1>
-        <div className=" bg-white shadow w-full text-center rounded-md">
+        <div className="bg-white shadow w-full text-center rounded-md">
           <form className="flex flex-col mb-4 items-center w-full p-5 gap-3">
             <LoginInput
               label="아이디"
