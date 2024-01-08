@@ -1,7 +1,7 @@
 import { FormEvent, useState } from "react";
 import Radios from "./form/Radios";
 
-const STYLES = [
+export const STYLES = [
   {
     image: "/travel_style/PhotoIcon.png",
     title: "인생 사진형",

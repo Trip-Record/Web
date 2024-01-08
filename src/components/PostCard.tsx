@@ -1,5 +1,6 @@
 import { PostData } from "../api/dummy";
 import Avatar from "./ui/Avatar";
+import TravelStyle from "./ui/TravelStyle";
 
 interface Props {
   post: PostData;
@@ -15,6 +16,7 @@ export default function PostCard({ post }: Props) {
         <div className="flex items-center gap-1">
           <Avatar img="/logo192.png" size="s" />
           <span className="text-gray-400">이름</span>
+          <TravelStyle selectStyle="인생 사진형" />
         </div>
         <h2 className="text-gray-500 text-ellipsis">{region}</h2>
         <h2 className="font-bold line-clamp-1">{title}</h2>
