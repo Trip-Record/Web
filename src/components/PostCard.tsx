@@ -1,4 +1,8 @@
 import { PostData } from "../api/dummy";
+import ModalButton from "./Modal";
+import CommentModal from "./comment/CommentModal";
+import CommentBtn from "./post/CommentBtn";
+import LikeBtn from "./post/LikeBtn";
 import Avatar from "./ui/Avatar";
 import TravelStyle from "./ui/TravelStyle";
 
@@ -22,9 +26,13 @@ export default function PostCard({ post }: Props) {
         <h2 className="text-gray-400 text-ellipsis text-sm">{region}</h2>
         <h2 className="font-bold line-clamp-1">{title}</h2>
         <div className="line-clamp-4">{body}</div>
-        <div className="mt-auto">
-          <span>좋아요 1 </span>
-          <span>댓글 1</span>
+        <div className="flex items-center mt-auto gap-3">
+          <LikeBtn count={1} />
+          {/* <CommentBtn count={1} /> */}
+          <ModalButton
+            button={<CommentBtn count={1} />}
+            modal={<CommentModal />}
+          />
         </div>
       </div>
       <img
