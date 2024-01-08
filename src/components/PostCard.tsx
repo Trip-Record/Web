@@ -10,15 +10,16 @@ export default function PostCard({ post }: Props) {
   const region = "대한민국, 부산";
   const signatureImg = "/logo192.png";
   return (
-    <section className="flex flex-row justify-center w-full h-56 bg-white border-b last:border-b-white p-2">
+    //TODO: h-56 삭제
+    <section className="flex flex-row justify-center w-full h-60 bg-white border-b last:border-b-white p-2">
       {/* 아바타 / 사용자이름 */} {/* 여행타입 */}
       <div className="flex flex-col gap-1">
         <div className="flex items-center gap-1">
           <Avatar img="/logo192.png" size="s" />
-          <span className="text-gray-400">이름</span>
+          <span className="text-gray-500">이름</span>
           <TravelStyle selectStyle="인생 사진형" />
         </div>
-        <h2 className="text-gray-500 text-ellipsis">{region}</h2>
+        <h2 className="text-gray-400 text-ellipsis text-sm">{region}</h2>
         <h2 className="font-bold line-clamp-1">{title}</h2>
         <div className="line-clamp-4">{body}</div>
         <div className="mt-auto">
