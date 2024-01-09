@@ -14,7 +14,7 @@ export default function ModalButton({ button, modal }: Props) {
         onClick={(e) => {
           if (e.target === e.currentTarget) ref.current?.close();
         }}
-        className="backdrop:w-full backdrop:bg-black/50 p-0"
+        className="backdrop:bg-black/50 max-w-[100vw]"
       >
         {modal}
       </dialog>
