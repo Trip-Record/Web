@@ -2,6 +2,7 @@ import { Routes, Route, Link, Navigate } from "react-router-dom";
 import RegisterPage from "./components/RegisterPage";
 import LoginPage from "./components/LoginPage";
 import SelectTravelStyle from "./components/SelectTravelStyle";
+import Posts from "./components/Posts";
 import TravelRecord from "./components/TravelRecord";
 import TravelSchedule from "./components/TravelSchedule";
 import TravelRanking from "./components/TravelRanking";
@@ -30,6 +31,7 @@ export default function App() {
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/test" element={<Posts />} />
       </Routes>
     </div>
   );
