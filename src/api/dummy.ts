@@ -14,6 +14,14 @@ export interface PostData {
   body: string;
 }
 
+export interface CommentData {
+  postId: number;
+  id: number;
+  name: string;
+  email: string;
+  body: string;
+}
+
 export const api = createApi({
   reducerPath: "todos",
   // highlight-end
@@ -29,7 +37,10 @@ export const api = createApi({
     getPosts: builder.query<PostData, number>({
       query: (page) => `posts/${page}`,
     }),
+    getComments: builder.query<CommentData[], number>({
+      query: (postId) => `comments?postId=${postId}`,
+    }),
   }),
 });
 
-export const { useGetTodosQuery, useGetPostsQuery } = api;
+export const { useGetTodosQuery, useGetPostsQuery, useGetCommentsQuery } = api;

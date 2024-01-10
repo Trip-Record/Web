@@ -1,4 +1,4 @@
-import { PostData } from "../api/dummy";
+import { PostData, useGetCommentsQuery } from "../api/dummy";
 import ModalButton from "./Modal";
 import CommentModal from "./comment/CommentModal";
 import CommentBtn from "./post/CommentBtn";
@@ -11,6 +11,9 @@ interface Props {
 }
 export default function PostCard({ post }: Props) {
   const { body, id, title, userId } = post;
+
+  const { data: commentData } = useGetCommentsQuery(id);
+
   const region = "대한민국, 부산";
   const signatureImg = "/logo192.png";
   return (
@@ -29,10 +32,12 @@ export default function PostCard({ post }: Props) {
         <div className="flex items-center mt-auto gap-3">
           <LikeBtn count={1} />
           {/* <CommentBtn count={1} /> */}
-          <ModalButton
-            button={<CommentBtn count={1} />}
-            modal={<CommentModal />}
-          />
+          {commentData && (
+            <ModalButton
+              button={<CommentBtn count={commentData.length} />}
+              modal={<CommentModal comments={commentData} />}
+            />
+          )}
         </div>
       </div>
       <img
