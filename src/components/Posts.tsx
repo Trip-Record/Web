@@ -1,4 +1,4 @@
-import { useGetTodosQuery, useGetPostsQuery, PostData } from "../api/dummy";
+import { useGetPostsQuery } from "../api/dummy";
 import PostCard from "./PostCard";
 
 export default function Posts() {

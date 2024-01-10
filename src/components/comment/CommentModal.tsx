@@ -23,10 +23,17 @@ export default function CommentModal({ comments }: Props) {
   console.log(error);
 
   return (
-    <section className="w-[90vw] max-w-[50rem] h-[30vh] flex flex-col p-2 border">
-      <h2 className="border-b text-2xl font-bold p-2">
+    <section className="w-[90vw] max-w-[50rem] h-[50vh] flex flex-col p-2 border">
+      <h2 className="border-b text-2xl font-bold p-2 text-center">
         댓글 {comments.length}
       </h2>
+      <div className="overflow-y-scroll">
+        {comments.map(({ id, body }) => (
+          <div key={id} className="p-2 border-b last:border-none">
+            {body}
+          </div>
+        ))}
+      </div>
       <form
         onSubmit={handleSubmit}
         className="w-full flex items-center p-1 gap-2"
@@ -42,13 +49,6 @@ export default function CommentModal({ comments }: Props) {
 
         <ColorButton text="게시" className="w-14" />
       </form>
-      <div className="overflow-y-scroll">
-        {comments.map(({ id, body }) => (
-          <div key={id} className="p-2 last:border-none">
-            {body}
-          </div>
-        ))}
-      </div>
     </section>
   );
 }
