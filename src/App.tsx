@@ -2,7 +2,6 @@ import { Routes, Route, Link, Navigate } from "react-router-dom";
 import RegisterPage from "./components/RegisterPage";
 import LoginPage from "./components/LoginPage";
 import SelectTravelStyle from "./components/SelectTravelStyle";
-import NewPostInputPage from "./components/NewPostInputPage";
 import TravelRecord from "./components/TravelRecord";
 import TravelSchedule from "./components/TravelSchedule";
 import TravelRanking from "./components/TravelRanking";
