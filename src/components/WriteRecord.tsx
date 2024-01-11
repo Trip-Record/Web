@@ -59,19 +59,19 @@ export default function WriteRecord() {
   };
 
   return (
-    <form className="flex w-1/2 flex-col mx-auto bg-blue-300 gap-3 rounded-md p-5">
+    <form className="flex w-1/3 flex-col mx-auto bg-blue-300 gap-3 rounded-md p-5">
       <div className="flex mt-5  border-black border-b-2 pb-2">
         <MdSubtitles size={50} className="mr-3" />
         <input
           type="text"
-          placeholder="기록할 여행의 제목을 입력해주세요"
+          placeholder=" 기록할 여행의 제목을 입력해주세요"
           className="w-full"
         />
       </div>
       <div className="flex border-black border-b-2 pb-2">
         <FaLocationDot size={50} className="mr-3" />
         <input
-          placeholder="여행 장소를 선택해주세요"
+          placeholder=" 여행 장소를 선택해주세요"
           type="text"
           readOnly
           className="border-b-2 border w-full "
@@ -80,13 +80,13 @@ export default function WriteRecord() {
       <div className="flex border-black border-b-2 pb-2">
         <LuCalendarCheck size={50} className="mr-3" />
         <input
-          placeholder="여행 기간을 선택해주세요"
+          placeholder=" 여행 기간을 선택해주세요"
           type="text"
           readOnly
           className="border-b-2 border w-full "
         />
       </div>
-      <textarea placeholder="내용" rows={10} className=" rounded-md" />
+      <textarea placeholder=" 내용" rows={10} className=" rounded-md" />
       <div>
         <label>
           사진 &#40; 최대 10개 &#41;
