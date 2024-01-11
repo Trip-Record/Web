@@ -58,14 +58,21 @@ export default function WriteRecord() {
     ],
   };
 
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+  };
+
   return (
-    <form className="flex w-1/3 flex-col mx-auto bg-blue-300 gap-3 rounded-md p-5">
-      <div className="flex mt-5  border-black border-b-2 pb-2">
+    <form
+      onSubmit={handleSubmit}
+      className="flex w-1/3 flex-col mx-auto shadow bg-white gap-3 rounded-md p-5"
+    >
+      <div className="flex  border-black border-b-2 pb-2">
         <MdSubtitles size={50} className="mr-3" />
         <input
           type="text"
-          placeholder=" 기록할 여행의 제목을 입력해주세요"
-          className="w-full"
+          placeholder="기록할 여행의 제목을 입력해주세요"
+          className="h-10 border border-black/20 shadow-sm rounded-md text-black p-2 w-full mt-1"
         />
       </div>
       <div className="flex border-black border-b-2 pb-2">
@@ -74,7 +81,7 @@ export default function WriteRecord() {
           placeholder=" 여행 장소를 선택해주세요"
           type="text"
           readOnly
-          className="border-b-2 border w-full "
+          className="h-10 border border-black/20 shadow-sm rounded-md text-black p-2 w-full mt-1"
         />
       </div>
       <div className="flex border-black border-b-2 pb-2">
@@ -83,15 +90,19 @@ export default function WriteRecord() {
           placeholder=" 여행 기간을 선택해주세요"
           type="text"
           readOnly
-          className="border-b-2 border w-full "
+          className="h-10 border border-black/20 shadow-sm rounded-md text-black p-2 w-full mt-1"
         />
       </div>
-      <textarea placeholder=" 내용" rows={10} className=" rounded-md" />
+      <textarea
+        placeholder=" 내용"
+        rows={10}
+        className="border-black border-2 shadow-sm rounded-md text-black p-2 w-full"
+      />
       <div>
         <label>
           사진 &#40; 최대 10개 &#41;
           <div>
-            <CiSquarePlus size={50} className=" " />
+            <CiSquarePlus size={70} className="cursor-pointer" />
           </div>
           <input
             type="file"
@@ -105,7 +116,7 @@ export default function WriteRecord() {
       <input
         type="submit"
         value={"업로드"}
-        className="w-1/3 h-10 bg-white mx-auto rounded-md mb-3"
+        className="h-10 mt-2 mb-2 rounded-md border border-black/20 text-white font-bold bg-blue-400"
       />
     </form>
   );
