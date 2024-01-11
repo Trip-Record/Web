@@ -3,6 +3,10 @@ import PostCard from "./PostCard";
 
 export default function Posts() {
   const { data, isLoading } = useGetPostsQuery(1);
+  const startPage = 1;
+  const lastPage = 10;
+  const currentPage = 1;
+
   // 임시로 배열로 만들어서 작업 중... 백엔드 API완성 후 삭제예정
   const posts = [data, data, data, data, data];
 
@@ -13,6 +17,7 @@ export default function Posts() {
       {posts.map(
         (post, i) => post && <PostCard post={post} key={post.id + i} />
       )}
+      <div>{}</div>
     </main>
   );
 }
