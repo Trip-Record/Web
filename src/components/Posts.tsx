@@ -30,6 +30,7 @@ export default function Posts() {
             body: "tesbody",
             email: "testemail",
             name: "testname",
+            postId: 1,
           });
         }}
       >
