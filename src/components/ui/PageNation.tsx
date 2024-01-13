@@ -21,7 +21,8 @@ export default function PageNation({ showPage, maxPage }: Props) {
     page[page.length - 1] + 1 >= maxPage ? null : page[page.length - 1] + 1;
 
   return (
-    <div className="w-full flex gap-2 justify-center text-lg">
+    // 버전1
+    <div className="w-full my-5 flex gap-2 justify-center text-2xl">
       {prevPage && <Link to={`?page=${1}`}>{`<<`}</Link>}
       {prevPage && <Link to={`?page=${prevPage}`}> {`<`} </Link>}
       {page.map((i) => (
@@ -36,5 +37,22 @@ export default function PageNation({ showPage, maxPage }: Props) {
       {nextPage && <Link to={`?page=${nextPage}`}>{`>`}</Link>}
       {nextPage && <Link to={`?page=${maxPage}`}>{`>>`}</Link>}
     </div>
+
+    // 버전2
+    // <div className="w-full my-5 flex gap-2 justify-center text-2xl">
+    //   {prevPage && <Link to={`?page=${1}`}>{`1`}</Link>}
+    //   {prevPage && <Link to={`?page=${prevPage}`}> {`...`} </Link>}
+    //   {page.map((i) => (
+    //     <Link
+    //       to={`?page=${i}`}
+    //       className={`${+currnetPage === i && "font-bold"}`}
+    //       key={i}
+    //     >
+    //       {i}
+    //     </Link>
+    //   ))}
+    //   {nextPage && <Link to={`?page=${nextPage}`}>{`...`}</Link>}
+    //   {nextPage && <Link to={`?page=${maxPage}`}>{maxPage}</Link>}
+    // </div>
   );
 }
