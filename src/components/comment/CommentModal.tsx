@@ -1,4 +1,3 @@
-import { error } from "console";
 import { CommentData } from "../../api/dummy";
 import { useInput } from "../../hooks/useInput";
 import ColorButton from "../ui/ColorButton";
@@ -19,8 +18,6 @@ export default function CommentModal({ comments }: Props) {
     submitCallback: addCommentSubmit,
     validateCallback: commentValidate,
   });
-
-  console.log(error);
 
   return (
     <section className="w-[90vw] max-w-[50rem] h-[50vh] flex flex-col p-2 border">
