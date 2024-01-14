@@ -8,9 +8,6 @@ export default function Posts() {
   const [searchParams] = useSearchParams();
   const page = Number(searchParams.get("page") ?? 1);
   const { data, isLoading, isFetching, refetch } = useGetPostsQuery(page);
-  const [updatePost, result] = useAddCommentsMutation();
-
-  console.log(result.data);
 
   // TODO: 백엔드 Api 완성후 캐시 데이터 사용해보기
   useEffect(() => {
@@ -23,19 +20,6 @@ export default function Posts() {
 
   return (
     <main className="flex flex-col items-center justify-center w-full bg-white px-10">
-      <button
-        onClick={() => {
-          updatePost({
-            id: 1,
-            body: "tesbody",
-            email: "testemail",
-            name: "testname",
-            postId: 1,
-          });
-        }}
-      >
-        test
-      </button>
       {posts.map(
         (post, i) => post && <PostCard post={post} key={post.id + i} />
       )}

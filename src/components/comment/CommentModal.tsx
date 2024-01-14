@@ -1,18 +1,26 @@
-import { CommentData } from "../../api/dummy";
+import { CommentData, useAddCommentsMutation } from "../../api/dummy";
 import { useInput } from "../../hooks/useInput";
 import ColorButton from "../ui/ColorButton";
 
 interface Props {
   comments: CommentData[];
 }
-const commentValidate = (value: string) => {
-  if (value.length >= 5) return false;
-};
-const addCommentSubmit = (value: string) => {
-  console.log(value, "전송됨,..");
-};
 
 export default function CommentModal({ comments }: Props) {
+  const [updatePost, result] = useAddCommentsMutation();
+  const commentValidate = (value: string) => {
+    if (value.length >= 5) return false;
+  };
+  const addCommentSubmit = (value: string) => {
+    updatePost({
+      id: 1,
+      body: value,
+      email: "testemail",
+      name: "testname",
+      postId: 1,
+    });
+    console.log(value, "전송됨,..");
+  };
   const { onchange, error, handleSubmit } = useInput({
     init: "",
     submitCallback: addCommentSubmit,
