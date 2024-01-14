@@ -7,6 +7,7 @@ import { LuCalendarCheck } from "react-icons/lu";
 import { CiSquarePlus } from "react-icons/ci";
 import Calendar from "./comment/Calendar";
 import ModalButton from "./Modal";
+import { SelectDate } from "./comment/Calendar";
 
 export default function WriteRecord() {
   const [travelName, setTravelName] = useState("");
@@ -69,7 +70,7 @@ export default function WriteRecord() {
     ],
   };
 
-  const [selectedDay, setSelectedDay] = useState<Date>(new Date());
+  const [selectedDays, setSelectedDays] = useState<SelectDate>([new Date()]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -114,8 +115,8 @@ export default function WriteRecord() {
             }
             modal={
               <Calendar
-                selectedDay={selectedDay}
-                setSelectedDay={setSelectedDay}
+                selectedDays={selectedDays}
+                setSelectedDays={setSelectedDays}
                 isPrevMonth={true}
                 isNextMonth={true}
               />

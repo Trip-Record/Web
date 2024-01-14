@@ -1,15 +1,17 @@
 import React, { useState } from "react";
 
+export type SelectDate = Date[];
+
 interface CalendarProps {
-  selectedDay: any;
-  setSelectedDay: any;
+  selectedDays: SelectDate;
+  setSelectedDays: (day: SelectDate) => void;
   isPrevMonth?: boolean;
   isNextMonth?: boolean;
 }
 
 export default function Calendar({
-  selectedDay,
-  setSelectedDay,
+  selectedDays,
+  setSelectedDays,
   isPrevMonth,
   isNextMonth,
 }: CalendarProps) {
@@ -19,23 +21,37 @@ export default function Calendar({
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
-  const isSameDay = (toDay: Date, compareDay?: Date | null) => {
-    if (
-      toDay.getFullYear() === compareDay?.getFullYear() &&
-      toDay.getMonth() === compareDay?.getMonth() &&
-      toDay.getDate() === compareDay?.getDate()
-    ) {
-      return true;
-    }
-    return false;
+  const isSameDay = (toDay: Date, selectedDays: SelectDate) => {
+    let dupliCount = -1;
+    selectedDays.forEach((e, index) => {
+      if (
+        toDay.getFullYear() === e.getFullYear() &&
+        toDay.getMonth() === e.getMonth() &&
+        toDay.getDate() === e.getDate()
+      ) {
+        dupliCount = index;
+      }
+    });
+    return dupliCount;
   };
 
-  const onClickDay = (day: Date) => {
-    if (isSameDay(day, selectedDay)) {
-      setSelectedDay(null);
+  const onClickDay = (day: Date, selectedDays: SelectDate) => {
+    const dupliCount = isSameDay(day, selectedDays);
+    if (dupliCount >= 0) {
+      const spliceSelectedDays = [...selectedDays];
+      spliceSelectedDays.splice(dupliCount, 1);
+      setSelectedDays(spliceSelectedDays);
+    } else if (checkArrayCountTwo(selectedDays)) {
+      alert("2개임");
     } else {
-      setSelectedDay(day);
+      const copySelectedDays = [...selectedDays, day];
+      setSelectedDays(copySelectedDays);
     }
+  };
+
+  const checkArrayCountTwo = (selectedDays: SelectDate) => {
+    if (selectedDays.length >= 2) return true;
+    else return false;
   };
 
   const prevCalendar = () => {
@@ -139,7 +155,10 @@ export default function Calendar({
         <td
           key={i}
           className="first:text-red-600 last:text-blue-600"
-          onClick={() => onClickDay(day)}
+          onClick={() => {
+            console.log(day);
+            onClickDay(day, selectedDays);
+          }}
         >
           {day.getDate()}
         </td>
