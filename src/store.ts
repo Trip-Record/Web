@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query";
-import { api } from "./api/dummy";
+import { useGetTodosQuery, api } from "./api/dummy";
 
 export const store = configureStore({
   reducer: {
