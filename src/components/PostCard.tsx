@@ -18,8 +18,9 @@ export default function PostCard({ post }: Props) {
   const signatureImg = "/logo192.png";
   return (
     //TODO: h-56 삭제
-    <section className="flex flex-row w-full h-60 bg-white border-b last:border-b-white p-2">
-      <div className="flex flex-col flex-1 gap-1">
+    <section className="flex flex-row justify-center w-full h-60 bg-white border-b last:border-b-white p-2">
+      {/* 아바타 / 사용자이름 */} {/* 여행타입 */}
+      <div className="flex flex-col gap-1">
         <div className="flex items-center gap-1">
           <Avatar img="/logo192.png" size="s" />
           <span className="text-gray-500">이름</span>
