@@ -18,6 +18,8 @@ export default function Calendar({
   const daysOfWeek = ["일", "월", "화", "수", "목", "금", "토"];
   const [currentMonth, setCurrentMonth] = useState<Date>(new Date());
 
+  console.log(selectedDays);
+
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
@@ -146,7 +148,15 @@ export default function Calendar({
       }
       if (day < today) {
         return (
-          <td key={i} className="first:text-red-600 last:text-blue-600">
+          <td
+            key={i}
+            className={`first:text-red-600 last:text-blue-600 ${
+              isSameDay(day, selectedDays) >= 0 ? "bg-blue-200" : ""
+            }`}
+            onClick={() => {
+              onClickDay(day, selectedDays);
+            }}
+          >
             {day.getDate()}
           </td>
         );
@@ -154,9 +164,10 @@ export default function Calendar({
       return (
         <td
           key={i}
-          className="first:text-red-600 last:text-blue-600"
+          className={`first:text-red-600 last:text-blue-600 ${
+            isSameDay(day, selectedDays) >= 0 ? "bg-blue-200" : ""
+          }`}
           onClick={() => {
-            console.log(day);
             onClickDay(day, selectedDays);
           }}
         >
