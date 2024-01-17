@@ -1,4 +1,5 @@
 import { PostData, useGetCommentsQuery } from "../api/dummy";
+import { useModal } from "../hooks/useModal";
 import ModalButton from "./Modal";
 import CommentModal from "./comment/CommentModal";
 import CommentBtn from "./post/CommentBtn";
@@ -14,6 +15,8 @@ export default function PostCard({ post, type = "blog" }: Props) {
   const { body, id, title, userId } = post;
 
   const { data: commentData } = useGetCommentsQuery(id);
+
+  const { showModal, switchModal } = useModal();
 
   const region = "대한민국, 부산";
   const signatureImg = "/logo192.png";
@@ -36,7 +39,15 @@ export default function PostCard({ post, type = "blog" }: Props) {
             {commentData && (
               <ModalButton
                 button={<CommentBtn count={commentData.length} />}
-                modal={<CommentModal comments={commentData} postId={id} />}
+                modal={
+                  <CommentModal
+                    comments={commentData}
+                    postId={id}
+                    switchModal={switchModal}
+                  />
+                }
+                showModal={showModal}
+                switchModal={switchModal}
               />
             )}
           </div>
@@ -70,10 +81,11 @@ export default function PostCard({ post, type = "blog" }: Props) {
           <LikeBtn count={1} />
           {/* <CommentBtn count={1} /> */}
           {commentData && (
-            <ModalButton
-              button={<CommentBtn count={commentData.length} />}
-              modal={<CommentModal comments={commentData} postId={id} />}
-            />
+            // <ModalButton
+            //   button={<CommentBtn count={commentData.length} />}
+            //   modal={<CommentModal comments={commentData} postId={id} />}
+            // />
+            <></>
           )}
         </div>
       </section>

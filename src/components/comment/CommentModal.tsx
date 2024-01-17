@@ -7,9 +7,10 @@ import CommentLine from "./CommentLine";
 interface Props {
   comments: CommentData[];
   postId: number;
+  switchModal: (value?: boolean) => void;
 }
 
-export default function CommentModal({ comments, postId }: Props) {
+export default function CommentModal({ comments, postId, switchModal }: Props) {
   const [updatePost, result] = useAddCommentsMutation();
   const commentRef = useRef<HTMLDivElement>(null);
   const commentValidate = (value: string) => {
@@ -28,6 +29,7 @@ export default function CommentModal({ comments, postId }: Props) {
     commentRef.current?.scrollTo(0, 0);
 
     console.log(value, "전송됨,..");
+    switchModal(false);
   };
   const { onchange, error, handleSubmit, value } = useInput({
     init: "",

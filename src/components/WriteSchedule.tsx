@@ -4,6 +4,7 @@ import LocationIcon from "./writing-icons/LocationIcon.png";
 import DateIcon from "./writing-icons/DateIcon.png";
 import ModalButton from "./Modal";
 import DestinationSelection from "./DestinationSelection";
+import { useModal } from "../hooks/useModal";
 
 export default function WriteSchedule() {
   const [tripTitle, setTripTitle] = useState("");
@@ -12,6 +13,8 @@ export default function WriteSchedule() {
   const handleLocationSelect = (location: string) => {
     setSelectedLocation(location);
   };
+
+  const { showModal, switchModal } = useModal();
 
   return (
     <div className="WriteSchedule">
@@ -47,6 +50,8 @@ export default function WriteSchedule() {
           modal={
             <DestinationSelection onLocationSelect={handleLocationSelect} />
           }
+          showModal={showModal}
+          switchModal={switchModal}
         />
         <img
           src={DateIcon}
@@ -60,6 +65,8 @@ export default function WriteSchedule() {
             </div>
           }
           modal={<div>여행 기간 선택 화면</div>}
+          showModal={showModal}
+          switchModal={switchModal}
         />
       </div>
     </div>
