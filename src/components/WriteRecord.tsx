@@ -13,6 +13,8 @@ export default function WriteRecord() {
   const [travelName, setTravelName] = useState("");
   const [error, setError] = useState<FormError>({});
   const [calendar, setCalendar] = useState(false);
+  const [selectedDays, setSelectedDays] = useState<SelectDate>([new Date()]);
+  const [showSelectDays, setShowSelectDays] = useState("");
 
   const calendarToggle = () => {
     if (calendar) {
@@ -48,29 +50,6 @@ export default function WriteRecord() {
   //   ],
 
   // }
-
-  const DUMMY_TRAVEL_AREA = {
-    "Asia/MiddleEast": [
-      {
-        대한민국: [
-          "강원도",
-          "경기도",
-          "부산광역시",
-          "서울특별시",
-          "전라남도",
-          "제주도",
-        ],
-      },
-      { 라오스: "루앙프라방" },
-      { 말레이시아: ["코타키나발루", "쿠알라룸푸르"] },
-    ],
-    Europe: [
-      { 독일: ["베를린"] },
-      { 러시아: ["블라디보스토크", "모스크바", "상트페테르부르크"] },
-    ],
-  };
-
-  const [selectedDays, setSelectedDays] = useState<SelectDate>([new Date()]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -111,14 +90,17 @@ export default function WriteRecord() {
                 readOnly
                 className="h-10 border border-black/20 shadow-sm rounded-md text-black p-2 w-full mt-1"
                 onClick={calendarToggle}
+                value={showSelectDays}
               />
             }
             modal={
               <Calendar
                 selectedDays={selectedDays}
                 setSelectedDays={setSelectedDays}
+                setShowSelectDays={setShowSelectDays}
                 isPrevMonth={true}
                 isNextMonth={true}
+                calendarToggle={calendarToggle}
               />
             }
           />

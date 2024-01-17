@@ -4,9 +4,11 @@ export type SelectDate = Date[];
 
 interface CalendarProps {
   selectedDays: SelectDate;
+  setShowSelectDays: (inputValue: string) => void;
   setSelectedDays: (day: SelectDate) => void;
   isPrevMonth?: boolean;
   isNextMonth?: boolean;
+  calendarToggle: () => void;
 }
 
 export default function Calendar({
@@ -14,11 +16,11 @@ export default function Calendar({
   setSelectedDays,
   isPrevMonth,
   isNextMonth,
+  calendarToggle,
+  setShowSelectDays,
 }: CalendarProps) {
   const daysOfWeek = ["일", "월", "화", "수", "목", "금", "토"];
   const [currentMonth, setCurrentMonth] = useState<Date>(new Date());
-
-  console.log(selectedDays);
 
   const today = new Date();
   today.setHours(0, 0, 0, 0);
@@ -192,6 +194,30 @@ export default function Calendar({
   const calendarTags = buildCalendarTag(calendarDays);
   const calendarRows = divideWeek(calendarTags);
 
+  const sortDays = (selectDays: SelectDate) => {
+    selectDays.sort((a, b) => {
+      return a.getTime() - b.getTime();
+    });
+
+    return selectDays;
+  };
+
+  const makeDaysString = (days: string[]): string => {
+    return days.join(" ~ ");
+  };
+
+  const dateFormat = (selectDays: SelectDate): string[] => {
+    return selectDays.map((i) => {
+      return (
+        i.getFullYear() +
+        "-" +
+        (i.getMonth() + 1 < 10 ? "0" + (i.getMonth() + 1) : i.getMonth() + 1) +
+        "-" +
+        (i.getDate() < 10 ? "0" + i.getDate() : i.getDate())
+      );
+    });
+  };
+
   return (
     <div className="w-[40vw] h-[60vh] flex flex-col text-center p-5">
       <div>
@@ -223,6 +249,18 @@ export default function Calendar({
           ))}
         </tbody>
       </table>
+      <div className=" h-[50px] mt-3">
+        <button
+          onClick={() => {
+            console.log(makeDaysString(dateFormat(selectedDays)));
+            setShowSelectDays(makeDaysString(dateFormat(selectedDays)));
+            calendarToggle();
+          }}
+          className="bg-blue-400 h-full w-1/3 rounded-sm text-white font-bold"
+        >
+          확인
+        </button>
+      </div>
     </div>
   );
 }
