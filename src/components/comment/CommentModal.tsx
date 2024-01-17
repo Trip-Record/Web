@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { CommentData, useAddCommentsMutation } from "../../api/dummy";
 import { useInput } from "../../hooks/useInput";
 import ColorButton from "../ui/ColorButton";
