@@ -23,16 +23,12 @@ export interface CommentData {
 }
 
 export const api = createApi({
-  reducerPath: "todos",
+  reducerPath: "posts",
   // highlight-end
   baseQuery: fetchBaseQuery({
     baseUrl: "https://jsonplaceholder.typicode.com/",
   }),
   endpoints: (builder) => ({
-    // ...endpoints
-    getTodos: builder.query<Data[], void>({
-      query: () => `todos`,
-    }),
     // TODO: 실제 데이터가 오면 배열로 바꿀것 : PostData[]
     getPosts: builder.query<PostData, number>({
       query: (page) => `posts/${page}`,
@@ -40,7 +36,51 @@ export const api = createApi({
     getComments: builder.query<CommentData[], number>({
       query: (postId) => `comments?postId=${postId}`,
     }),
+    addComments: builder.mutation<void, CommentData>({
+      query: (comment) => ({
+        url: "posts",
+        method: "post",
+        body: {
+          title: "foo",
+          body: "bar",
+          userId: 1,
+        },
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      }),
+
+      onQueryStarted: async (
+        { postId, ...patch },
+        { dispatch, queryFulfilled }
+      ) => {
+        const patchResult = dispatch(
+          api.util.updateQueryData("getComments", postId, (draft) => {
+            // Object.assign(draft, patch);
+
+            draft.unshift({
+              id: patch.id,
+              body: patch.body,
+              email: patch.email,
+              name: patch.name,
+              postId: postId,
+            });
+          })
+        );
+
+        try {
+          console.log("시도");
+
+          await queryFulfilled;
+        } catch {
+          console.log("실패");
+
+          patchResult.undo();
+        }
+      },
+    }),
   }),
 });
 
-export const { useGetTodosQuery, useGetPostsQuery, useGetCommentsQuery } = api;
+export const { useGetPostsQuery, useGetCommentsQuery, useAddCommentsMutation } =
+  api;

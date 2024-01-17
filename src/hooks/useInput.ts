@@ -26,6 +26,7 @@ export function useInput<T>({
     if (!!validateCallback && validateCallback(value) === false)
       return setError(true);
 
+    setValue(init);
     submitCallback(value);
   };
 
