@@ -26,9 +26,10 @@ export default function CommentModal({ comments, postId }: Props) {
     });
 
     commentRef.current?.scrollTo(0, 0);
+
     console.log(value, "전송됨,..");
   };
-  const { onchange, error, handleSubmit } = useInput({
+  const { onchange, error, handleSubmit, value } = useInput({
     init: "",
     submitCallback: addCommentSubmit,
     validateCallback: commentValidate,
@@ -40,17 +41,21 @@ export default function CommentModal({ comments, postId }: Props) {
         <span className="text-2xl font-bold">댓글 {comments.length}</span>
         <span className="text-sm absolute right-2 border p-1">게시글 보기</span>
       </div>
-      <div className="overflow-y-scroll p-3 mt-2" ref={commentRef}>
+      <div
+        className="overflow-y-scroll p-3 mt-2 scrollbar-hide"
+        ref={commentRef}
+      >
         {comments.map((comment) => (
           <CommentLine comment={comment} key={comment.id} />
         ))}
       </div>
       <form
         onSubmit={handleSubmit}
-        className="w-full flex items-center p-1 gap-2"
+        className="w-full flex items-center p-1 gap-2 mt-auto"
       >
         <input
           type="text"
+          value={value}
           onChange={onchange}
           placeholder="댓글을 추가하세요"
           className={`w-full p-1 border-b outline-none ${
