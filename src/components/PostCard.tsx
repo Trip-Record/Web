@@ -34,7 +34,7 @@ export default function PostCard({ post }: Props) {
           {commentData && (
             <ModalButton
               button={<CommentBtn count={commentData.length} />}
-              modal={<CommentModal comments={commentData} />}
+              modal={<CommentModal comments={commentData} postId={id} />}
             />
           )}
         </div>

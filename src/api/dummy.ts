@@ -36,10 +36,7 @@ export const api = createApi({
     getComments: builder.query<CommentData[], number>({
       query: (postId) => `comments?postId=${postId}`,
     }),
-    addComments: builder.mutation<
-      void,
-      Pick<CommentData, "id"> & Partial<CommentData>
-    >({
+    addComments: builder.mutation<void, CommentData>({
       query: (comment) => ({
         url: "posts",
         method: "post",
@@ -54,19 +51,19 @@ export const api = createApi({
       }),
 
       onQueryStarted: async (
-        { id, ...patch },
+        { postId, ...patch },
         { dispatch, queryFulfilled }
       ) => {
         const patchResult = dispatch(
-          api.util.updateQueryData("getComments", id, (draft) => {
+          api.util.updateQueryData("getComments", postId, (draft) => {
             // Object.assign(draft, patch);
 
-            draft.push({
-              id,
-              body: patch.body ?? "",
-              email: patch.email ?? "",
-              name: patch.name ?? "",
-              postId: patch.postId ?? 0,
+            draft.unshift({
+              id: patch.id,
+              body: patch.body,
+              email: patch.email,
+              name: patch.name,
+              postId: postId,
             });
           })
         );
