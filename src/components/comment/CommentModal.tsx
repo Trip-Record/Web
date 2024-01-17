@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { CommentData, useAddCommentsMutation } from "../../api/dummy";
 import { useInput } from "../../hooks/useInput";
 import ColorButton from "../ui/ColorButton";
@@ -7,10 +7,9 @@ import CommentLine from "./CommentLine";
 interface Props {
   comments: CommentData[];
   postId: number;
-  switchModal: (value?: boolean) => void;
 }
 
-export default function CommentModal({ comments, postId, switchModal }: Props) {
+export default function CommentModal({ comments, postId }: Props) {
   const [updatePost, result] = useAddCommentsMutation();
   const commentRef = useRef<HTMLDivElement>(null);
   const commentValidate = (value: string) => {
@@ -29,7 +28,6 @@ export default function CommentModal({ comments, postId, switchModal }: Props) {
     commentRef.current?.scrollTo(0, 0);
 
     console.log(value, "전송됨,..");
-    switchModal(false);
   };
   const { onchange, error, handleSubmit, value } = useInput({
     init: "",
