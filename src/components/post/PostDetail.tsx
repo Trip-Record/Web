@@ -2,6 +2,7 @@ import { useSearchParams } from "react-router-dom";
 import Avatar from "../ui/Avatar";
 import LikeAndcomment from "../LikeAndCommant";
 import { useModal } from "../../hooks/useModal";
+import TravelStyle from "../ui/TravelStyle";
 
 interface Props {
   postId: number;
@@ -16,20 +17,21 @@ export default function PostDetail({ postId }: Props) {
   const { showModal, switchModal } = useModal();
 
   return (
-    <main className="w-full flex flex-col">
-      <h2>{title}</h2>
-      <div className="flex items-center">
+    <main className="w-full max-w-lg flex flex-col gap-2">
+      <h2 className="font-semibold">{title}</h2>
+      <div className="flex items-center gap-1">
         <Avatar img="/logo192.png" size="s" />
         <span>이름</span>
+        <TravelStyle selectStyle="눈으로 담기형" />
       </div>
       <div className="flex items-center justify-between">
-        <div className="flex">
+        <div className="flex gap-2 text-gray-500 flex-col md:flex-row">
           <span>대한민국, 부산</span>
           <span>2023.10.22-2023.10.24</span>
         </div>
-        <div className="flex items-center">
-          <span>수정</span>
-          <span>삭제</span>
+        <div className="flex items-center gap-1">
+          <button>수정</button>
+          <button>삭제</button>
         </div>
       </div>
       {/* 포스트 내용 */}
