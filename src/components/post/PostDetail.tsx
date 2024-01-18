@@ -3,18 +3,20 @@ import Avatar from "../ui/Avatar";
 import LikeAndcomment from "../LikeAndCommant";
 import { useModal } from "../../hooks/useModal";
 import TravelStyle from "../ui/TravelStyle";
+import Slider from "../ui/Slider";
 
 interface Props {
   postId: number;
 }
 
 export default function PostDetail({ postId }: Props) {
+  const { showModal, switchModal } = useModal();
   const title =
     "타이틀타이틀타이틀타이틀타이틀타이틀타이틀타이틀타이틀타이틀타이틀타이틀";
   const body =
     "내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용";
 
-  const { showModal, switchModal } = useModal();
+  const images = ["/logo192.png", "/naverLogin.png", "/profile-icons/Cat.png"];
 
   return (
     <main className="w-full max-w-lg flex flex-col gap-2">
@@ -37,7 +39,8 @@ export default function PostDetail({ postId }: Props) {
       {/* 포스트 내용 */}
       <section className="flex flex-col items-center justify-center">
         {/* TODO: 슬라이드 */}
-        <img src="/logo192.png" alt="포스트 이미지" />
+        {/* <img src="/logo192.png" alt="포스트 이미지" /> */}
+        <Slider images={images} />
         <div>{body}</div>
       </section>
       <LikeAndcomment
