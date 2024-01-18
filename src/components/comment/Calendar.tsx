@@ -2,13 +2,16 @@ import React, { useState } from "react";
 
 export type SelectDate = Date[];
 
+//여행 날짜 선택 안하면 안넘어가게 하는 기능 추가
+//사진 넣기
+
 interface CalendarProps {
   selectedDays: SelectDate;
   setShowSelectDays: (inputValue: string) => void;
   setSelectedDays: (day: SelectDate) => void;
   isPrevMonth?: boolean;
   isNextMonth?: boolean;
-  calendarToggle: () => void;
+  switchmodal: (modal?: boolean) => void;
 }
 
 export default function Calendar({
@@ -16,8 +19,8 @@ export default function Calendar({
   setSelectedDays,
   isPrevMonth,
   isNextMonth,
-  calendarToggle,
   setShowSelectDays,
+  switchmodal,
 }: CalendarProps) {
   const daysOfWeek = ["일", "월", "화", "수", "목", "금", "토"];
   const [currentMonth, setCurrentMonth] = useState<Date>(new Date());
@@ -46,7 +49,7 @@ export default function Calendar({
       spliceSelectedDays.splice(dupliCount, 1);
       setSelectedDays(spliceSelectedDays);
     } else if (checkArrayCountTwo(selectedDays)) {
-      alert("2개임");
+      alert("2개 이상 선택할 수 없습니다!");
     } else {
       const copySelectedDays = [...selectedDays, day];
       setSelectedDays(copySelectedDays);
@@ -207,6 +210,7 @@ export default function Calendar({
   };
 
   const dateFormat = (selectDays: SelectDate): string[] => {
+    sortDays(selectDays);
     return selectDays.map((i) => {
       return (
         i.getFullYear() +
@@ -219,7 +223,7 @@ export default function Calendar({
   };
 
   return (
-    <div className="w-[40vw] h-[60vh] flex flex-col text-center p-5">
+    <div className="w-[40vw] h-[60vh] flex flex-col text-center p-5 bg-white">
       <div>
         <button data-testid="prevMonth" onClick={prevCalendar}>
           &lt;
@@ -252,9 +256,8 @@ export default function Calendar({
       <div className=" h-[50px] mt-3">
         <button
           onClick={() => {
-            console.log(makeDaysString(dateFormat(selectedDays)));
             setShowSelectDays(makeDaysString(dateFormat(selectedDays)));
-            calendarToggle();
+            switchmodal();
           }}
           className="bg-blue-400 h-full w-1/3 rounded-sm text-white font-bold"
         >

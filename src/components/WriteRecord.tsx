@@ -8,6 +8,7 @@ import { CiSquarePlus } from "react-icons/ci";
 import Calendar from "./comment/Calendar";
 import ModalButton from "./Modal";
 import { SelectDate } from "./comment/Calendar";
+import { useModal } from "../hooks/useModal";
 
 export default function WriteRecord() {
   const [travelName, setTravelName] = useState("");
@@ -16,6 +17,8 @@ export default function WriteRecord() {
   const [selectedDays, setSelectedDays] = useState<SelectDate>([new Date()]);
   const [showSelectDays, setShowSelectDays] = useState("");
 
+  const { showModal, switchModal } = useModal();
+
   const calendarToggle = () => {
     if (calendar) {
       setCalendar(false);
@@ -23,33 +26,6 @@ export default function WriteRecord() {
       setCalendar(true);
     }
   };
-
-  // const TRAVEL_AREA = {
-  //   "대륙": [
-  //     {
-  //       "이름": "아시아/중동",
-  //       "국가들": [
-  //         {
-  //           "이름": "대한민국",
-  //           "도시들": ["서웉특별시", "부산광역시", "강원도", "경기도", "전라남도", "제주도"]
-  //         },
-  //         {
-  //           "이름": "라오스",
-  //           "도시들": ["비엔티안", "루앙프라방"]
-  //         }
-  //       ]
-  //     },
-  //     {
-  //       "이름": "유럽",
-  //       "더미": "더미 값"
-  //     },
-  //     {
-  //       "이름": "북아메리카",
-  //       "더미": "더미 값"
-  //     }
-  //   ],
-
-  // }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -83,6 +59,8 @@ export default function WriteRecord() {
         <div className="flex border-black border-b-2 pb-2 items-center">
           <LuCalendarCheck size={40} color={"#60a4f9"} className="mr-3" />
           <ModalButton
+            showModal={showModal}
+            switchModal={switchModal}
             button={
               <input
                 placeholder=" 여행 기간을 선택해주세요"
@@ -100,7 +78,7 @@ export default function WriteRecord() {
                 setShowSelectDays={setShowSelectDays}
                 isPrevMonth={true}
                 isNextMonth={true}
-                calendarToggle={calendarToggle}
+                switchmodal={switchModal}
               />
             }
           />
