@@ -1,5 +1,6 @@
 import { PostData, useGetCommentsQuery } from "../api/dummy";
 import { useModal } from "../hooks/useModal";
+import LikeAndcomment from "./LikeAndCommant";
 import ModalButton from "./Modal";
 import CommentModal from "./comment/CommentModal";
 import CommentBtn from "./post/CommentBtn";
@@ -14,9 +15,7 @@ interface Props {
 export default function PostCard({ post, type = "blog" }: Props) {
   const { body, id, title, userId } = post;
 
-  const { data: commentData } = useGetCommentsQuery(id);
-
-  const { showModal, switchModal } = useModal();
+  const [showModal, switchModal] = useModal();
 
   const region = "대한민국, 부산";
   const signatureImg = "/logo192.png";
@@ -33,18 +32,11 @@ export default function PostCard({ post, type = "blog" }: Props) {
           <h2 className="text-gray-400 text-ellipsis text-sm">{region}</h2>
           <h2 className="font-bold line-clamp-1">{title}</h2>
           <div className="line-clamp-4">{body}</div>
-          <div className="flex items-center mt-auto gap-3">
-            <LikeBtn count={1} />
-            {/* <CommentBtn count={1} /> */}
-            {commentData && (
-              <ModalButton
-                button={<CommentBtn count={commentData.length} />}
-                modal={<CommentModal comments={commentData} postId={id} />}
-                showModal={showModal}
-                switchModal={switchModal}
-              />
-            )}
-          </div>
+          <LikeAndcomment
+            postId={id}
+            isOpenModal={showModal}
+            setModal={switchModal}
+          />
         </div>
         <img
           src={signatureImg}
@@ -73,14 +65,12 @@ export default function PostCard({ post, type = "blog" }: Props) {
         <div className="line-clamp-4">{body}</div>
         <div className="flex items-center w-full mt-4 gap-3">
           <LikeBtn count={1} />
-          {/* <CommentBtn count={1} /> */}
-          {commentData && (
-            // <ModalButton
-            //   button={<CommentBtn count={commentData.length} />}
-            //   modal={<CommentModal comments={commentData} postId={id} />}
-            // />
-            <></>
-          )}
+          <ModalButton
+            button={<CommentBtn postId={id} />}
+            modal={<CommentModal postId={id} />}
+            isOpenModal={showModal}
+            setModal={switchModal}
+          />
         </div>
       </section>
     );
