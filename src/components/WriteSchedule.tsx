@@ -14,7 +14,8 @@ export default function WriteSchedule() {
     setSelectedLocation(location);
   };
 
-  const { showModal, switchModal } = useModal();
+  const [isOpenDestinationModal, setDestinationModal] = useModal();
+  const [isOpenPeriodModal, setPeriodModal] = useModal();
 
   return (
     <div className="WriteSchedule">
@@ -50,8 +51,8 @@ export default function WriteSchedule() {
           modal={
             <DestinationSelection onLocationSelect={handleLocationSelect} />
           }
-          showModal={showModal}
-          switchModal={switchModal}
+          isOpenModal={isOpenDestinationModal}
+          setModal={setDestinationModal}
         />
         <img
           src={DateIcon}
@@ -65,8 +66,8 @@ export default function WriteSchedule() {
             </div>
           }
           modal={<div>여행 기간 선택 화면</div>}
-          showModal={showModal}
-          switchModal={switchModal}
+          isOpenModal={isOpenPeriodModal}
+          setModal={setPeriodModal}
         />
       </div>
     </div>

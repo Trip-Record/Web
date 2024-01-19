@@ -15,7 +15,7 @@ interface Props {
 export default function PostCard({ post, type = "blog" }: Props) {
   const { body, id, title, userId } = post;
 
-  const { showModal, switchModal } = useModal();
+  const [showModal, switchModal] = useModal();
 
   const region = "대한민국, 부산";
   const signatureImg = "/logo192.png";
@@ -34,8 +34,8 @@ export default function PostCard({ post, type = "blog" }: Props) {
           <div className="line-clamp-4">{body}</div>
           <LikeAndcomment
             postId={id}
-            showModal={showModal}
-            switchModal={switchModal}
+            isOpenModal={showModal}
+            setModal={switchModal}
           />
         </div>
         <img
@@ -68,8 +68,8 @@ export default function PostCard({ post, type = "blog" }: Props) {
           <ModalButton
             button={<CommentBtn postId={id} />}
             modal={<CommentModal postId={id} />}
-            showModal={showModal}
-            switchModal={switchModal}
+            isOpenModal={showModal}
+            setModal={switchModal}
           />
         </div>
       </section>

@@ -2,7 +2,7 @@ import { useState } from "react";
 
 export type switchModalFnType = (value?: boolean) => void;
 
-export function useModal() {
+export function useModal(): [boolean, switchModalFnType] {
   const [showModal, setShowModal] = useState(false);
 
   console.log("현재:", showModal);
@@ -15,8 +15,5 @@ export function useModal() {
     }
   };
 
-  return {
-    switchModal,
-    showModal,
-  };
+  return [showModal, switchModal];
 }

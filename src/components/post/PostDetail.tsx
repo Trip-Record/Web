@@ -10,7 +10,7 @@ interface Props {
 }
 
 export default function PostDetail({ postId }: Props) {
-  const { showModal, switchModal } = useModal();
+  const [isOpenModal, setModal] = useModal();
   const title =
     "타이틀타이틀타이틀타이틀타이틀타이틀타이틀타이틀타이틀타이틀타이틀타이틀";
   const body =
@@ -45,8 +45,8 @@ export default function PostDetail({ postId }: Props) {
       </section>
       <LikeAndcomment
         postId={postId}
-        showModal={showModal}
-        switchModal={switchModal}
+        isOpenModal={isOpenModal}
+        setModal={setModal}
       />
     </main>
   );

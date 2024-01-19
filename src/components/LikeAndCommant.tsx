@@ -6,13 +6,13 @@ import LikeBtn from "./post/LikeBtn";
 
 interface Props {
   postId: number;
-  showModal: boolean;
-  switchModal: switchModalFnType;
+  isOpenModal: boolean;
+  setModal: switchModalFnType;
 }
 export default function LikeAndcomment({
   postId,
-  showModal,
-  switchModal,
+  isOpenModal,
+  setModal,
 }: Props) {
   return (
     <div className="flex items-center mt-auto gap-3">
@@ -20,8 +20,8 @@ export default function LikeAndcomment({
       <ModalButton
         button={<CommentBtn postId={postId} />}
         modal={<CommentModal postId={postId} />}
-        showModal={showModal}
-        switchModal={switchModal}
+        isOpenModal={isOpenModal}
+        setModal={setModal}
       />
     </div>
   );
