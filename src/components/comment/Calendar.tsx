@@ -11,7 +11,7 @@ interface CalendarProps {
   setSelectedDays: (day: SelectDate) => void;
   isPrevMonth?: boolean;
   isNextMonth?: boolean;
-  switchmodal: (modal?: boolean) => void;
+  setModal: (modal?: boolean) => void;
 }
 
 export default function Calendar({
@@ -20,7 +20,7 @@ export default function Calendar({
   isPrevMonth,
   isNextMonth,
   setShowSelectDays,
-  switchmodal,
+  setModal,
 }: CalendarProps) {
   const daysOfWeek = ["일", "월", "화", "수", "목", "금", "토"];
   const [currentMonth, setCurrentMonth] = useState<Date>(new Date());
@@ -257,7 +257,7 @@ export default function Calendar({
         <button
           onClick={() => {
             setShowSelectDays(makeDaysString(dateFormat(selectedDays)));
-            switchmodal();
+            setModal();
           }}
           className="bg-blue-400 h-full w-1/3 rounded-sm text-white font-bold"
         >

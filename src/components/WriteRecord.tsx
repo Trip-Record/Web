@@ -17,7 +17,7 @@ export default function WriteRecord() {
   const [selectedDays, setSelectedDays] = useState<SelectDate>([new Date()]);
   const [showSelectDays, setShowSelectDays] = useState("");
 
-  const { showModal, switchModal } = useModal();
+  const [isModalOpen, setModal] = useModal();
 
   const calendarToggle = () => {
     if (calendar) {
@@ -59,8 +59,8 @@ export default function WriteRecord() {
         <div className="flex border-black border-b-2 pb-2 items-center">
           <LuCalendarCheck size={40} color={"#60a4f9"} className="mr-3" />
           <ModalButton
-            showModal={showModal}
-            switchModal={switchModal}
+            isOpenModal={isModalOpen}
+            setModal={setModal}
             button={
               <input
                 placeholder=" 여행 기간을 선택해주세요"
@@ -78,7 +78,7 @@ export default function WriteRecord() {
                 setShowSelectDays={setShowSelectDays}
                 isPrevMonth={true}
                 isNextMonth={true}
-                switchmodal={switchModal}
+                setModal={setModal}
               />
             }
           />
