@@ -1,15 +1,19 @@
 import { useRef } from "react";
-import { CommentData, useAddCommentsMutation } from "../../api/dummy";
+import {
+  CommentData,
+  useAddCommentsMutation,
+  useGetCommentsQuery,
+} from "../../api/dummy";
 import { useInput } from "../../hooks/useInput";
 import ColorButton from "../ui/ColorButton";
 import CommentLine from "./CommentLine";
 
 interface Props {
-  comments: CommentData[];
   postId: number;
 }
 
-export default function CommentModal({ comments, postId }: Props) {
+export default function CommentModal({ postId }: Props) {
+  const { data: comments } = useGetCommentsQuery(postId);
   const [updatePost, result] = useAddCommentsMutation();
   const commentRef = useRef<HTMLDivElement>(null);
   const commentValidate = (value: string) => {
@@ -38,14 +42,14 @@ export default function CommentModal({ comments, postId }: Props) {
   return (
     <section className="w-[90vw] max-w-[50rem] h-[70vh] flex flex-col p-2 border overflow-hidden rounded-md bg-white">
       <div className="border-b border-black p-2 flex justify-center items-center relative">
-        <span className="text-2xl font-bold">댓글 {comments.length}</span>
+        <span className="text-2xl font-bold">댓글 {comments?.length}</span>
         <span className="text-sm absolute right-2 border p-1">게시글 보기</span>
       </div>
       <div
         className="overflow-y-scroll p-3 mt-2 scrollbar-hide"
         ref={commentRef}
       >
-        {comments.map((comment) => (
+        {comments?.map((comment) => (
           <CommentLine comment={comment} key={comment.id} />
         ))}
       </div>

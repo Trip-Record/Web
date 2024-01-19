@@ -1,32 +1,33 @@
 import { useEffect, useRef } from "react";
+import { switchModalFnType } from "../hooks/useModal";
 
 interface Props {
   button: React.ReactNode;
   modal: React.ReactNode;
   buttonClassName?: string;
-  showModal: boolean;
-  switchModal: (value?: boolean) => void;
+  isOpenModal: boolean;
+  setModal: switchModalFnType;
 }
 export default function ModalButton({
   button,
   modal,
   buttonClassName,
-  showModal,
-  switchModal,
+  isOpenModal,
+  setModal,
 }: Props) {
   const ref = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
-    if (showModal) ref.current?.showModal();
+    if (isOpenModal) ref.current?.showModal();
     else ref.current?.close();
-  }, [showModal]);
+  }, [isOpenModal]);
 
   return (
     <>
       <dialog
         ref={ref}
         onMouseDown={(e) => {
-          if (e.target === e.currentTarget) switchModal(false);
+          if (e.target === e.currentTarget) setModal(false);
         }}
         className="backdrop:bg-black/50 max-w-[100vw] bg-transparent"
       >
@@ -34,7 +35,7 @@ export default function ModalButton({
       </dialog>
       <div
         className={`w-full ${buttonClassName}`}
-        onClick={() => switchModal(true)}
+        onClick={() => setModal(true)}
       >
         {button}
       </div>
