@@ -8,7 +8,7 @@ export default function NavBar() {
       <div className="logo-container flex flex-col items-center justify-center">
         <div className="flex items-center justify-center h-20">
           <Link to={"/"}>
-            <img src="/main_logo02.png" alt="메인로고" className="w-60" />
+            <img src="/main_logo02.png" alt="메인로고" className="w-60 pt-3" />
           </Link>
         </div>
       </div>
