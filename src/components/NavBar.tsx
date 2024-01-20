@@ -6,10 +6,14 @@ export default function NavBar() {
   return (
     <div>
       <div className="logo-container flex flex-col items-center justify-center">
-        <div className="logo text-2xl font-bold">App Logo</div>
+        <div className="flex items-center justify-center h-20">
+          <Link to={"/"}>
+            <img src="/main_logo02.png" alt="메인로고" className="w-60" />
+          </Link>
+        </div>
       </div>
-      <div className="links-container flex flex-row justify-end mt-2 p-4">
-        <Link to="/login" className="right-link mr-4">
+      <div className="links-container flex flex-row justify-end p-3 pt-0">
+        <Link to="/login" className="mr-4">
           로그인
         </Link>
       </div>
