@@ -1,4 +1,5 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useState } from "react";
+import DotBar from "../post/BotBar";
 
 interface Props {
   images: string[];
@@ -7,55 +8,32 @@ interface Props {
 export default function Slider({ images }: Props) {
   const [imageCount, setImageCount] = useState(0);
 
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [isDragging, setIsDragging] = useState(false);
-  const divRef = useRef<HTMLDivElement>(null);
-  const [downXPos, setDownXPos] = useState(0);
-
-  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    const divRect = divRef.current?.getBoundingClientRect();
-
-    setIsDragging(true);
-    setDownXPos(e.clientX - divRect!.left);
-  };
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    if (isDragging && divRef) {
-      const parentRect = divRef.current?.parentElement?.getBoundingClientRect();
-      const newX = e.clientX - parentRect!.left - downXPos;
-
-      if (
-        newX < 0 ||
-        newX >
-          parentRect!.width - divRef.current!.getBoundingClientRect()!.width
-      )
-        return;
-      setPosition({ x: newX, y: position.y });
-    }
-  };
-
-  useEffect(() => {
-    const divRect = divRef.current?.getBoundingClientRect();
-    setImageCount((position.x / divRect!.width) * -1);
-  }, [position.x]);
+  // Slider사용시 주석해제
+  // const [position, setPosition] = useState({ x: 0, y: 0 });
+  // const divRef = useRef<HTMLDivElement>(null);
+  // useEffect(() => {
+  //   const divRect = divRef.current?.getBoundingClientRect();
+  //   setImageCount((position.x / divRect!.width) * -1);
+  // }, [position.x]);
 
   const moveImage = (direct: 1 | -1) => {
     let page = 0;
     if (direct === -1) page = Math.ceil(imageCount + direct);
     if (direct === 1) page = Math.floor(imageCount + direct);
-    // const page = Math.floor(imageCount + direct);
     setImageCount(page);
-    const divRect = divRef.current?.getBoundingClientRect();
-    const newX = divRect!.width * (page * -1);
-    setPosition({ x: newX, y: position.y });
+
+    // Slider사용시 주석해제
+    // const divRect = divRef.current?.getBoundingClientRect();
+    // const newX = divRect!.width * (page * -1);
+    // setPosition({ x: newX, y: position.y });
+  };
+
+  const onDotClick = (seq: number) => {
+    setImageCount(seq * -1);
   };
 
   return (
-    <div
-      className="flex flex-col w-3/4 items-center gap-2"
-      onMouseLeave={() => setIsDragging(false)}
-      onMouseUp={() => setIsDragging(false)}
-    >
+    <div className="flex flex-col w-3/4 items-center gap-2">
       <div className="relative flex border w-full aspect-square overflow-hidden group">
         <div
           className="flex relative h-full"
@@ -94,21 +72,17 @@ export default function Slider({ images }: Props) {
           {`→`}
         </button>
       </div>
-      <div className="relative bg-gray-200 w-3/4 h-[0.7rem] rounded-full">
-        <div
-          className="absolute bg-gray-400 rounded-full h-[0.7rem]"
-          style={{
-            width: `${100 / images.length}%`,
-            // transform: `translateX(${barTranslateX}%)`,
-            // transition: "left 10ms ease",
-            left: position.x + "px",
-          }}
-          ref={divRef}
-          onMouseDown={handleMouseDown}
-          onMouseMove={handleMouseMove}
-          // onMouseUp={handleMouseUp}
-        ></div>
-      </div>
+      {/* <SlideBar
+        setPosition={setPosition}
+        leftX={position.x}
+        length={images.length}
+        ref={divRef}
+      /> */}
+      <DotBar
+        length={images.length}
+        currentSeq={imageCount}
+        onDotClick={onDotClick}
+      />
     </div>
   );
 }
