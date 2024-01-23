@@ -12,7 +12,7 @@ export default function DotBar({ length, onDotClick, currentSeq }: Props) {
           <div
             key={i}
             className={`w-2 h-2 rounded-full bg-gray-200 cursor-pointer ${
-              currentSeq === i * -1 && "bg-gray-500 cursor-default"
+              currentSeq === i && "bg-gray-500 cursor-default"
             }`}
             onClick={() => onDotClick(i)}
           ></div>

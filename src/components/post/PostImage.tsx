@@ -9,8 +9,6 @@ interface Props {
 export default function PostImage({ image, count = 0 }: Props) {
   const [isModalOpen, setModal] = useModal();
 
-  const imgCount = count * -1;
-
   return (
     <>
       <img
@@ -29,9 +27,9 @@ export default function PostImage({ image, count = 0 }: Props) {
               "/naverLogin.png",
               "/profile-icons/Cat.png",
             ]}
-            count={imgCount}
+            count={count}
             onModal={true}
-            key={imgCount}
+            key={count}
           />
         }
         isOpenModal={isModalOpen}

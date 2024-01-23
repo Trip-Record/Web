@@ -11,9 +11,9 @@ interface Props {
 }
 
 export default function Slider({ images, count = 0, onModal = false }: Props) {
-  const [imageCount, setImageCount] = useState(count * -1);
+  const [imageCount, setImageCount] = useState(count);
 
-  // Slider사용시 주석해제
+  // Slider사용시 주석해제 *count* -1 고려할것*
   // const [position, setPosition] = useState({ x: 0, y: 0 });
   // const divRef = useRef<HTMLDivElement>(null);
   // useEffect(() => {
@@ -23,18 +23,18 @@ export default function Slider({ images, count = 0, onModal = false }: Props) {
 
   const moveImage = (direct: 1 | -1) => {
     let page = 0;
-    if (direct === -1) page = Math.ceil(imageCount + direct);
     if (direct === 1) page = Math.floor(imageCount + direct);
+    if (direct === -1) page = Math.ceil(imageCount + direct);
     setImageCount(page);
 
-    // Slider사용시 주석해제
+    // Slider사용시 주석해제 *count* -1 고려할것*
     // const divRect = divRef.current?.getBoundingClientRect();
     // const newX = divRect!.width * (page * -1);
     // setPosition({ x: newX, y: position.y });
   };
 
   const onDotClick = (seq: number) => {
-    setImageCount(seq * -1);
+    setImageCount(seq);
   };
 
   return (
@@ -47,7 +47,7 @@ export default function Slider({ images, count = 0, onModal = false }: Props) {
         <div
           className="flex relative h-full"
           style={{
-            transform: `translateX(${imageCount * 100}%)`,
+            transform: `translateX(${imageCount * -100}%)`,
             transition: "transform 500ms ease",
           }}
         >
@@ -66,7 +66,7 @@ export default function Slider({ images, count = 0, onModal = false }: Props) {
         </div>
         {/* <img src={images[0]} alt="포스트 이미지" className="" /> */}
         <button
-          onClick={() => moveImage(1)}
+          onClick={() => moveImage(-1)}
           className={`z-10 absolute left-1 top-[50%] shadow-md rounded-full w-6 h-6 flex justify-center items-center bg-white group-hover:opacity-60 opacity-0 ${
             imageCount === 0 && "hidden"
           }`}
@@ -77,9 +77,9 @@ export default function Slider({ images, count = 0, onModal = false }: Props) {
           ←
         </button>
         <button
-          onClick={() => moveImage(-1)}
+          onClick={() => moveImage(1)}
           className={`z-10 absolute right-1 top-[50%] shadow-md rounded-full w-6 h-6 justify-center items-center bg-white flex group-hover:opacity-60 opacity-0 ${
-            -1 * imageCount >= images.length - 1 && "hidden"
+            imageCount >= images.length - 1 && "hidden"
           }`}
         >
           {`→`}
