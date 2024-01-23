@@ -10,6 +10,16 @@ interface Props {
   onModal?: boolean;
 }
 
+const MOVERIGHT =
+  "z-10 absolute right-1 top-[50%] shadow-md rounded-full w-6 h-6 justify-center items-center bg-white flex group-hover:opacity-60 opacity-0";
+const MOVERIGHT_SM =
+  "w-[50%] h-full md:w-6 md:h-6 md:top-[50%] z-10 absolute right-1 shadow-md rounded-full bg-white justify-center items-center bg-white flex md:group-hover:opacity-60 opacity-0";
+
+const MOVELEFT =
+  "z-10 absolute left-1 top-[50%] shadow-md rounded-full w-6 h-6 flex justify-center items-center bg-white group-hover:opacity-60 opacity-0";
+const MOVELEFT_SM =
+  "w-[50%] h-full md:w-6 md:h-6 md:top-[50%] z-10 absolute left-1 shadow-md rounded-full bg-white justify-center items-center bg-white flex md:group-hover:opacity-60 opacity-0";
+
 export default function Slider({ images, count = 0, onModal = false }: Props) {
   const [imageCount, setImageCount] = useState(count);
 
@@ -67,7 +77,7 @@ export default function Slider({ images, count = 0, onModal = false }: Props) {
         {/* <img src={images[0]} alt="포스트 이미지" className="" /> */}
         <button
           onClick={() => moveImage(-1)}
-          className={`z-10 absolute left-1 top-[50%] shadow-md rounded-full w-6 h-6 flex justify-center items-center bg-white group-hover:opacity-60 opacity-0 ${
+          className={`${onModal ? MOVELEFT_SM : MOVELEFT} ${
             imageCount === 0 && "hidden"
           }`}
           style={{
@@ -78,7 +88,7 @@ export default function Slider({ images, count = 0, onModal = false }: Props) {
         </button>
         <button
           onClick={() => moveImage(1)}
-          className={`z-10 absolute right-1 top-[50%] shadow-md rounded-full w-6 h-6 justify-center items-center bg-white flex group-hover:opacity-60 opacity-0 ${
+          className={`${onModal ? MOVERIGHT_SM : MOVERIGHT} ${
             imageCount >= images.length - 1 && "hidden"
           }`}
         >
