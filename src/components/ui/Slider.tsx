@@ -1,12 +1,17 @@
 import { useState } from "react";
 import DotBar from "../post/BotBar";
+import { useModal } from "../../hooks/useModal";
+import ModalButton from "../Modal";
+import PostImage from "../post/PostImage";
 
 interface Props {
   images: string[];
+  count?: number;
+  onModal?: boolean;
 }
 
-export default function Slider({ images }: Props) {
-  const [imageCount, setImageCount] = useState(0);
+export default function Slider({ images, count = 0, onModal = false }: Props) {
+  const [imageCount, setImageCount] = useState(count * -1);
 
   // Slider사용시 주석해제
   // const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -33,7 +38,11 @@ export default function Slider({ images }: Props) {
   };
 
   return (
-    <div className="flex flex-col w-3/4 items-center gap-2">
+    <div
+      className={`flex flex-col ${
+        onModal ? "w-full" : "w-3/4"
+      } max-h-[80vh] aspect-square items-center gap-2 mx-auto`}
+    >
       <div className="relative flex border w-full aspect-square overflow-hidden group">
         <div
           className="flex relative h-full"
@@ -42,14 +51,18 @@ export default function Slider({ images }: Props) {
             transition: "transform 500ms ease",
           }}
         >
-          {images.map((image, i) => (
-            <img
-              src={image}
-              key={i}
-              alt="포스트 이미지"
-              className="object-contain p-2 bg-black"
-            />
-          ))}
+          {images.map((image, i) =>
+            onModal ? (
+              <img
+                src={image}
+                alt="포스트 이미지"
+                className="object-contain p-2 bg-black"
+                key={image}
+              />
+            ) : (
+              <PostImage image={image} key={image} count={imageCount} />
+            )
+          )}
         </div>
         {/* <img src={images[0]} alt="포스트 이미지" className="" /> */}
         <button
