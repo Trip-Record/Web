@@ -7,7 +7,6 @@ export type SelectDate = Date[];
 
 interface CalendarProps {
   selectedDays: SelectDate;
-  setShowSelectDays: (inputValue: string) => void;
   setSelectedDays: (day: SelectDate) => void;
   isPrevMonth?: boolean;
   isNextMonth?: boolean;
@@ -16,10 +15,9 @@ interface CalendarProps {
 
 export default function Calendar({
   selectedDays,
-  setSelectedDays,
   isPrevMonth,
   isNextMonth,
-  setShowSelectDays,
+  setSelectedDays,
   setModal,
 }: CalendarProps) {
   const daysOfWeek = ["일", "월", "화", "수", "목", "금", "토"];
@@ -197,31 +195,6 @@ export default function Calendar({
   const calendarTags = buildCalendarTag(calendarDays);
   const calendarRows = divideWeek(calendarTags);
 
-  const sortDays = (selectDays: SelectDate) => {
-    selectDays.sort((a, b) => {
-      return a.getTime() - b.getTime();
-    });
-
-    return selectDays;
-  };
-
-  const makeDaysString = (days: string[]): string => {
-    return days.join(" ~ ");
-  };
-
-  const dateFormat = (selectDays: SelectDate): string[] => {
-    sortDays(selectDays);
-    return selectDays.map((i) => {
-      return (
-        i.getFullYear() +
-        "-" +
-        (i.getMonth() + 1 < 10 ? "0" + (i.getMonth() + 1) : i.getMonth() + 1) +
-        "-" +
-        (i.getDate() < 10 ? "0" + i.getDate() : i.getDate())
-      );
-    });
-  };
-
   return (
     <div className="w-[40vw] h-[60vh] flex flex-col text-center p-5 bg-white">
       <div>
@@ -256,7 +229,7 @@ export default function Calendar({
       <div className=" h-[50px] mt-3">
         <button
           onClick={() => {
-            setShowSelectDays(makeDaysString(dateFormat(selectedDays)));
+            setSelectedDays(selectedDays);
             setModal();
           }}
           className="bg-blue-400 h-full w-1/3 rounded-sm text-white font-bold"
