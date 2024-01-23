@@ -9,6 +9,7 @@ import Calendar from "./comment/Calendar";
 import ModalButton from "./Modal";
 import { SelectDate } from "./comment/Calendar";
 import { useModal } from "../hooks/useModal";
+import DestinationSelection from "./DestinationSelection";
 import axios from "axios";
 
 export default function WriteRecord() {
@@ -19,6 +20,13 @@ export default function WriteRecord() {
   const [calendar, setCalendar] = useState(false);
   const [selectedDays, setSelectedDays] = useState<SelectDate>([new Date()]);
   const [isModalOpen, setModal] = useModal();
+  const [selectedLocation, setSelectedLocation] = useState("");
+  const [isOpenDestinationModal, setDestinationModal] = useModal();
+  const [isOpenPeriodModal, setPeriodModal] = useModal();
+
+  const handleLocationSelect = (location: string) => {
+    setSelectedLocation(location);
+  };
 
   const makeDaysString = (days: string[]): string => {
     return days.join(" ~ ");
@@ -111,13 +119,20 @@ export default function WriteRecord() {
         </div>
         <div className="flex border-black border-b-2 pb-2 items-center">
           <FaLocationDot size={40} color={"#60a4f9"} className="mr-3" />
-          <input
-            placeholder=" 여행 장소를 선택해주세요"
-            type="text"
-            name="travelArea"
-            value={testTravelArea}
-            readOnly
-            className="h-10 border border-black/20 shadow-sm rounded-md text-black p-2 w-full mt-1"
+          <ModalButton
+            button={
+              <input
+                type="text"
+                placeholder="여행 장소를 선택해 주세요"
+                value={selectedLocation}
+                className="h-10 border border-black/20 shadow-sm rounded-md text-black p-2 w-full mt-1"
+              />
+            }
+            modal={
+              <DestinationSelection onLocationSelect={handleLocationSelect} />
+            }
+            isOpenModal={isOpenDestinationModal}
+            setModal={setDestinationModal}
           />
         </div>
         <div className="flex border-black border-b-2 pb-2 items-center">
