@@ -1,5 +1,6 @@
+import { IconBaseProps } from "react-icons";
 import { AiFillLike, AiOutlineLike } from "react-icons/ai";
-interface Props {
+interface Props extends IconBaseProps {
   active?: boolean;
   size?: number;
 }

@@ -4,6 +4,9 @@ import LikeAndcomment from "../LikeAndCommant";
 import { useModal } from "../../hooks/useModal";
 import TravelStyle from "../ui/TravelStyle";
 import Slider from "../ui/Slider";
+import { useGetCommentsQuery, useGetPostQuery } from "../../api/dummy";
+import DeleteIcon from "../ui/icons/DeleteIcon";
+import ModifyIcon from "../ui/icons/ModifyIcon";
 
 interface Props {
   postId: number;
@@ -11,12 +14,11 @@ interface Props {
 
 export default function PostDetail({ postId }: Props) {
   const [isOpenModal, setModal] = useModal();
-  const title =
-    "타이틀타이틀타이틀타이틀타이틀타이틀타이틀타이틀타이틀타이틀타이틀타이틀";
-  const body =
-    "내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용";
-
+  const { data, isLoading } = useGetPostQuery(postId);
   const images = ["/logo192.png", "/naverLogin.png", "/profile-icons/Cat.png"];
+
+  if (!data) return <>loading...</>;
+  const { body, title } = data;
 
   return (
     <main className="w-full max-w-lg flex flex-col gap-2">
@@ -32,8 +34,12 @@ export default function PostDetail({ postId }: Props) {
           <span>2023.10.22-2023.10.24</span>
         </div>
         <div className="flex items-center gap-1">
-          <button>수정</button>
-          <button>삭제</button>
+          <button className="flex items-center">
+            <ModifyIcon size={16} /> 수정
+          </button>
+          <button className="flex items-center">
+            <DeleteIcon size={18} /> 삭제
+          </button>
         </div>
       </div>
       {/* 포스트 내용 */}
