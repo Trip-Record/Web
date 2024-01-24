@@ -4,6 +4,10 @@ import LikeAndcomment from "../LikeAndCommant";
 import { useModal } from "../../hooks/useModal";
 import TravelStyle from "../ui/TravelStyle";
 import Slider from "../ui/Slider";
+import { useGetCommentsQuery, useGetPostQuery } from "../../api/dummy";
+import DeleteIcon from "../ui/icons/DeleteIcon";
+import ModifyIcon from "../ui/icons/ModifyIcon";
+import AvatarInfo from "../ui/AvatarInfo";
 
 interface Props {
   postId: number;
@@ -11,29 +15,28 @@ interface Props {
 
 export default function PostDetail({ postId }: Props) {
   const [isOpenModal, setModal] = useModal();
-  const title =
-    "타이틀타이틀타이틀타이틀타이틀타이틀타이틀타이틀타이틀타이틀타이틀타이틀";
-  const body =
-    "내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용";
-
+  const { data, isLoading } = useGetPostQuery(postId);
   const images = ["/logo192.png", "/naverLogin.png", "/profile-icons/Cat.png"];
+
+  if (!data) return <>loading...</>;
+  const { body, title, userId } = data;
 
   return (
     <main className="w-full max-w-lg flex flex-col gap-2">
       <h2 className="font-semibold">{title}</h2>
-      <div className="flex items-center gap-1">
-        <Avatar img="/logo192.png" size="s" />
-        <span>이름</span>
-        <TravelStyle selectStyle="눈으로 담기형" />
-      </div>
-      <div className="flex items-center justify-between">
+      <AvatarInfo userId={userId} />
+      <div className="flex items-center justify-between border-b border-black/80 pb-2">
         <div className="flex gap-2 text-gray-500 flex-col md:flex-row">
           <span>대한민국, 부산</span>
           <span>2023.10.22-2023.10.24</span>
         </div>
         <div className="flex items-center gap-1">
-          <button>수정</button>
-          <button>삭제</button>
+          <button className="flex items-center">
+            <ModifyIcon size={16} /> 수정
+          </button>
+          <button className="flex items-center">
+            <DeleteIcon size={18} /> 삭제
+          </button>
         </div>
       </div>
       {/* 포스트 내용 */}

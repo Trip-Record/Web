@@ -1,8 +1,6 @@
+import { IconBaseProps } from "react-icons";
 import { FaRegCommentDots } from "react-icons/fa";
 
-interface Props {
-  size?: number;
-}
-export default function CommentIcon({ size = 25 }: Props) {
+export default function CommentIcon({ size = 25 }: IconBaseProps) {
   return <FaRegCommentDots size={size} />;
 }
