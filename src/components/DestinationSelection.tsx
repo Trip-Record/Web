@@ -2,10 +2,12 @@ import React, { useState } from "react";
 
 interface DestinationSelectionProps {
   onLocationSelect: (location: string) => void;
+  closeModal: () => void;
 }
 
 export default function DestinationSelection({
   onLocationSelect,
+  closeModal,
 }: DestinationSelectionProps) {
   const continents = [
     {
@@ -212,48 +214,48 @@ export default function DestinationSelection({
     },
   ];
 
-  const [selectedContinent, setSelectedContinent] = useState<string>("");
-  const [selectedCountry, setSelectedCountry] = useState<string>("");
-  const [selectedCity, setSelectedCity] = useState<string>("");
+  const [selectedContinent, setSelectedContinent] = useState("아시아/중동");
+  const [selectedCountry, setSelectedCountry] = useState("");
+  const [selectedCities, setSelectedCities] = useState<string[]>([]);
 
   const handleContinentSelect = (continent: string) => {
     setSelectedContinent(continent);
     setSelectedCountry("");
-    setSelectedCity("");
+    setSelectedCities([]);
   };
 
   const handleCountrySelect = (country: string) => {
     setSelectedCountry(country);
-    setSelectedCity("");
+    setSelectedCities([]);
   };
 
   const handleCitySelect = (city: string) => {
-    setSelectedCity(city);
-    onLocationSelect(`${selectedContinent}>${selectedCountry}>${city}`);
+    if (!selectedCities.includes(city) && selectedCities.length < 3) {
+      setSelectedCities((prevCities) => [...prevCities, city]);
+    }
+  };
+
+  const handleSelectionComplete = () => {
+    const location =
+      selectedCities.length > 0
+        ? `${selectedContinent}>${selectedCountry}>${selectedCities.join(", ")}`
+        : `${selectedContinent}>${selectedCountry}`;
+    onLocationSelect(location);
+    closeModal();
   };
 
   return (
-    <div className="mt-1 p-2 font-bold">
-      <h2>주요도시</h2>
-      <div className="mt-4">
-        <input
-          type="text"
-          id="citySearch"
-          name="citySearch"
-          className="mt-1 p-2 flex border rounded-md"
-          placeholder="가고 싶은 도시를 검색해보세요."
-        />
-      </div>
-      <div className="flex gap-4 mt-4">
-        <div className="w-1/2 border">
-          <h2 className="text-xl font-semibold mb-2">대륙</h2>
-          <ul className="list-none p-0">
+    <div className="mt-16 p-4 bg-white border rounded-md fixed top-20 left-96 w-1/2 h-3/5 overflow-y-auto">
+      <h2 className="text-black-500 font-bold mb-2 text-3xl">주요 도시</h2>
+      <div className="flex gap-4">
+        <div className="w-1/2">
+          <ul className="list-none p-0 mt-4 border border-blue-300 border-solid rounded-md">
             {continents.map((continent) => (
               <li
                 key={continent.name}
-                className={`cursor-pointer ${
+                className={`cursor-pointer mt-4 mb-4 ml-32 ${
                   selectedContinent === continent.name
-                    ? "text-blue-500"
+                    ? "text-blue-500 font-bold"
                     : "text-gray-700"
                 }`}
                 onClick={() => handleContinentSelect(continent.name)}
@@ -264,48 +266,71 @@ export default function DestinationSelection({
           </ul>
         </div>
 
-        <div className="w-full border">
-          <h2 className="text-xl font-semibold mb-2 ml-28 mr-2">나라</h2>
-          <ul className="list-none p-0 ml-28 mr-2">
+        <div className="w-1/2">
+          <ul className="list-none mt-4 p-0 border border-blue-300 border-solid rounded-md">
             {selectedContinent &&
               continents
                 .find((c) => c.name === selectedContinent)
                 ?.countries.map((country) => (
-                  <li
-                    key={country.name}
-                    className={`cursor-pointer ${
-                      selectedCountry === country.name
-                        ? "text-blue-500"
-                        : "text-gray-700"
-                    }`}
-                    onClick={() => handleCountrySelect(country.name)}
-                  >
-                    {country.name}
+                  <li key={country.name}>
+                    <div
+                      className={`cursor-pointer mt-4 mb-4 ml-32 ${
+                        selectedCountry === country.name
+                          ? "text-blue-500 font-bold"
+                          : "text-gray-700"
+                      }`}
+                      onClick={() => handleCountrySelect(country.name)}
+                    >
+                      {country.name}
+                    </div>
+                    {selectedCountry === country.name && (
+                      <div className="mt-2">
+                        <select
+                          value={
+                            selectedCities.length > 0
+                              ? selectedCities[selectedCities.length - 1]
+                              : ""
+                          }
+                          onChange={(e) => handleCitySelect(e.target.value)}
+                          className="w-full p-2 border rounded text-gray-700"
+                        >
+                          <option value="" disabled>
+                            도시를 선택하세요.
+                          </option>
+                          {country.cities.map((city) => (
+                            <option
+                              key={city}
+                              value={city}
+                              className={
+                                selectedCities.includes(city)
+                                  ? "text-blue-500 font-bold"
+                                  : "text-gray-700"
+                              }
+                              disabled={
+                                selectedCities.includes(city) ||
+                                selectedCities.length === 3
+                              }
+                            >
+                              {city}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    )}
                   </li>
                 ))}
           </ul>
         </div>
+      </div>
 
-        <div className="w-1/3 border">
-          <h2 className="text-xl font-semibold mb-2 ml-2">도시</h2>
-          <ul className="list-none p-0 ml-2">
-            {selectedCountry &&
-              continents
-                .find((c) => c.name === selectedContinent)
-                ?.countries.find((ctry) => ctry.name === selectedCountry)
-                ?.cities.map((city) => (
-                  <li
-                    key={city}
-                    className={`cursor-pointer ${
-                      selectedCity === city ? "text-blue-500" : "text-gray-700"
-                    }`}
-                    onClick={() => handleCitySelect(city)}
-                  >
-                    {city}
-                  </li>
-                ))}
-          </ul>
-        </div>
+      <div className="w-full flex justify-end">
+        <button
+          onClick={handleSelectionComplete}
+          className="mt-4 p-2 bg-blue-500 text-white rounded hover:bg-blue-600 font-bold"
+          disabled={!selectedContinent || !selectedCountry}
+        >
+          선택 완료
+        </button>
       </div>
     </div>
   );

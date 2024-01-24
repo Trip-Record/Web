@@ -8,10 +8,15 @@ import { useModal } from "../hooks/useModal";
 
 export default function WriteSchedule() {
   const [tripTitle, setTripTitle] = useState("");
-  const [selectedLocation, setSelectedLocation] = useState<string>("");
+  const [selectedLocation, setSelectedLocation] = useState("");
 
   const handleLocationSelect = (location: string) => {
     setSelectedLocation(location);
+  };
+
+  const resetSelectedLocation = () => {
+    setSelectedLocation("");
+    setDestinationModal();
   };
 
   const [isOpenDestinationModal, setDestinationModal] = useModal();
@@ -34,7 +39,7 @@ export default function WriteSchedule() {
           onChange={(e) => setTripTitle(e.target.value)}
         />
       </div>
-      <div className="mt-4 relative flex p-2">
+      <div className="w-3/4 mt-4 relative flex p-2">
         <img
           src={LocationIcon}
           alt="Location Icon"
@@ -49,15 +54,27 @@ export default function WriteSchedule() {
             </div>
           }
           modal={
-            <DestinationSelection onLocationSelect={handleLocationSelect} />
+            <DestinationSelection
+              onLocationSelect={handleLocationSelect}
+              closeModal={setDestinationModal}
+              key={isOpenDestinationModal.toString()}
+            />
           }
           isOpenModal={isOpenDestinationModal}
           setModal={setDestinationModal}
         />
+        {selectedLocation && (
+          <button
+            onClick={resetSelectedLocation}
+            className="ml-32 p-2 text-gray font-bold"
+          >
+            X
+          </button>
+        )}
         <img
           src={DateIcon}
           alt="Date Icon"
-          className="absolute left-1/2 top-1/2 transform -translate-y-1/2 w-7 h-7"
+          className="absolute left-2/3 top-1/2 transform -translate-y-1/2 w-7 h-7"
         />
         <ModalButton
           button={

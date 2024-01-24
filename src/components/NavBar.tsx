@@ -1,4 +1,5 @@
 import { Link, Outlet, useLocation } from "react-router-dom";
+import LogoImage from "./ui/icons/logo02.png";
 
 export default function NavBar() {
   const CONST_MENU = useLocation();
@@ -6,14 +7,10 @@ export default function NavBar() {
   return (
     <div>
       <div className="logo-container flex flex-col items-center justify-center">
-        <div className="flex items-center justify-center h-20">
-          <Link to={"/"}>
-            <img src="/main_logo02.png" alt="메인로고" className="w-60 pt-3" />
-          </Link>
-        </div>
+        <img src={LogoImage} alt="App Logo" className="w-68 h-20" />
       </div>
-      <div className="links-container flex flex-row justify-end p-3 pt-0">
-        <Link to="/login" className="mr-4">
+      <div className="links-container flex flex-row justify-end mt-2 p-4">
+        <Link to="/login" className="right-link mr-4">
           로그인
         </Link>
       </div>
