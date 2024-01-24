@@ -33,6 +33,9 @@ export const api = createApi({
     getPosts: builder.query<PostData, number>({
       query: (page) => `posts/${page}`,
     }),
+    getPost: builder.query<PostData, number>({
+      query: (postId) => `posts/${postId}`,
+    }),
     getComments: builder.query<CommentData[], number>({
       query: (postId) => `comments?postId=${postId}`,
     }),
@@ -82,5 +85,9 @@ export const api = createApi({
   }),
 });
 
-export const { useGetPostsQuery, useGetCommentsQuery, useAddCommentsMutation } =
-  api;
+export const {
+  useGetPostsQuery,
+  useGetCommentsQuery,
+  useAddCommentsMutation,
+  useGetPostQuery,
+} = api;
