@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { PostData, useGetCommentsQuery } from "../api/dummy";
 import { useModal } from "../hooks/useModal";
 import LikeAndcomment from "./LikeAndCommant";
@@ -16,6 +17,7 @@ export default function PostCard({ post, type = "blog" }: Props) {
   const { body, id, title, userId } = post;
 
   const [showModal, switchModal] = useModal();
+  const navi = useNavigate();
 
   const region = "대한민국, 부산";
   const signatureImg = "/logo192.png";
@@ -29,9 +31,11 @@ export default function PostCard({ post, type = "blog" }: Props) {
             <span className="text-gray-500">이름</span>
             <TravelStyle selectStyle="인생 사진형" />
           </div>
-          <h2 className="text-gray-400 text-ellipsis text-sm">{region}</h2>
-          <h2 className="font-bold line-clamp-1">{title}</h2>
-          <div className="line-clamp-4">{body}</div>
+          <div onClick={() => navi(`/record/${id}`)} className="cursor-pointer">
+            <h2 className="text-gray-400 text-ellipsis text-sm">{region}</h2>
+            <h2 className="font-bold line-clamp-1">{title}</h2>
+            <div className="line-clamp-4">{body}</div>
+          </div>
           <LikeAndcomment
             postId={id}
             isOpenModal={showModal}

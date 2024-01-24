@@ -28,7 +28,7 @@ export default function App() {
           <Route path="my-page" element={<MyPage />} />
           <Route path="write-record" element={<WriteRecord />} />
           <Route path="write-schedule" element={<WriteSchedule />} />
-          <Route path="/test" element={<PostDetailPage />} />
+          <Route path="/record/:id" element={<PostDetailPage />} />
         </Route>
       </Routes>
       <Routes>
