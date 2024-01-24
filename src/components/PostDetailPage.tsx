@@ -1,5 +1,6 @@
 import { useParams } from "react-router-dom";
 import PostDetail from "./post/PostDetail";
+import { Suspense } from "react";
 
 export default function PostDetailPage() {
   const { id } = useParams();
@@ -10,7 +11,9 @@ export default function PostDetailPage() {
   if (!+id) return <>페이지 없음...</>;
   return (
     <div className="flex items-center justify-center w-full p-2">
-      <PostDetail postId={+id} />
+      <Suspense fallback={<>로딩중...</>}>
+        <PostDetail postId={+id} />
+      </Suspense>
     </div>
   );
 }
