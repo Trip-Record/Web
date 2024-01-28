@@ -22,7 +22,7 @@ export default function PostDetail({ postId }: Props) {
   const { body, title, userId } = data;
 
   return (
-    <main className="w-full max-w-lg flex flex-col gap-2">
+    <main className="w-full max-w-screen-md flex flex-col gap-2">
       <h2 className="font-semibold">{title}</h2>
       <AvatarInfo userId={userId} />
       <div className="flex items-center justify-between border-b border-black/80 pb-2">
