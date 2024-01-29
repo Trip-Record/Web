@@ -8,6 +8,7 @@ import { useGetCommentsQuery, useGetPostQuery } from "../../api/dummy";
 import DeleteIcon from "../ui/icons/DeleteIcon";
 import ModifyIcon from "../ui/icons/ModifyIcon";
 import AvatarInfo from "../ui/AvatarInfo";
+import SkeletonDetail from "../ui/skeleton/SkeletonDetail";
 
 interface Props {
   postId: number;
@@ -18,7 +19,7 @@ export default function PostDetail({ postId }: Props) {
   const { data, isLoading } = useGetPostQuery(postId);
   const images = ["/logo192.png", "/naverLogin.png", "/profile-icons/Cat.png"];
 
-  if (!data) return <>loading...</>;
+  if (!data) return <SkeletonDetail />;
   const { body, title, userId } = data;
 
   return (
