@@ -1,18 +1,26 @@
 import { Link } from "react-router-dom";
+import { SchedulePostData } from "../api/dummy";
+import AvatarInfo from "./ui/AvatarInfo";
+import SchedulePost from "./SchedulePost";
 
 export default function TravelSchedule() {
+  const imsiPostNubmer = [1, 1, 1, 1, 1];
+  const dummySchedulePost = {
+    userId: 1,
+    id: 2,
+    date: 5,
+    title: "임시 제목",
+  };
   return (
-    <div className="bg-red-200 h-screen flex flex-col">
-      <div className="flex items-center justify-between border-b border-black/80 pb-2">
-        <div className="flex gap-2 text-gray-500 flex-col md:flex-row">
-          <span>대한민국, 부산</span>
-          <span>2023.10.22-2023.10.24</span>
-        </div>
-
-        <Link to="/write-schedule" className="">
-          일정 작성하기
-        </Link>
+    <div className="flex flex-col bg-blue-200 w-screen">
+      <div>
+        {imsiPostNubmer.map(() => {
+          return <SchedulePost schedulePost={dummySchedulePost}></SchedulePost>;
+        })}
       </div>
+      <Link to="/write-schedule" className="">
+        일정 작성하기
+      </Link>
     </div>
   );
 }
