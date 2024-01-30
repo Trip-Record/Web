@@ -49,14 +49,16 @@ export default function SchedulePost({ schedulePost }: Props) {
           </p>
         </div>
       </div>
-      <div className="flex gap-2">
-        <LikeBtn count={1} />
-        <ModalButton
-          button={<CommentBtn postId={id} />}
-          modal={<CommentModal postId={id} />}
-          isOpenModal={showModal}
-          setModal={switchModal}
-        />
+      <div className="flex justify-between">
+        <div className="flex  gap-2">
+          <LikeBtn count={1} />
+          <ModalButton
+            button={<CommentBtn postId={id} />}
+            modal={<CommentModal postId={id} />}
+            isOpenModal={showModal}
+            setModal={switchModal}
+          />
+        </div>
         <p>모든 일정 보기</p>
       </div>
     </div>
