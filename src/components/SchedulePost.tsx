@@ -20,7 +20,7 @@ export default function SchedulePost({ schedulePost }: Props) {
   const [showModal, switchModal] = useModal();
 
   return (
-    <div className="flex flex-col gap-1 bg-red-200 w-2/5 mx-auto my-3">
+    <div className="flex flex-col gap-1 rounded-md p-2 bg-white shadow w-2/5 mx-auto my-3">
       <AvatarInfo userId={userId} />
       <div className="flex gap-3">
         <p>{region}</p>
@@ -28,8 +28,8 @@ export default function SchedulePost({ schedulePost }: Props) {
       </div>
       <div>{title}</div>
       <div>
-        <div className="border-2 rounded-lg border-black mb-1">
-          <h1>DAY1</h1>
+        <div className="border-2 rounded-lg shadow mb-1 p-2">
+          <h1 className="font-bold">DAY1</h1>
           <p>
             의무교육은 무상으로 한다. 모든 국민은 사생활의 비밀과 자유를
             침해받지 아니한다. 대통령이 궐위되거나 사고로 인하여 직무를 수행할
@@ -38,8 +38,8 @@ export default function SchedulePost({ schedulePost }: Props) {
             법률로 정한다.
           </p>
         </div>
-        <div className="border-2 rounded-lg border-black">
-          <h1>DAY2</h1>
+        <div className="border-2 rounded-lg shadow p-2">
+          <h1 className="font-bold">DAY2</h1>
           <p>
             의무교육은 무상으로 한다. 모든 국민은 사생활의 비밀과 자유를
             침해받지 아니한다. 대통령이 궐위되거나 사고로 인하여 직무를 수행할
@@ -59,7 +59,7 @@ export default function SchedulePost({ schedulePost }: Props) {
             setModal={switchModal}
           />
         </div>
-        <p>모든 일정 보기</p>
+        <Link to={"/"}>모든 일정 보기</Link>
       </div>
     </div>
   );
