@@ -10,7 +10,7 @@ export default function Avatar({ img, size }: Props) {
 }
 
 function getSize(size: AvatarSize) {
-  if (size === "l") return "w-8 h-8";
-  else if (size === "m") return "w-8 h-8";
+  if (size === "l") return "";
+  else if (size === "m") return "";
   else if (size === "s") return "w-8 h-8";
 }

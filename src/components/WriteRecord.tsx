@@ -9,7 +9,7 @@ import Calendar from "./comment/Calendar";
 import ModalButton from "./Modal";
 import { SelectDate } from "./comment/Calendar";
 import { useModal } from "../hooks/useModal";
-// import axios from "axios";
+import axios from "axios";
 
 export default function WriteRecord() {
   const [travelName, setTravelName] = useState("");
@@ -70,12 +70,12 @@ export default function WriteRecord() {
     console.log(formData);
 
     try {
-      // const response = await axios.post("testAPI", formData, {
-      //   headers: {
-      //     "Content-Type": "multipart/form-data",
-      //   },
-      // });
-      // console.log(response.data);
+      const response = await axios.post("testAPI", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      console.log(response.data);
     } catch (error) {
       console.error(error);
     }
