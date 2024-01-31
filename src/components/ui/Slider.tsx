@@ -50,7 +50,7 @@ export default function Slider({ images, count = 0, onModal = false }: Props) {
   return (
     <div
       className={`flex flex-col ${
-        onModal ? "w-full" : "w-3/4"
+        onModal ? "w-full" : "w-80"
       } max-h-[80vh] aspect-square items-center gap-2 mx-auto`}
     >
       <div className="relative flex border w-full aspect-square overflow-hidden group">
