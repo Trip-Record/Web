@@ -14,6 +14,12 @@ export interface PostData {
   body: string;
 }
 
+export interface SchedulePostData {
+  userId: number;
+  id: number;
+  title: string;
+}
+
 export interface CommentData {
   postId: number;
   id: number;
