@@ -5,14 +5,22 @@ import PageNation from "./ui/PageNation";
 import { useEffect, useState } from "react";
 import BlogIcon from "./ui/icons/BlogIcon";
 import CardIcon from "./ui/icons/CardIcon";
-import PostList from "./post/PostList";
-
-export type CardType = "blog" | "instagram";
 
 export default function Posts() {
   const [searchParams] = useSearchParams();
   const page = Number(searchParams.get("page") ?? 1);
-  const [cardType, setCardType] = useState<CardType>("blog");
+  const { data, isLoading, isFetching, refetch } = useGetPostsQuery(page);
+
+  const [cardType, setCardType] = useState<"blog" | "instagram">("blog");
+
+  // TODO: 백엔드 Api 완성후 캐시 데이터 사용해보기
+  useEffect(() => {
+    refetch();
+  }, [page, refetch]);
+  // 임시로 배열로 만들어서 작업 중... 백엔드 API완성 후 삭제예정
+  const posts = [data, data, data, data];
+
+  if (isLoading || isFetching) return <>loading...</>;
 
   return (
     <main className="flex flex-col items-center justify-center w-full bg-white px-10 py-5 gap-5">
@@ -24,7 +32,10 @@ export default function Posts() {
           <CardIcon />
         </button>
       </div>
-      <PostList cardType={cardType} page={page} />
+      {posts.map(
+        (post, i) =>
+          post && <PostCard post={post} key={post.id + i} type={cardType} />
+      )}
       <PageNation maxPage={12} showPage={5} />
     </main>
   );
