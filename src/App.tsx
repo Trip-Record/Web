@@ -14,6 +14,7 @@ import "./App.css";
 import NavBar from "./components/NavBar";
 import PostDetail from "./components/post/PostDetail";
 import PostDetailPage from "./components/PostDetailPage";
+import Test from "./components/Test";
 
 export default function App() {
   return (
@@ -29,6 +30,7 @@ export default function App() {
           <Route path="write-record" element={<WriteRecord />} />
           <Route path="write-schedule" element={<WriteSchedule />} />
           <Route path="/record/:id" element={<PostDetailPage />} />
+          <Route path="test" element={<Test />} />
         </Route>
       </Routes>
       <Routes>
