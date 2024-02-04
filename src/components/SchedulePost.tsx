@@ -59,7 +59,7 @@ export default function SchedulePost({ schedulePost }: Props) {
             setModal={switchModal}
           />
         </div>
-        <Link to={"/"}>모든 일정 보기</Link>
+        <Link to={`/schedule/${id}`}>모든 일정 보기</Link>
       </div>
     </div>
   );

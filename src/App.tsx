@@ -14,6 +14,7 @@ import "./App.css";
 import NavBar from "./components/NavBar";
 import PostDetail from "./components/post/PostDetail";
 import PostDetailPage from "./components/PostDetailPage";
+import ScheduleDetailPage from "./components/post/ScheduleDetail";
 
 export default function App() {
   return (
@@ -29,6 +30,7 @@ export default function App() {
           <Route path="write-record" element={<WriteRecord />} />
           <Route path="write-schedule" element={<WriteSchedule />} />
           <Route path="/record/:id" element={<PostDetailPage />} />
+          <Route path="/schedule/:id" element={<ScheduleDetailPage />} />
         </Route>
       </Routes>
       <Routes>
