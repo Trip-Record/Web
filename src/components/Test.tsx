@@ -22,6 +22,12 @@ export default function Test() {
     });
   };
 
+  const testRecord = () => {
+    fetch("http://15.164.19.143:8080/records/20")
+      .then((res) => res.json())
+      .then((data) => console.log(data));
+  };
+
   const test = () => {
     fetch("http://15.164.19.143:8080/trip-styles")
       .then((res) => res.json())
@@ -33,7 +39,7 @@ export default function Test() {
       텥스트 페이지
       <button onClick={register}>회워나입</button>
       <button onClick={login}>로그인</button>
-      <button onClick={test}>테스트</button>
+      <button onClick={testRecord}>테스트</button>
     </div>
   );
 }
