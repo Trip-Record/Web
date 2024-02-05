@@ -5,7 +5,8 @@ import { useModal } from "../hooks/useModal";
 import CommentBtn from "./post/CommentBtn";
 import CommentModal from "./comment/CommentModal";
 import PageNation from "./ui/PageNation";
-
+import ModifyIcon from "./ui/icons/ModifyIcon";
+import DeleteIcon from "./ui/icons/DeleteIcon";
 interface Props {
   scheduleId: number;
 }
@@ -24,7 +25,17 @@ export default function ScheduleDetail({ scheduleId }: Props) {
 
   return (
     <div className="flex flex-col gap-1 rounded-md p-2 bg-white shadow w-2/5 mx-auto my-3">
-      <AvatarInfo userId={userId} />
+      <div className="flex justify-between ">
+        <AvatarInfo userId={userId} />
+        <div className="flex items-center gap-1">
+          <button className="flex items-center">
+            <ModifyIcon size={16} /> <div className="w-10">수정</div>
+          </button>
+          <button className="flex items-center">
+            <DeleteIcon size={18} /> <div className="w-10">삭제</div>
+          </button>
+        </div>
+      </div>
       <div className="flex gap-3">
         <p>{region}</p>
         <p>{date}</p>
