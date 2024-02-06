@@ -6,12 +6,7 @@ import { setLoginToken } from "../services/storage";
 export default function NavBar() {
   const CONST_MENU = useLocation();
 
-  const user = useUser();
-
-  const logout = () => {
-    setLoginToken("");
-    window.location.reload();
-  };
+  const { logout, user } = useUser();
 
   return (
     <div>
