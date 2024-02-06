@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import { InputType, FormError } from "../RegisterPage";
 
 export interface InputProps {
@@ -22,6 +23,12 @@ export default function RegisterStringInput({
   error,
   inputType = "text",
 }: InputProps) {
+  const ref = useRef<HTMLInputElement>(null);
+
+  if (error && type === error?.errorType) {
+    ref.current?.focus();
+  }
+
   return (
     <>
       <div className="flex justify-between w-full flex-col gap-1">
@@ -38,6 +45,7 @@ export default function RegisterStringInput({
           }`}
           value={value}
           onChange={(e) => setValue(e.target.value)}
+          ref={ref}
           // required
         />
       </div>
