@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { SchedulePostData } from "../api/dummy";
-import AvatarInfo from "./ui/AvatarInfo";
 import LikeBtn from "./post/LikeBtn";
 import CommentBtn from "./post/CommentBtn";
 import CommentModal from "./comment/CommentModal";
@@ -8,25 +7,23 @@ import { useModal } from "../hooks/useModal";
 import ModalButton from "./Modal";
 
 interface Props {
-  schedulePost: SchedulePostData;
+  mySchedulePost: SchedulePostData;
 }
 
-export default function SchedulePost({ schedulePost }: Props) {
-  //TODO: 추후 데이터 추가
-  const { id, title, userId } = schedulePost;
+export default function MySchedule({ mySchedulePost }: Props) {
+  const { id, title, userId } = mySchedulePost;
   const region = "대한민국, 부산";
   const signatureImg = "/logo192.png";
   const date = "2024.03.08 ~ 2024.03.10";
   const [showModal, switchModal] = useModal();
 
   return (
-    <div className="flex flex-col gap-1 rounded-md p-2 bg-white shadow w-2/5 mx-auto my-3">
-      <AvatarInfo userId={userId} />
+    <div className="flex flex-col gap-1 rounded-md p-2 bg-white shadow w-4/5 mx-auto my-3">
       <div className="flex gap-3">
         <p>{region}</p>
         <p>{date}</p>
       </div>
-      <div>{title}</div>
+      <div className="font-bold">{title}</div>
       <div>
         <div className="border-2 rounded-lg shadow mb-1 p-2">
           <h1 className="font-bold">DAY1</h1>
@@ -59,7 +56,7 @@ export default function SchedulePost({ schedulePost }: Props) {
             setModal={switchModal}
           />
         </div>
-        <Link to={`/schedule/${id}`}>모든 일정 보기</Link>
+        <Link to={"/"}>모든 일정 보기</Link>
       </div>
     </div>
   );
