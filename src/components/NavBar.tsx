@@ -1,8 +1,12 @@
 import { Link, Outlet, useLocation } from "react-router-dom";
 import LogoImage from "./ui/icons/logo02.png";
+import { useUser } from "../hooks/useUser";
+import { setLoginToken } from "../services/storage";
 
 export default function NavBar() {
   const CONST_MENU = useLocation();
+
+  const { logout, user } = useUser();
 
   return (
     <div>
@@ -10,9 +14,13 @@ export default function NavBar() {
         <img src={LogoImage} alt="App Logo" className="w-68 h-20" />
       </div>
       <div className="links-container flex flex-row justify-end mt-2 p-4">
-        <Link to="/login" className="right-link mr-4">
-          로그인
-        </Link>
+        {user ? (
+          <button onClick={logout}>로그아웃</button>
+        ) : (
+          <Link to="/login" className="right-link mr-4">
+            로그인
+          </Link>
+        )}
       </div>
       <div className="tab-menu flex flex-col sm:flex-row justify-between mb-2 p-0 bg-white">
         <Link

@@ -1,18 +1,53 @@
-import React, { useState } from "react";
-import { Routes, Route, Link } from "react-router-dom";
+import React, { FormEvent, useState } from "react";
+import { Routes, Route, Link, useNavigate } from "react-router-dom";
 import RegisterPage from "./RegisterPage";
 import LoginInput from "../components/form/LoginInput";
+import { HOST } from "../constants";
+import { getLoginToken, setLoginToken } from "../services/storage";
 
 export default function LoginPage() {
-  const [id, setId] = useState("");
-  const [password, setPassword] = useState("");
+  const [id, setId] = useState("테스트계정2@gmail.com");
+  const [password, setPassword] = useState("1234");
+
+  const navigation = useNavigate();
+
+  const login = (e: FormEvent) => {
+    e.preventDefault();
+    fetch(HOST + "/users/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userEmail: id,
+        userPassword: password,
+      }),
+    })
+      .then((res) => {
+        if (res.ok) return res.json();
+        else {
+          throw new Error("로그인에 실패했습니다.");
+        }
+      })
+      .then((data: any) => {
+        setLoginToken(data.Authorization);
+        navigation("/");
+      })
+      .catch((err) => {
+        //TODO: 에러처리
+        console.log(err);
+      });
+  };
 
   return (
     <section className="flex justify-center w-full h-full">
       <div className="flex flex-col max-w-md items-center m-auto mt-40 text-center w-full">
         <h1 className="text-4xl font-bold mb-5">로그인</h1>
         <div className="bg-white shadow w-full text-center rounded-md">
-          <form className="flex flex-col mb-4 items-center w-full p-5 gap-3">
+          <form
+            className="flex flex-col mb-4 items-center w-full p-5 gap-3"
+            onSubmit={login}
+          >
             <LoginInput
               label="아이디"
               value={id}

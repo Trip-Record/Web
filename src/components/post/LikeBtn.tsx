@@ -13,19 +13,21 @@ export default function LikeBtn({ count }: Props) {
   const addLike = () => {};
   const removeLike = () => {};
 
+  const clickLikeButton = () => {
+    if (active) {
+      setLike(like - 1);
+      removeLike();
+    } else {
+      setLike(like + 1);
+      addLike();
+    }
+    setActive(!active);
+  };
+
   return (
     <div
       className="flex items-center gap-1 cursor-pointer"
-      onClick={() => {
-        if (active) {
-          setLike(like - 1);
-          removeLike();
-        } else {
-          setLike(like + 1);
-          addLike();
-        }
-        setActive(!active);
-      }}
+      onClick={clickLikeButton}
     >
       <LikeIcon active={active} /> {like}
     </div>
