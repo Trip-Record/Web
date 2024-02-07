@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import RegisterStringInput from "./form/RegisterInput";
 import { registerValidation } from "../validations/register";
 import Radios from "./form/Radios";
+import { HOST } from "../constants";
+import { useNavigate } from "react-router-dom";
 
 interface RegisterPageProps {}
 export type InputType =
@@ -54,6 +56,8 @@ const RegisterPage: React.FC<RegisterPageProps> = () => {
   const [error, setError] = useState<FormError>({});
   const [basicProfileValue, setBasicProfileValue] = useState("");
 
+  const navi = useNavigate();
+
   const getDateYYYYMMDD = (date: Date): string => {
     const year = date.getFullYear();
     const month = (date.getMonth() + 1).toString().padStart(2, "0");
@@ -92,6 +96,32 @@ const RegisterPage: React.FC<RegisterPageProps> = () => {
       name,
       birthDay,
       basicProfileValue,
+    });
+
+    fetch(`${HOST}/users/signup`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+
+      body: JSON.stringify({
+        userEmail: email,
+        userPassword: password,
+        userNickname: name,
+        userAge: birthDay,
+        userBasicProfileId: 1, //TODO: 정수형으로 요청
+      }),
+    }).then((res) => {
+      if (res.ok) {
+        console.log("회원가입이 정상처리 되었습니다.");
+        navi("/");
+      } else if (res.status === 409) {
+        setError({
+          errorMessage: "이미 가입된 이메일입니다.",
+          errorType: "email",
+        });
+        console.log("이미 존재하는 이메일입니다.");
+      }
     });
   };
 
