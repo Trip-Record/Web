@@ -10,7 +10,7 @@ export default function PostDetailPage() {
   if (!id) return <>페이지 없음...</>;
   if (!+id) return <>페이지 없음...</>;
   return (
-    <div className="flex items-center justify-center w-full p-2">
+    <div className="flex items-center justify-center w-full p-2 bg-white">
       <Suspense fallback={<>로딩중...</>}>
         <PostDetail postId={+id} />
       </Suspense>

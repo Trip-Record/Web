@@ -4,18 +4,27 @@ import LikeAndcomment from "../LikeAndCommant";
 import { useModal } from "../../hooks/useModal";
 import TravelStyle from "../ui/TravelStyle";
 import Slider from "../ui/Slider";
-import { useGetCommentsQuery, useGetPostQuery } from "../../api/dummy";
+import {
+  useAddCommentsMutation,
+  useGetCommentsQuery,
+  useGetPostQuery,
+} from "../../api/dummy";
 import DeleteIcon from "../ui/icons/DeleteIcon";
 import ModifyIcon from "../ui/icons/ModifyIcon";
 import AvatarInfo from "../ui/AvatarInfo";
 import SkeletonDetail from "../ui/skeleton/SkeletonDetail";
+import LikeBtn from "./LikeBtn";
+import CommentLine from "../comment/CommentLine";
+import ColorButton from "../ui/ColorButton";
+import { useRef } from "react";
+import { useInput } from "../../hooks/useInput";
+import Comments from "../comment/Comments";
 
 interface Props {
   postId: number;
 }
 
 export default function PostDetail({ postId }: Props) {
-  const [isOpenModal, setModal] = useModal();
   const { data, isLoading } = useGetPostQuery(postId);
   const images = ["/logo192.png", "/naverLogin.png", "/profile-icons/Cat.png"];
 
@@ -47,11 +56,13 @@ export default function PostDetail({ postId }: Props) {
         <Slider images={images} />
         <div>{body}</div>
       </section>
-      <LikeAndcomment
-        postId={postId}
-        isOpenModal={isOpenModal}
-        setModal={setModal}
-      />
+      <div className="mt-auto">
+        <LikeBtn count={0} />
+      </div>
+
+      {/*  */}
+
+      <Comments postId={postId} />
     </main>
   );
 }
