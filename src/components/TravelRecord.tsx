@@ -6,7 +6,7 @@ import { useState } from "react";
 export default function TravelRecord() {
   const { user } = useUser();
   // console.log();
-  const [hoverState, setHoverState] = useState("none");
+  const [hoverState, setHoverState] = useState<"none" | "in" | "out">("none");
 
   const link_record = user ? "/write-record" : "/login";
   const link_schedule = user ? "/write-schedule" : "/login";
@@ -28,9 +28,9 @@ export default function TravelRecord() {
         <Link to={link_schedule} className={newClass}>
           일정
         </Link>
-        <div className="h-14 aspect-square shadow-lg leading-none flex items-center justify-center text-white bg-blue-300 rounded-full">
+        <div className="h-14 aspect-square shadow-lg leading-none flex items-center justify-center text-white bg-blue-300 rounded-full prevent-drag">
           <span
-            className={`rotate-on-hover text-6xl xl h-[4.7rem] ${hoverState}`}
+            className={`rotate-on-hover text-6xl xl h-[4.7rem] ${hoverState} pointer-events-none`}
           >
             +
           </span>

@@ -87,3 +87,10 @@ body {
     transform: rotate(-360deg);
   }
 }
+
+.prevent-drag {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
