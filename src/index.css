@@ -4,7 +4,8 @@
 
 body {
   --tw-bg-opacity: 1;
-  background-color: rgb(249 250 251 / var(--tw-bg-opacity));
+  /* background-color: rgb(249 250 251 / var(--tw-bg-opacity)); */
+  background-color: white;
 }
 
 .skeleton {
@@ -60,4 +61,36 @@ body {
   100% {
     opacity: 0.7;
   }
+}
+.in {
+  animation: rotate 0.3s ease-in-out forwards;
+}
+
+.out {
+  animation: rotate-back 0.3s ease-in-out forwards;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes rotate-back {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+.prevent-drag {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }

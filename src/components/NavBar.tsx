@@ -25,7 +25,7 @@ export default function NavBar() {
       <div className="tab-menu flex flex-col sm:flex-row justify-between mb-2 p-0 bg-white">
         <Link
           to="/travel-record"
-          className={`tab-link mr-4 mx-32 py-4 px-6 block text-gray-600 hover:text-blue-500 focus:outline-none ${
+          className={`tab-link py-4 px-6 block text-gray-600 hover:text-blue-500 focus:outline-none ${
             CONST_MENU.pathname === "/travel-record"
               ? "text-blue-500 border-b-2 font-medium border-blue-500"
               : ""
@@ -35,7 +35,7 @@ export default function NavBar() {
         </Link>
         <Link
           to="/travel-schedule"
-          className={`tab-link mr-4 mx-32 py-4 px-6 block text-gray-600 hover:text-blue-500 focus:outline-none ${
+          className={`tab-link py-4 px-6 block text-gray-600 hover:text-blue-500 focus:outline-none ${
             CONST_MENU.pathname === "/travel-schedule"
               ? "text-blue-500 border-b-2 font-medium border-blue-500"
               : ""
@@ -45,7 +45,7 @@ export default function NavBar() {
         </Link>
         <Link
           to="/travel-ranking"
-          className={`tab-link mr-4 mx-32 py-4 px-6 block text-gray-600 hover:text-blue-500 focus:outline-none ${
+          className={`tab-link py-4 px-6 block text-gray-600 hover:text-blue-500 focus:outline-none ${
             CONST_MENU.pathname === "/travel-ranking"
               ? "text-blue-500 border-b-2 font-medium border-blue-500"
               : ""
@@ -55,7 +55,7 @@ export default function NavBar() {
         </Link>
         <Link
           to="/my-page"
-          className={`tab-link mx-32 py-4 px-6 block text-gray-600 hover:text-blue-500 focus:outline-none ${
+          className={`tab-link py-4 px-6 block text-gray-600 hover:text-blue-500 focus:outline-none ${
             CONST_MENU.pathname === "/my-page"
               ? "text-blue-500 border-b-2 font-medium border-blue-500"
               : ""

@@ -33,11 +33,9 @@ export default function PostCard({ post, type = "blog" }: Props) {
             <h2 className="font-bold line-clamp-1">{title}</h2>
             <div className="line-clamp-4">{body}</div>
           </div>
-          <LikeAndcomment
-            postId={id}
-            isOpenModal={showModal}
-            setModal={switchModal}
-          />
+          <div className="mt-auto">
+            <LikeBtn count={0} />
+          </div>
         </div>
         <img
           src={signatureImg}
