@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import Posts from "./Posts";
 import { useUser } from "../hooks/useUser";
 import { useState } from "react";
+import ApiTest from "../apiTest";
 
 export default function TravelRecord() {
   const { user } = useUser();
