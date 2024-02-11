@@ -3,6 +3,7 @@ import { SchedulePostData } from "../api/dummy";
 import AvatarInfo from "./ui/AvatarInfo";
 import PageNation from "./ui/PageNation";
 import SchedulePost from "./SchedulePost";
+import AddRecordAndSchedule from "./ui/AddRecordAndSchedule";
 
 export default function TravelSchedule() {
   const imsiPostNubmer = [1, 1, 1, 1, 1];
@@ -20,9 +21,7 @@ export default function TravelSchedule() {
         })}
       </div>
       <PageNation maxPage={12} showPage={5} />
-      <Link to="/write-schedule" className="">
-        일정 작성하기
-      </Link>
+      <AddRecordAndSchedule />
     </div>
   );
 }
