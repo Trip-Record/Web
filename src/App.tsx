@@ -17,7 +17,6 @@ import PostDetailPage from "./components/PostDetailPage";
 import ScheduleDetailPage from "./components/post/ScheduleDetail";
 import Test from "./components/Test";
 
-
 export default function App() {
   return (
     <div className="">
@@ -34,7 +33,7 @@ export default function App() {
           <Route path="/record/:id" element={<PostDetailPage />} />
           <Route path="/schedule/:id" element={<ScheduleDetailPage />} />
           <Route path="test" element={<Test />} />
-
+          <Route path="style" element={<SelectTravelStyle />} />
         </Route>
       </Routes>
       <Routes>

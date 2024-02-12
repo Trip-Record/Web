@@ -24,7 +24,10 @@ export const userApi = createApi({
     getUserInfo: builder.query<UserInfo, void>({
       query: () => `users/informations`,
     }),
+    getStyles: builder.query<string, void>({
+      query: () => `trip-styles`,
+    }),
   }),
 });
 
-export const { useGetUserInfoQuery } = userApi;
+export const { useGetUserInfoQuery, useGetStylesQuery } = userApi;
