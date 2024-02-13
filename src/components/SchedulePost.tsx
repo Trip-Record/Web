@@ -260,6 +260,35 @@ export default function SchedulePost({ schedulePost }: Props) {
   const makeStartEndDateString = (startDate: string, endDate: string) => {
     return `${startDate.replace("-", ".")} - ${endDate.replace("-", ".")}`;
   };
+
+  const createDateRangeArray = (
+    scheduleStartDate: string,
+    scheduleEndDate: string
+  ): string[] => {
+    const daysOfWeek: string[] = ["일", "월", "화", "수", "목", "금", "토"];
+    const startDate: Date = new Date(scheduleStartDate);
+    const endDate: Date = new Date(scheduleEndDate);
+
+    let dateList: string[] = [];
+    let currentDate: Date = new Date(startDate);
+
+    while (currentDate <= endDate) {
+      // Get the day of the week
+      const dayOfWeek: string = daysOfWeek[currentDate.getDay()];
+
+      // Format date as 'YYYY-MM-DD (Day)'
+      const formattedDate: string = `${
+        currentDate.toISOString().split("T")[0]
+      } (${dayOfWeek})`;
+      dateList.push(formattedDate);
+
+      // Increment the date by one day
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+
+    return dateList;
+  };
+
   return (
     <div>
       {scheduleCount.map((schedulePost: SchedulePost, index: number) => {
@@ -277,10 +306,21 @@ export default function SchedulePost({ schedulePost }: Props) {
               )}`}</p>
             </div>
             <div>{schedulePost.scheduleTitle}</div>
-            <div className="border-2 rounded-lg shadow mb-1 p-2">
-              <h1 className="font-bold">DAY1</h1>
-              <p>{}</p>
-            </div>
+
+            {createDateRangeArray(
+              schedulePost.scheduleStartDate,
+              schedulePost.scheduleEndDate
+            ).map((date, index) => {
+              return (
+                <div className="border-2 rounded-lg shadow mb-1 p-2">
+                  <div className="flex" key={date}>
+                    <h1 className="font-bold">{`DAY ${index + 1}`}</h1>
+                    <p className="ml-3">{date}</p>
+                  </div>
+                  <p></p>
+                </div>
+              );
+            })}
           </div>
         );
       })}
