@@ -6,6 +6,7 @@ import CommentBtn from "./post/CommentBtn";
 import CommentModal from "./comment/CommentModal";
 import { useModal } from "../hooks/useModal";
 import ModalButton from "./Modal";
+import { useGetSchedulePostsQuery } from "../api/schedule";
 
 interface Props {
   schedulePost: SchedulePostData;
@@ -18,6 +19,9 @@ export default function SchedulePost({ schedulePost }: Props) {
   const signatureImg = "/logo192.png";
   const date = "2024.03.08 ~ 2024.03.10";
   const [showModal, switchModal] = useModal();
+
+  const scheduleData = useGetSchedulePostsQuery(0);
+  console.log(scheduleData.data);
 
   return (
     <div className="flex flex-col gap-1 rounded-md p-2 bg-white shadow w-2/5 mx-auto my-3">
