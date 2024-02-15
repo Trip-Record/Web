@@ -7,6 +7,7 @@ interface Props {
 
 export default function AvatarInfo({ userId }: Props) {
   //TODO: userId로 사용자 정보 가져오는 작업 필요
+
   return (
     <div className="flex w-full flex-row gap-1 items-center">
       <div className="flex items-center">
