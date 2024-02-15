@@ -1,13 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { getLoginToken } from "../services/storage";
 
-interface SchedulePosts {
-  userProfile: number;
-  placeTotal: number;
-  recordTotal: number;
-  scheduleTotal: number;
-}
-
 export const scheduleApi = createApi({
   reducerPath: "schedule",
   baseQuery: fetchBaseQuery({
