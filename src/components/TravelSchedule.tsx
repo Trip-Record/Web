@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { SchedulePostData } from "../api/dummy";
 import AvatarInfo from "./ui/AvatarInfo";
 import PageNation from "./ui/PageNation";
-import SchedulePost from "./SchedulePost";
+import SchedulePost from "./SchedulePosts";
 import AddRecordAndSchedule from "./ui/AddRecordAndSchedule";
 
 import Posts from "./Posts";
@@ -30,11 +30,7 @@ export default function TravelSchedule() {
 
   return (
     <div className="flex flex-col w-screen">
-      <div>
-        {imsiPostNubmer.map(() => {
-          return <SchedulePost schedulePost={dummySchedulePost}></SchedulePost>;
-        })}
-      </div>
+      <SchedulePost />;
       <PageNation maxPage={12} showPage={5} />
       <AddRecordAndSchedule />
     </div>
