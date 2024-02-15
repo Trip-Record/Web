@@ -1,50 +1,62 @@
 import { FormEvent, useState } from "react";
 import Radios from "./form/Radios";
+import { useGetStylesQuery } from "../api/user";
 
 export const STYLES = [
   {
+    id: 1,
     image: "/travel_style/PhotoIcon.png",
     title: "인생 사진형",
     subtitle: "남는 건 사진 뿐",
   },
   {
+    id: 2,
     image: "/travel_style/EyeCatcherIcon.png",
     title: "눈으로 담기형",
     subtitle: "눈으로 담는게 최고야",
   },
   {
+    id: 3,
     image: "/travel_style/PlannerIcon.png",
     title: "계획형",
     subtitle: "여행도 계획적으로",
   },
   {
+    id: 4,
     image: "/travel_style/NoPlanIcon.png",
     title: "즉흥형",
     subtitle: "끌리는 대로!",
   },
   {
+    id: 5,
     image: "/travel_style/HealingIcon.png",
     title: "힐링 휴양형",
     subtitle: "휴식과 힐링이 중요",
   },
   {
+    id: 6,
     image: "/travel_style/BusyScheduleIcon.png",
     title: "빡센 일정형",
     subtitle: "가볼 곳이 많음",
   },
   {
+    id: 7,
     image: "/travel_style/LandmarkIcon.png",
     title: "명소 방문형",
     subtitle: "유명명소는 가야해",
   },
   {
+    id: 8,
     image: "/travel_style/ShoppingIcon.png",
     title: "쇼핑형",
     subtitle: "쇼핑이 최고야",
   },
 ];
+
 export default function SelectTravelStyle() {
   const [select, setSelect] = useState("");
+
+  const { data } = useGetStylesQuery();
 
   const name = "서현";
 

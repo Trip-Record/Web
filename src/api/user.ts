@@ -1,12 +1,13 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { getLoginToken } from "../services/storage";
 import { UserInfo } from "../hooks/useUser";
+import { HOST } from "../constants";
 
 export const userApi = createApi({
   reducerPath: "user",
   // highlight-end
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://15.164.19.143:8080",
+    baseUrl: HOST,
     // headers: { Authorization: `Bearer ${getLoginToken()}` },
     prepareHeaders: (headers, { getState }) => {
       const token = getLoginToken();
@@ -23,7 +24,10 @@ export const userApi = createApi({
     getUserInfo: builder.query<UserInfo, void>({
       query: () => `users/informations`,
     }),
+    getStyles: builder.query<string, void>({
+      query: () => `trip-styles`,
+    }),
   }),
 });
 
-export const { useGetUserInfoQuery } = userApi;
+export const { useGetUserInfoQuery, useGetStylesQuery } = userApi;
