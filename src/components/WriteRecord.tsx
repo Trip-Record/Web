@@ -14,7 +14,6 @@ import { recordApi, useSetRecordMutation } from "../api/record";
 
 export default function WriteRecord() {
   const [travelName, setTravelName] = useState("");
-  const [testTravelArea, setTestTravelArea] = useState(["5", "4"]);
   const [travelDetails, setTravelDetails] = useState("");
   const [images, setImages] = useState<File[]>([]);
   const [calendar, setCalendar] = useState(false);
@@ -83,14 +82,18 @@ export default function WriteRecord() {
     formData.append("recordTitle", travelName);
     formData.append("recordContent", travelDetails);
     images.forEach((image) => formData.append("recordImages", image));
-    testTravelArea.forEach((area) => formData.append("placeIds", area));
+    selectedLocation.forEach((area) => formData.append("placeIds", area));
+    console.log(selectedLocation);
     formData.append("startDate", formatDate(selectedDays[0]));
     if (selectedDays.length !== 2) {
-      formData.append("endDate", formatDate(selectedDays[1]));
-    } else {
       formData.append("endDate", formatDate(selectedDays[0]));
+    } else {
+      formData.append("endDate", formatDate(selectedDays[1]));
     }
     try {
+      for (let value of formData.values()) {
+        console.log(value);
+      }
       const response = await setRecord(formData).unwrap();
       console.log(response);
     } catch (error) {
