@@ -12,7 +12,7 @@ import DestinationSelection from "./DestinationSelection";
 
 export default function WriteSchedule() {
   const [travelName, setTravelName] = useState("");
-  const [testTravelArea, setTestTravelArea] = useState("");
+  const [testTravelArea, setTestTravelArea] = useState<string[]>([]);
   const [travelDetails, setTravelDetails] = useState("");
   const [calendar, setCalendar] = useState(false);
   const [selectedDays, setSelectedDays] = useState<SelectDate>([new Date()]);
@@ -51,7 +51,7 @@ export default function WriteSchedule() {
     e.preventDefault();
     const formData = new FormData();
     formData.append("travelName", travelName);
-    formData.append("travelArea", testTravelArea);
+    formData.append("travelArea", testTravelArea.join(", "));
     formData.append("travelDetails", travelDetails);
 
     try {
@@ -66,8 +66,8 @@ export default function WriteSchedule() {
     }
   };
 
-  const handleTestTravelArea = (location: string) => {
-    setTestTravelArea(location);
+  const handleTestTravelArea = (locations: string[]) => {
+    setTestTravelArea(locations);
   };
 
   const [isOpenDestinationModal, setDestinationModal] = useModal();
@@ -142,7 +142,7 @@ export default function WriteSchedule() {
           />
         </div>
         <div className="flex items-center">
-          <FaLocationDot size={60} color={"#60a4f9"} className="ml-1.5 mr-4" />
+          <FaLocationDot size={60} color={"#60a4f9"} className="ml-1 mr-4" />
           <ModalButton
             button={
               <input
@@ -150,7 +150,7 @@ export default function WriteSchedule() {
                 placeholder="여행 장소를 선택해주세요."
                 readOnly
                 className="h-10 border border-black/20 shadow-sm rounded-md text-black p-2 w-full mt-1"
-                value={testTravelArea ? `${testTravelArea}` : ""}
+                value=""
               />
             }
             modal={
@@ -193,6 +193,21 @@ export default function WriteSchedule() {
             }
           />
         </div>
+        {testTravelArea && (
+          <div className="flex flex-col mt-4">
+            <div className="flex items-center">
+              <FaLocationDot
+                size={20}
+                color={"#60a4f9"}
+                className="ml-1 mr-2"
+              />
+              <h2 className="font-bold mr-2">선택된 여행지</h2>
+            </div>
+            <div className="flex items-center">
+              <p>[ {testTravelArea.join(", ")} ]</p>
+            </div>
+          </div>
+        )}
         {selectedDays.length > 0 && renderTravelScheduleBox()}
         {selectedDays.length > 0 && (
           <div className="flex justify-center">
