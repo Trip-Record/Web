@@ -4,6 +4,10 @@ import AvatarInfo from "./ui/AvatarInfo";
 import PageNation from "./ui/PageNation";
 import SchedulePost from "./SchedulePost";
 
+import Posts from "./Posts";
+import { useUser } from "../hooks/useUser";
+import { useState } from "react";
+
 export default function TravelSchedule() {
   const imsiPostNubmer = [1, 1, 1, 1, 1];
   const dummySchedulePost = {
@@ -12,6 +16,17 @@ export default function TravelSchedule() {
     date: 5,
     title: "임시 제목",
   };
+  const { user } = useUser();
+  // console.log();
+  const [hoverState, setHoverState] = useState<"none" | "in" | "out">("none");
+
+  const link_record = user ? "/write-record" : "/login";
+  const link_schedule = user ? "/write-schedule" : "/login";
+
+  const newClass = `h-12 mb-1 mx-auto aspect-square shadow-lg leading-none items-center justify-center text-white bg-black/50 rounded-full ${
+    hoverState === "in" ? "flex" : "hidden"
+  }`;
+
   return (
     <div className="flex flex-col w-screen">
       <div>
@@ -20,9 +35,25 @@ export default function TravelSchedule() {
         })}
       </div>
       <PageNation maxPage={12} showPage={5} />
-      <Link to="/write-schedule" className="">
-        일정 작성하기
-      </Link>
+      <div
+        className="fixed right-5 bottom-5"
+        onMouseEnter={() => setHoverState("in")}
+        onMouseLeave={() => setHoverState("out")}
+      >
+        <Link to={link_record} className={newClass}>
+          기록
+        </Link>
+        <Link to={link_schedule} className={newClass}>
+          일정
+        </Link>
+        <div className="h-14 aspect-square shadow-lg leading-none flex items-center justify-center text-white bg-blue-300 rounded-full prevent-drag">
+          <span
+            className={`rotate-on-hover text-6xl xl h-[4.7rem] ${hoverState} pointer-events-none`}
+          >
+            +
+          </span>
+        </div>
+      </div>
     </div>
   );
 }

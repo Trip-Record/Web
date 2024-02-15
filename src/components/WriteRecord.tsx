@@ -22,14 +22,14 @@ export default function WriteRecord() {
   const [isModalOpen, setModal] = useModal();
   const [isOpenDestinationModal, setDestinationModal] = useModal();
   const [isOpenPeriodModal, setPeriodModal] = useModal();
-  const [selectedLocation, setSelectedLocation] = useState("");
+  const [selectedLocation, setSelectedLocation] = useState<string[]>([]);
 
-  const handleLocationSelect = (location: string) => {
+  const handleLocationSelect = (location: string[]) => {
     setSelectedLocation(location);
   };
 
   const resetSelectedLocation = () => {
-    setSelectedLocation("");
+    setSelectedLocation([]);
     setDestinationModal();
   };
 
@@ -129,7 +129,7 @@ export default function WriteRecord() {
               <input
                 className="h-10 border border-black/20 shadow-sm rounded-md text-black p-2 w-full mt-1"
                 placeholder=" 여행 장소를 선택해 주세요"
-                value={selectedLocation}
+                value={selectedLocation.join(", ")}
               />
             }
             modal={
