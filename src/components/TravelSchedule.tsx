@@ -3,6 +3,7 @@ import { SchedulePostData } from "../api/dummy";
 import AvatarInfo from "./ui/AvatarInfo";
 import PageNation from "./ui/PageNation";
 import SchedulePost from "./SchedulePost";
+import AddRecordAndSchedule from "./ui/AddRecordAndSchedule";
 
 import Posts from "./Posts";
 import { useUser } from "../hooks/useUser";
@@ -35,25 +36,7 @@ export default function TravelSchedule() {
         })}
       </div>
       <PageNation maxPage={12} showPage={5} />
-      <div
-        className="fixed right-5 bottom-5"
-        onMouseEnter={() => setHoverState("in")}
-        onMouseLeave={() => setHoverState("out")}
-      >
-        <Link to={link_record} className={newClass}>
-          기록
-        </Link>
-        <Link to={link_schedule} className={newClass}>
-          일정
-        </Link>
-        <div className="h-14 aspect-square shadow-lg leading-none flex items-center justify-center text-white bg-blue-300 rounded-full prevent-drag">
-          <span
-            className={`rotate-on-hover text-6xl xl h-[4.7rem] ${hoverState} pointer-events-none`}
-          >
-            +
-          </span>
-        </div>
-      </div>
+      <AddRecordAndSchedule />
     </div>
   );
 }

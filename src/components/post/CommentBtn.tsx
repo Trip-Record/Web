@@ -11,7 +11,7 @@ export default function CommentBtn({ postId }: Props) {
 
   return (
     <>
-      <div className="flex items-center gap-1 cursor-pointer">
+      <div className="flex items-center gap-1">
         <CommentIcon /> {commentData?.length}
       </div>
     </>

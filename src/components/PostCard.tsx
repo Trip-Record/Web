@@ -1,13 +1,10 @@
 import { useNavigate } from "react-router-dom";
-import { PostData, useGetCommentsQuery } from "../api/dummy";
+import { PostData } from "../api/dummy";
 import { useModal } from "../hooks/useModal";
-import LikeAndcomment from "./LikeAndCommant";
 import ModalButton from "./Modal";
 import CommentModal from "./comment/CommentModal";
 import CommentBtn from "./post/CommentBtn";
 import LikeBtn from "./post/LikeBtn";
-import Avatar from "./ui/Avatar";
-import TravelStyle from "./ui/TravelStyle";
 import AvatarInfo from "./ui/AvatarInfo";
 
 interface Props {
@@ -33,8 +30,9 @@ export default function PostCard({ post, type = "blog" }: Props) {
             <h2 className="font-bold line-clamp-1">{title}</h2>
             <div className="line-clamp-4">{body}</div>
           </div>
-          <div className="mt-auto">
+          <div className="mt-auto flex items-center gap-2">
             <LikeBtn count={0} />
+            <CommentBtn postId={id} />
           </div>
         </div>
         <img
@@ -46,7 +44,7 @@ export default function PostCard({ post, type = "blog" }: Props) {
     );
   } else {
     return (
-      <section className="flex flex-col w-full items-center max-w-lg bg-white border shadow-sm rounded-md p-2">
+      <section className="flex flex-col w-full items-center max-w-lg bg-white p-5 border-b gap-2">
         <AvatarInfo userId={userId} />
         <h2 className="text-gray-400 text-ellipsis text-sm w-full">{region}</h2>
         <div
@@ -56,7 +54,7 @@ export default function PostCard({ post, type = "blog" }: Props) {
           <img
             src="/logo192.png"
             alt="travel_image"
-            className="w-[80%] h-60 object-contain"
+            className="w-[80%] h-60 object-contain shadow-md rounded-md"
           />
           <div className="font-bold line-clamp-1">{title}</div>
           <div className="line-clamp-4">{body}</div>
