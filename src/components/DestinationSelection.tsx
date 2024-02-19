@@ -32,6 +32,8 @@ export default function DestinationSelection({
   const [selectionLimitReached, setSelectionLimitReached] =
     useState<boolean>(false);
   const [countries, setCountries] = useState<string[]>([]);
+  // 선택된 도시들의 placeId를 저장할 상태 추가
+  const [selectedPlaceIds, setSelectedPlaceIds] = useState<number[]>([]);
 
   useEffect(() => {
     const fetchPlaces = async () => {
@@ -88,6 +90,7 @@ export default function DestinationSelection({
     setSelectedCity(cityName);
   };
 
+  // handleSelectionComplete 함수에서 선택된 도시의 placeId를 추출하여 저장하는 부분 수정
   const handleSelectionComplete = () => {
     let location = selectedContinent;
     let selectedPlaceId: number | null = null;
@@ -116,23 +119,25 @@ export default function DestinationSelection({
       setSelectionLimitReached(false);
       if (selectedPlaceId !== null) {
         console.log("Selected placeId:", selectedPlaceId);
+        // 선택된 도시의 placeId를 selectedPlaceIds에 추가
+        setSelectedPlaceIds([...selectedPlaceIds, selectedPlaceId]);
       }
     } else {
       setSelectionLimitReached(true);
     }
   };
 
+  // handleSelectionEnd 함수에서 콘솔에 선택된 도시들의 placeId를 출력하는 부분 추가
   const handleSelectionEnd = () => {
+    console.log("Selected PlaceIds:", selectedPlaceIds);
+
     onLocationSelect(selectedDestinations);
     closeModal();
   };
 
+  // removeSelectedDestination 함수에서 선택된 도시의 placeId를 목록에서 제거하는 부분 추가
   const removeSelectedDestination = (index: number) => {
     const removedDestination = selectedDestinations[index];
-    const updatedDestinations = selectedDestinations.filter(
-      (_, i) => i !== index
-    );
-
     const removedDestinationParts = removedDestination.split(" > ");
     const selectedContinentName = removedDestinationParts[0];
     const selectedCountryName = removedDestinationParts[1];
@@ -148,8 +153,15 @@ export default function DestinationSelection({
 
     if (removedPlaceId !== undefined) {
       console.log("Removed placeId:", removedPlaceId);
+      // 선택된 도시의 placeId를 목록에서 제거
+      setSelectedPlaceIds(
+        selectedPlaceIds.filter((id) => id !== removedPlaceId)
+      );
     }
 
+    const updatedDestinations = selectedDestinations.filter(
+      (_, i) => i !== index
+    );
     setSelectedDestinations(updatedDestinations);
   };
 
