@@ -33,7 +33,7 @@ export interface ResponseRecords {
   recordList: Record[];
 }
 
-export const recordApi = createApi({
+export const recordsApi = createApi({
   reducerPath: "records",
   // highlight-end
   baseQuery: fetchBaseQuery({
@@ -46,4 +46,4 @@ export const recordApi = createApi({
   }),
 });
 
-export const { useGetRecordsQuery } = recordApi;
+export const { useGetRecordsQuery } = recordsApi;
