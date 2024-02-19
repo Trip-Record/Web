@@ -3,7 +3,7 @@ import { useGetPostsQuery } from "../../api/dummy";
 import PostCard from "../PostCard";
 import { CardType } from "../Posts";
 import SkeletonPostCard from "../ui/skeleton/SkeletonPostcard";
-import { Record, useGetRecordsQuery } from "../../api/record";
+import { Record, useGetRecordsQuery } from "../../api/records";
 
 interface Props {
   cardType: CardType;

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { CardType } from "../components/Posts";
-import { useGetRecordsQuery } from "../api/record";
+import { useGetRecordsQuery } from "../api/records";
 
 export function useRecord(page: number, showPageCount: number) {
   const [cardType, setCardType] = useState<CardType>("blog");

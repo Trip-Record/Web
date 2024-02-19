@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import BlogIcon from "./ui/icons/BlogIcon";
 import CardIcon from "./ui/icons/CardIcon";
 import PostList from "./post/PostList";
-import { useGetRecordsQuery } from "../api/record";
+import { useGetRecordsQuery } from "../api/records";
 import SkeletonPostCard from "./ui/skeleton/SkeletonPostcard";
 import { useRecord } from "../hooks/useRecord";
 

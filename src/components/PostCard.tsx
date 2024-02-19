@@ -6,7 +6,7 @@ import CommentModal from "./comment/CommentModal";
 import CommentBtn from "./post/CommentBtn";
 import LikeBtn from "./post/LikeBtn";
 import AvatarInfo from "./ui/AvatarInfo";
-import { Record } from "../api/record";
+import { Record } from "../api/records";
 
 interface Props {
   record: Record;
