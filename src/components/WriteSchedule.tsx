@@ -18,6 +18,9 @@ export default function WriteSchedule() {
   const [selectedDays, setSelectedDays] = useState<SelectDate>([new Date()]);
   const [isModalOpen, setModal] = useModal();
   const [showTextArea, setShowTextArea] = useState(Array(0).fill(false));
+  const [selectedLocationIdArray, setSelectedLocationIdArray] = useState<
+    number[]
+  >([]);
 
   const makeDaysString = (days: string[]): string => {
     return days.join(" ~ ");
@@ -155,6 +158,7 @@ export default function WriteSchedule() {
             }
             modal={
               <DestinationSelection
+                setSelectedLocationIdArray={setSelectedLocationIdArray}
                 onLocationSelect={handleTestTravelArea}
                 closeModal={setDestinationModal}
                 key={isOpenDestinationModal.toString()}
