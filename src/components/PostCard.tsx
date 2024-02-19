@@ -54,7 +54,7 @@ export default function PostCard({ record, type = "blog" }: Props) {
         <h2 className="text-gray-400 text-ellipsis text-sm w-full">{region}</h2>
         <div
           onClick={() => navi(`/record/${recordId}`)}
-          className="flex flex-col justify-center items-center cursor-pointer"
+          className="w-full flex flex-col gap-2 justify-center items-center cursor-pointer"
         >
           <img
             src="/logo192.png"
