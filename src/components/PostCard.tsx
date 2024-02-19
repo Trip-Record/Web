@@ -6,33 +6,38 @@ import CommentModal from "./comment/CommentModal";
 import CommentBtn from "./post/CommentBtn";
 import LikeBtn from "./post/LikeBtn";
 import AvatarInfo from "./ui/AvatarInfo";
+import { Record } from "../api/records";
 
 interface Props {
-  post: PostData;
+  record: Record;
   type?: "blog" | "instagram";
 }
-export default function PostCard({ post, type = "blog" }: Props) {
-  const { body, id, title, userId } = post;
+export default function PostCard({ record, type = "blog" }: Props) {
+  const { recordUserProfile, recordId, recordTitle, recordContent } = record;
 
   const [showModal, switchModal] = useModal();
   const navi = useNavigate();
 
   const region = "대한민국, 부산";
   const signatureImg = "/logo192.png";
+
   if (type === "blog") {
     return (
       //TODO: 인스타형 포스트 onclick 적용
       <section className="flex flex-row w-full h-60 bg-white border-b last:border-b-white p-2 pb-5">
         <div className="flex flex-col flex-1 gap-1">
-          <AvatarInfo userId={userId} />
-          <div onClick={() => navi(`/record/${id}`)} className="cursor-pointer">
+          <AvatarInfo userProfile={recordUserProfile} />
+          <div
+            onClick={() => navi(`/record/${recordId}`)}
+            className="cursor-pointer"
+          >
             <h2 className="text-gray-400 text-ellipsis text-sm">{region}</h2>
-            <h2 className="font-bold line-clamp-1">{title}</h2>
-            <div className="line-clamp-4">{body}</div>
+            <h2 className="font-bold line-clamp-1">{recordTitle}</h2>
+            <div className="line-clamp-4">{recordContent}</div>
           </div>
           <div className="mt-auto flex items-center gap-2">
             <LikeBtn count={0} />
-            <CommentBtn postId={id} />
+            <CommentBtn postId={recordId} />
           </div>
         </div>
         <img
@@ -45,25 +50,25 @@ export default function PostCard({ post, type = "blog" }: Props) {
   } else {
     return (
       <section className="flex flex-col w-full items-center max-w-lg bg-white p-5 border-b gap-2">
-        <AvatarInfo userId={userId} />
+        <AvatarInfo userProfile={recordUserProfile} />
         <h2 className="text-gray-400 text-ellipsis text-sm w-full">{region}</h2>
         <div
-          onClick={() => navi(`/record/${id}`)}
-          className="flex flex-col justify-center items-center cursor-pointer"
+          onClick={() => navi(`/record/${recordId}`)}
+          className="w-full flex flex-col gap-2 justify-center items-center cursor-pointer"
         >
           <img
             src="/logo192.png"
             alt="travel_image"
             className="w-[80%] h-60 object-contain shadow-md rounded-md"
           />
-          <div className="font-bold line-clamp-1">{title}</div>
-          <div className="line-clamp-4">{body}</div>
+          <div className="font-bold line-clamp-1">{recordTitle}</div>
+          <div className="line-clamp-4">{recordContent}</div>
         </div>
         <div className="flex items-center w-full mt-4 gap-3">
           <LikeBtn count={1} />
           <ModalButton
-            button={<CommentBtn postId={id} />}
-            modal={<CommentModal postId={id} />}
+            button={<CommentBtn postId={recordId} />}
+            modal={<CommentModal postId={recordId} />}
             isOpenModal={showModal}
             setModal={switchModal}
           />
