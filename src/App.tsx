@@ -14,8 +14,8 @@ import "./App.css";
 import NavBar from "./components/NavBar";
 import PostDetail from "./components/post/PostDetail";
 import PostDetailPage from "./components/PostDetailPage";
-import ScheduleDetailPage from "./components/post/ScheduleDetail";
 import Test from "./components/Test";
+import ScheduleDetailPage from "./components/post/ScheduleDetail";
 
 export default function App() {
   return (

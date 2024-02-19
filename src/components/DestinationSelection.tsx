@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 interface DestinationSelectionProps {
-  onLocationSelect: (location: string) => void;
+  onLocationSelect: (location: string[]) => void;
   closeModal: () => void;
 }
 
@@ -216,32 +216,57 @@ export default function DestinationSelection({
 
   const [selectedContinent, setSelectedContinent] = useState("아시아/중동");
   const [selectedCountry, setSelectedCountry] = useState("");
-  const [selectedCities, setSelectedCities] = useState<string[]>([]);
+  const [selectedCity, setSelectedCity] = useState("");
+  const [selectedDestinations, setSelectedDestinations] = useState<string[]>(
+    []
+  );
+  const [selectionLimitReached, setSelectionLimitReached] = useState(false);
 
   const handleContinentSelect = (continent: string) => {
     setSelectedContinent(continent);
     setSelectedCountry("");
-    setSelectedCities([]);
+    setSelectedCity("");
   };
 
   const handleCountrySelect = (country: string) => {
     setSelectedCountry(country);
-    setSelectedCities([]);
+    setSelectedCity("");
   };
 
   const handleCitySelect = (city: string) => {
-    if (!selectedCities.includes(city) && selectedCities.length < 3) {
-      setSelectedCities((prevCities) => [...prevCities, city]);
-    }
+    setSelectedCity(city);
   };
 
   const handleSelectionComplete = () => {
-    const location =
-      selectedCities.length > 0
-        ? `${selectedContinent}>${selectedCountry}>${selectedCities.join(", ")}`
-        : `${selectedContinent}>${selectedCountry}`;
-    onLocationSelect(location);
+    let location = selectedContinent;
+    if (selectedCountry) {
+      location += ` > ${selectedCountry}`;
+      if (selectedCity) {
+        location += ` > ${selectedCity}`;
+      }
+    }
+
+    if (selectedDestinations.length < 3) {
+      setSelectedDestinations([...selectedDestinations, location]);
+      // Clear the selection state to allow for new selections
+      setSelectedContinent("아시아/중동");
+      setSelectedCountry("");
+      setSelectedCity("");
+      setSelectionLimitReached(false); // Reset the selection limit flag
+    } else {
+      setSelectionLimitReached(true); // Indicate that the selection limit has been reached
+    }
+  };
+
+  const handleSelectionEnd = () => {
+    onLocationSelect(selectedDestinations);
     closeModal();
+  };
+
+  const removeSelectedDestination = (index: number) => {
+    const updatedDestinations = [...selectedDestinations];
+    updatedDestinations.splice(index, 1);
+    setSelectedDestinations(updatedDestinations);
   };
 
   return (
@@ -286,11 +311,7 @@ export default function DestinationSelection({
                     {selectedCountry === country.name && (
                       <div className="mt-2">
                         <select
-                          value={
-                            selectedCities.length > 0
-                              ? selectedCities[selectedCities.length - 1]
-                              : ""
-                          }
+                          value={selectedCity}
                           onChange={(e) => handleCitySelect(e.target.value)}
                           className="w-full p-2 border rounded text-gray-700"
                         >
@@ -302,13 +323,9 @@ export default function DestinationSelection({
                               key={city}
                               value={city}
                               className={
-                                selectedCities.includes(city)
+                                selectedCity === city
                                   ? "text-blue-500 font-bold"
                                   : "text-gray-700"
-                              }
-                              disabled={
-                                selectedCities.includes(city) ||
-                                selectedCities.length === 3
                               }
                             >
                               {city}
@@ -323,13 +340,39 @@ export default function DestinationSelection({
         </div>
       </div>
 
+      {selectedDestinations.length > 0 && (
+        <div className="mt-4">
+          <p className="font-bold">선택된 여행지 : </p>
+          {selectedDestinations.map((destination, index) => (
+            <div key={index} className="flex items-center">
+              <p className="my-1">{destination}</p>
+              <button
+                onClick={() => removeSelectedDestination(index)}
+                className="ml-2 h-6 w-6 bg-red-500 text-white rounded hover:bg-red-600 font-bold"
+              >
+                X
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
+      {selectionLimitReached && (
+        <p className="text-red-500">* 여행지는 최대 3개까지 선택 가능합니다!</p>
+      )}
+
       <div className="w-full flex justify-end">
         <button
           onClick={handleSelectionComplete}
           className="mt-4 p-2 bg-blue-500 text-white rounded hover:bg-blue-600 font-bold"
-          disabled={!selectedContinent || !selectedCountry}
+          disabled={!selectedContinent || !selectedCountry || !selectedCity}
         >
-          선택 완료
+          선택
+        </button>
+        <button
+          onClick={handleSelectionEnd}
+          className="mt-4 ml-2 p-2 bg-blue-500 text-white rounded hover:bg-blue-600 font-bold"
+        >
+          종료
         </button>
       </div>
     </div>
