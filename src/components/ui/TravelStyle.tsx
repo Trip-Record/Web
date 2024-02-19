@@ -1,5 +1,5 @@
 import { STYLES } from "../SelectTravelStyle";
-type Travel_Style =
+export type Travel_Style =
   | "쇼핑형"
   | "명소 방문형"
   | "빡센 일정형"

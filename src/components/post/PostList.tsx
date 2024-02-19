@@ -3,6 +3,7 @@ import { useGetPostsQuery } from "../../api/dummy";
 import PostCard from "../PostCard";
 import { CardType } from "../Posts";
 import SkeletonPostCard from "../ui/skeleton/SkeletonPostcard";
+import { useGetRecordsQuery } from "../../api/record";
 
 interface Props {
   cardType: CardType;
@@ -12,6 +13,9 @@ interface Props {
 export default function PostList({ cardType, page }: Props) {
   const { data, isLoading, isFetching, refetch, isError } =
     useGetPostsQuery(page);
+
+  const { data: records } = useGetRecordsQuery({ page: 0, size: 5 });
+  console.log(records);
 
   const ref = useRef<HTMLDivElement>(null);
   const ref2 = useRef<HTMLDivElement>(null);
@@ -28,7 +32,7 @@ export default function PostList({ cardType, page }: Props) {
   // 임시로 배열로 만들어서 작업 중... 백엔드 API완성 후 삭제예정
   const posts = [data, data, data, data];
 
-  if (isFetching)
+  if (isFetching || !records)
     return (
       <div ref={ref2}>
         {posts.map(() => (
@@ -37,15 +41,23 @@ export default function PostList({ cardType, page }: Props) {
       </div>
     );
 
+  const { recordList } = records;
+
   return (
-    <div ref={ref}>
-      {posts.map((post, i) =>
-        post ? (
-          <PostCard post={post} key={post.id + i} type={cardType} />
+    // <div ref={ref}>
+    <>
+      {recordList.map((record, i) =>
+        record ? (
+          <PostCard
+            record={record}
+            key={record.recordId + i + record.recordTitle}
+            type={cardType}
+          />
         ) : (
           <SkeletonPostCard key={i} type={cardType} />
         )
       )}
-    </div>
+    </>
+    // </div>
   );
 }
