@@ -22,6 +22,9 @@ export default function WriteRecord() {
   const [isOpenDestinationModal, setDestinationModal] = useModal();
   const [isOpenPeriodModal, setPeriodModal] = useModal();
   const [selectedLocation, setSelectedLocation] = useState<string[]>([]);
+  const [selectedLocationIdArray, setSelectedLocationIdArray] = useState<
+    number[]
+  >([]);
 
   const handleLocationSelect = (location: string[]) => {
     setSelectedLocation(location);
@@ -82,8 +85,10 @@ export default function WriteRecord() {
     formData.append("recordTitle", travelName);
     formData.append("recordContent", travelDetails);
     images.forEach((image) => formData.append("recordImages", image));
-    selectedLocation.forEach((area) => formData.append("placeIds", area));
-    console.log(selectedLocation);
+    console.log(selectedLocationIdArray);
+    selectedLocationIdArray.forEach((area) =>
+      formData.append("placeIds", area.toString())
+    );
     formData.append("startDate", formatDate(selectedDays[0]));
     if (selectedDays.length !== 2) {
       formData.append("endDate", formatDate(selectedDays[0]));
@@ -141,6 +146,7 @@ export default function WriteRecord() {
             }
             modal={
               <DestinationSelection
+                setSelectedLocationIdArray={setSelectedLocationIdArray}
                 onLocationSelect={handleLocationSelect}
                 closeModal={setDestinationModal}
                 key={isOpenDestinationModal.toString()}
@@ -150,7 +156,6 @@ export default function WriteRecord() {
             setModal={setDestinationModal}
           />
         </div>
-
         <div className="flex border-black border-b-2 pb-2 items-center">
           <LuCalendarCheck size={40} color={"#60a4f9"} className="mr-3" />
           <ModalButton

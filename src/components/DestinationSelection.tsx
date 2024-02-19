@@ -14,10 +14,12 @@ interface Continent {
 
 interface Props {
   onLocationSelect: (locations: string[]) => void;
+  setSelectedLocationIdArray: (locationId: number[]) => void;
   closeModal: () => void;
 }
 
 export default function DestinationSelection({
+  setSelectedLocationIdArray,
   onLocationSelect,
   closeModal,
 }: Props) {
@@ -118,7 +120,6 @@ export default function DestinationSelection({
       setSelectedCity("");
       setSelectionLimitReached(false);
       if (selectedPlaceId !== null) {
-        console.log("Selected placeId:", selectedPlaceId);
         // 선택된 도시의 placeId를 selectedPlaceIds에 추가
         setSelectedPlaceIds([...selectedPlaceIds, selectedPlaceId]);
       }
@@ -129,8 +130,7 @@ export default function DestinationSelection({
 
   // handleSelectionEnd 함수에서 콘솔에 선택된 도시들의 placeId를 출력하는 부분 추가
   const handleSelectionEnd = () => {
-    console.log("Selected PlaceIds:", selectedPlaceIds);
-
+    setSelectedLocationIdArray(selectedPlaceIds);
     onLocationSelect(selectedDestinations);
     closeModal();
   };
