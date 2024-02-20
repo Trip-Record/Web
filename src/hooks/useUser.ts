@@ -1,13 +1,12 @@
-import { useEffect, useState } from "react";
 import { getLoginToken, setLoginToken } from "../services/storage";
-import { HOST } from "../constants";
 import { useGetUserInfoQuery } from "../api/user";
+import { Travel_Style } from "../components/ui/TravelStyle";
 
 export interface UserProfile {
   userNickname: string;
   userProfileImg: string;
   userTripStyleImg: string;
-  userTripStyleName: string;
+  userTripStyleName: Travel_Style;
 }
 export interface UserInfo {
   likeTotal: number;

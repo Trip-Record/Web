@@ -10,11 +10,10 @@ import ModalButton from "./Modal";
 import { SelectDate } from "./comment/Calendar";
 import { useModal } from "../hooks/useModal";
 import DestinationSelection from "./DestinationSelection";
-// import axios from "axios";
+import { recordApi, useSetRecordMutation } from "../api/record";
 
 export default function WriteRecord() {
   const [travelName, setTravelName] = useState("");
-  const [testTravelArea, setTestTravelArea] = useState("테스트 지역");
   const [travelDetails, setTravelDetails] = useState("");
   const [images, setImages] = useState<File[]>([]);
   const [calendar, setCalendar] = useState(false);
@@ -23,6 +22,9 @@ export default function WriteRecord() {
   const [isOpenDestinationModal, setDestinationModal] = useModal();
   const [isOpenPeriodModal, setPeriodModal] = useModal();
   const [selectedLocation, setSelectedLocation] = useState<string[]>([]);
+  const [selectedLocationIdArray, setSelectedLocationIdArray] = useState<
+    number[]
+  >([]);
 
   const handleLocationSelect = (location: string[]) => {
     setSelectedLocation(location);
@@ -58,6 +60,14 @@ export default function WriteRecord() {
     });
   };
 
+  const formatDate = (date: Date) => {
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, "0"); // 월은 0부터 시작하므로 1을 더해주고, 두 자리로 만듭니다.
+    const day = date.getDate().toString().padStart(2, "0"); // 일을 두 자리로 만듭니다.
+
+    return `${year}-${month}-${day}`;
+  };
+
   const calendarToggle = () => {
     if (calendar) {
       setCalendar(false);
@@ -66,29 +76,31 @@ export default function WriteRecord() {
     }
   };
 
+  const [setRecord, { isLoading, isSuccess, isError, error }] =
+    recordApi.useSetRecordMutation();
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const formData = new FormData();
-    formData.append("travelName", travelName);
-    formData.append("travelArea", testTravelArea);
-    formData.append("travelDetails", travelDetails);
-
-    images.forEach((image) => formData.append("images", image));
-    for (let key of formData.keys()) {
-      console.log(key);
+    formData.append("recordTitle", travelName);
+    formData.append("recordContent", travelDetails);
+    images.forEach((image) => formData.append("recordImages", image));
+    console.log(selectedLocationIdArray);
+    selectedLocationIdArray.forEach((area) =>
+      formData.append("placeIds", area.toString())
+    );
+    formData.append("startDate", formatDate(selectedDays[0]));
+    if (selectedDays.length !== 2) {
+      formData.append("endDate", formatDate(selectedDays[0]));
+    } else {
+      formData.append("endDate", formatDate(selectedDays[1]));
     }
-    for (let value of formData.values()) {
-      console.log(value);
-    }
-    console.log(formData);
-
     try {
-      // const response = await axios.post("testAPI", formData, {
-      //   headers: {
-      //     "Content-Type": "multipart/form-data",
-      //   },
-      // });
-      // console.log(response.data);
+      for (let value of formData.values()) {
+        console.log(value);
+      }
+      const response = await setRecord(formData).unwrap();
+      console.log(response);
     } catch (error) {
       console.error(error);
     }
@@ -134,6 +146,7 @@ export default function WriteRecord() {
             }
             modal={
               <DestinationSelection
+                setSelectedLocationIdArray={setSelectedLocationIdArray}
                 onLocationSelect={handleLocationSelect}
                 closeModal={setDestinationModal}
                 key={isOpenDestinationModal.toString()}
@@ -143,7 +156,6 @@ export default function WriteRecord() {
             setModal={setDestinationModal}
           />
         </div>
-
         <div className="flex border-black border-b-2 pb-2 items-center">
           <LuCalendarCheck size={40} color={"#60a4f9"} className="mr-3" />
           <ModalButton
