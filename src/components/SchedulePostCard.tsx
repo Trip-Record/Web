@@ -6,7 +6,7 @@ import CommentBtn from "./post/CommentBtn";
 import CommentModal from "./comment/CommentModal";
 import { useModal } from "../hooks/useModal";
 import ModalButton from "./Modal";
-import { useGetSchedulePostsQuery } from "../api/schedule";
+import { UserProfile } from "../hooks/useUser";
 
 interface SchedulePlace {
   placeCountry: string;
@@ -17,8 +17,15 @@ interface ScheduleDetail {
   scheduleDetailDate: string;
   scheduleContent: string;
 }
+
+interface ScheduleData {
+  totalpage: number;
+  pageNumber: number;
+  schedules: SchedulePost[];
+}
+
 interface SchedulePost {
-  //TODO:유저 프로필 부분 추후작성
+  userProfile: UserProfile;
   scheduleId: number;
   scheduleTitle: string;
   schedulePlaces: SchedulePlace[];
@@ -30,25 +37,29 @@ interface SchedulePost {
   scheduleCommentCount: number;
 }
 
-export default function SchedulePost() {
+interface Props {
+  scheduleData: ScheduleData;
+}
+
+export default function SchedulePost({ scheduleData }: Props) {
   const [showModal, switchModal] = useModal();
 
-  const { data } = useGetSchedulePostsQuery(0);
-  if (!data) return <></>;
-  const scheduleCount = data.schedules;
+  if (!scheduleData) return <></>;
+
+  const { schedules } = scheduleData;
   const makeStartEndDateString = (startDate: string, endDate: string) => {
     return `${startDate.replace(/-/g, ".")} - ${endDate.replace(/-/g, ".")}`;
   };
 
   return (
     <div>
-      {scheduleCount.map((schedulePost: SchedulePost, index: number) => {
+      {schedules.map((schedulePost: SchedulePost, index: number) => {
         return (
           <div
             className="flex flex-col gap-1 rounded-md p-2 bg-white shadow w-2/5 mx-auto my-3"
             key={schedulePost.scheduleId}
           >
-            <AvatarInfo userId={0} />
+            <AvatarInfo userProfile={schedulePost.userProfile} />
             <div className="flex gap-3">
               <p>{`${schedulePost.schedulePlaces[0].placeCountry}, ${schedulePost.schedulePlaces[0].placeName}`}</p>
               <p>{`${makeStartEndDateString(

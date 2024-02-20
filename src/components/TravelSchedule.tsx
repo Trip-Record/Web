@@ -2,21 +2,38 @@ import { Link } from "react-router-dom";
 import { SchedulePostData } from "../api/dummy";
 import AvatarInfo from "./ui/AvatarInfo";
 import PageNation from "./ui/PageNation";
-import SchedulePost from "./SchedulePosts";
+import SchedulePost from "./SchedulePostCard";
 import AddRecordAndSchedule from "./ui/AddRecordAndSchedule";
-
 import Posts from "./Posts";
 import { useUser } from "../hooks/useUser";
 import { useState } from "react";
+import { useGetSchedulePostsQuery } from "../api/schedule";
+import { UserProfile } from "../hooks/useUser";
+
+interface SchedulePlace {
+  placeCountry: string;
+  placeName: string;
+}
+
+interface ScheduleDetail {
+  scheduleDetailDate: string;
+  scheduleContent: string;
+}
+interface SchedulePost {
+  userProfile: UserProfile;
+  scheduleId: number;
+  scheduleTitle: string;
+  schedulePlaces: SchedulePlace[];
+  scheduleStartDate: string;
+  scheduleEndDate: string;
+  scheduleDetails: ScheduleDetail[];
+  isUserLiked: boolean;
+  scheduleLikeCount: number;
+  scheduleCommentCount: number;
+}
 
 export default function TravelSchedule() {
-  const imsiPostNubmer = [1, 1, 1, 1, 1];
-  const dummySchedulePost = {
-    userId: 1,
-    id: 2,
-    date: 5,
-    title: "임시 제목",
-  };
+  const { data } = useGetSchedulePostsQuery(0);
   const { user } = useUser();
   // console.log();
   const [hoverState, setHoverState] = useState<"none" | "in" | "out">("none");
@@ -27,11 +44,11 @@ export default function TravelSchedule() {
   const newClass = `h-12 mb-1 mx-auto aspect-square shadow-lg leading-none items-center justify-center text-white bg-black/50 rounded-full ${
     hoverState === "in" ? "flex" : "hidden"
   }`;
-
+  if (!data) return <></>;
   return (
     <div className="flex flex-col w-screen">
-      <SchedulePost />;
-      <PageNation maxPage={12} showPage={5} />
+      <SchedulePost scheduleData={data} />;
+      <PageNation maxPage={data?.totalPages} showPage={5} />
       <AddRecordAndSchedule />
     </div>
   );
