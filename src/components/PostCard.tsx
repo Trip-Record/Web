@@ -37,7 +37,7 @@ export default function PostCard({ record, type = "blog" }: Props) {
           </div>
           <div className="mt-auto flex items-center gap-2">
             <LikeBtn count={0} />
-            <CommentBtn postId={recordId} />
+            <CommentBtn count={record.commentCount} />
           </div>
         </div>
         <img
@@ -67,7 +67,7 @@ export default function PostCard({ record, type = "blog" }: Props) {
         <div className="flex items-center w-full mt-4 gap-3">
           <LikeBtn count={1} />
           <ModalButton
-            button={<CommentBtn postId={recordId} />}
+            button={<CommentBtn count={0} />}
             modal={<CommentModal postId={recordId} />}
             isOpenModal={showModal}
             setModal={switchModal}
