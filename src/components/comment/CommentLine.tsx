@@ -1,21 +1,18 @@
 import { CommentData } from "../../api/dummy";
 import Avatar from "../ui/Avatar";
+import AvatarInfo from "../ui/AvatarInfo";
 import TravelStyle from "../ui/TravelStyle";
 
 interface Props {
   comment: CommentData;
 }
 export default function CommentLine({ comment }: Props) {
-  const { body, name } = comment;
+  const { commentContent, commentCreatedTime, userProfile } = comment;
   return (
     <div className="flex flex-col py-2 border-b last:border-none gap-1">
-      <div className="flex items-center gap-1">
-        <Avatar img="/logo192.png" size="s" />
-        <span className="text-gray-500">이름</span>
-        <TravelStyle selectStyle="즉흥형" />
-      </div>
-      <div>{body}</div>
-      <div className="text-gray-400 text-sm">2023.11.12 12:23</div>
+      <AvatarInfo userProfile={userProfile} />
+      <div>{commentContent}</div>
+      <div className="text-gray-400 text-sm">{commentCreatedTime}</div>
     </div>
   );
 }

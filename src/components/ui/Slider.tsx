@@ -29,7 +29,6 @@ export default function Slider({ images, count = 0, onModal = false }: Props) {
   //   const divRect = divRef.current?.getBoundingClientRect();
   //   setImageCount((position.x / divRect!.width) * -1);
   // }, [position.x]);
-  console.log(images);
 
   const moveImage = (direct: 1 | -1) => {
     let page = 0;

@@ -4,26 +4,33 @@ import ColorButton from "../ui/ColorButton";
 import { useRef } from "react";
 import { useInput } from "../../hooks/useInput";
 import Avatar from "../ui/Avatar";
+import { useGetComments2Query } from "../../api/record";
 
 interface Props {
   postId: number;
 }
 export default function Comments({ postId }: Props) {
-  const { data: comments } = useGetCommentsQuery(postId);
-  const [updatePost, result] = useAddCommentsMutation();
+  // const { data: comments } = useGetCommentsQuery(postId);
+
+  const { data } = useGetComments2Query({
+    recordId: postId,
+    page: 0,
+  });
+
+  // const [updatePost, result] = useAddCommentsMutation();
   const commentRef = useRef<HTMLDivElement>(null);
   const commentValidate = (value: string) => {
     if (value.length === 0) return false;
   };
 
   const addCommentSubmit = async (value: string) => {
-    updatePost({
-      id: 1,
-      body: value,
-      email: "testemail",
-      name: "testname",
-      postId,
-    });
+    // updatePost({
+    //   id: 1,
+    //   body: value,
+    //   email: "testemail",
+    //   name: "testname",
+    //   postId,
+    // });
 
     commentRef.current?.scrollTo(0, 0);
 
@@ -34,6 +41,9 @@ export default function Comments({ postId }: Props) {
     submitCallback: addCommentSubmit,
     validateCallback: commentValidate,
   });
+
+  if (!data) return <>Loading...</>;
+  const comments = data.recordComments;
 
   return (
     <>
@@ -59,7 +69,7 @@ export default function Comments({ postId }: Props) {
       </form>
       <div className="overflow-y-scroll mt-2 scrollbar-hide" ref={commentRef}>
         {comments?.map((comment) => (
-          <CommentLine comment={comment} key={comment.id} />
+          <CommentLine comment={comment} key={comment.commentContent} />
         ))}
       </div>
     </>
