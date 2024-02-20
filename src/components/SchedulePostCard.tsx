@@ -81,7 +81,7 @@ export default function SchedulePost({ scheduleData }: Props) {
               );
             })}
             <div className="flex gap-2 justify-between">
-              <LikeBtn count={1} />
+              <LikeBtn count={schedulePost.scheduleLikeCount} />
               <Link to={`/schedule/0`}>모든 일정 보기</Link>
             </div>
           </div>

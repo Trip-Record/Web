@@ -9,6 +9,7 @@ import { useUser } from "../hooks/useUser";
 import { useState } from "react";
 import { useGetSchedulePostsQuery } from "../api/schedule";
 import { UserProfile } from "../hooks/useUser";
+import { useSearchParams } from "react-router-dom";
 
 interface SchedulePlace {
   placeCountry: string;
@@ -33,7 +34,9 @@ interface SchedulePost {
 }
 
 export default function TravelSchedule() {
-  const { data } = useGetSchedulePostsQuery(0);
+  const [searchParams] = useSearchParams();
+  const page = Number(searchParams.get("page") ?? 0);
+  const { data } = useGetSchedulePostsQuery(page);
   const { user } = useUser();
   // console.log();
   const [hoverState, setHoverState] = useState<"none" | "in" | "out">("none");
