@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { getLoginToken } from "../services/storage";
+import { Record } from "./records";
 
 export interface recordData {
   recordTitle: string;
@@ -34,7 +35,10 @@ export const recordApi = createApi({
         };
       },
     }),
+    getRecord: builder.query<Record, number>({
+      query: (recordId) => `records/${recordId}`,
+    }),
   }),
 });
 
-export const { useSetRecordMutation } = recordApi;
+export const { useSetRecordMutation, useGetRecordQuery } = recordApi;

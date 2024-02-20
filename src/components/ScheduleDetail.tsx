@@ -86,7 +86,7 @@ export default function ScheduleDetail({ scheduleId }: Props) {
           <div className="flex gap-2 mt-2">
             <LikeBtn count={1} />
             <ModalButton
-              button={<CommentBtn postId={scheduleId} />}
+              button={<CommentBtn count={0} />}
               modal={<CommentModal postId={scheduleId} />}
               isOpenModal={showModal}
               setModal={switchModal}

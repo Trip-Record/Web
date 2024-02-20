@@ -3,34 +3,24 @@ import ModalButton from "../Modal";
 import Slider from "../ui/Slider";
 
 interface Props {
-  image: string;
-  count?: number;
+  images: string[];
+  count: number;
 }
-export default function PostImage({ image, count = 0 }: Props) {
+export default function PostImage({ images, count = 0 }: Props) {
   const [isModalOpen, setModal] = useModal();
-
   return (
     <>
       <img
-        src={image}
+        src={images[count]}
         alt="포스트 이미지"
-        className="object-contain p-2 bg-black"
+        className="object-contain bg-black"
         onClick={() => setModal(true)}
       />
       <ModalButton
-        key={image}
+        key={images[count]}
         button={<></>}
         modal={
-          <Slider
-            images={[
-              "/logo192.png",
-              "/naverLogin.png",
-              "/profile-icons/Cat.png",
-            ]}
-            count={count}
-            onModal={true}
-            key={count}
-          />
+          <Slider images={images} count={count} onModal={true} key={count} />
         }
         isOpenModal={isModalOpen}
         setModal={setModal}

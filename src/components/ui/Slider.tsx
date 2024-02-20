@@ -22,7 +22,6 @@ const MOVELEFT_SM =
 
 export default function Slider({ images, count = 0, onModal = false }: Props) {
   const [imageCount, setImageCount] = useState(count);
-
   // Slider사용시 주석해제 *count* -1 고려할것*
   // const [position, setPosition] = useState({ x: 0, y: 0 });
   // const divRef = useRef<HTMLDivElement>(null);
@@ -30,6 +29,7 @@ export default function Slider({ images, count = 0, onModal = false }: Props) {
   //   const divRect = divRef.current?.getBoundingClientRect();
   //   setImageCount((position.x / divRect!.width) * -1);
   // }, [position.x]);
+  console.log(images);
 
   const moveImage = (direct: 1 | -1) => {
     let page = 0;
@@ -66,11 +66,11 @@ export default function Slider({ images, count = 0, onModal = false }: Props) {
               <img
                 src={image}
                 alt="포스트 이미지"
-                className="object-contain p-2 bg-black"
+                className="object-contain bg-black"
                 key={image}
               />
             ) : (
-              <PostImage image={image} key={image} count={imageCount} />
+              <PostImage images={images} key={image} count={i} />
             )
           )}
         </div>

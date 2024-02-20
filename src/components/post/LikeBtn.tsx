@@ -3,11 +3,12 @@ import LikeIcon from "../ui/icons/LikeIcon";
 
 interface Props {
   count: number;
+  isLiked?: boolean;
 }
 
 // TODO: 리덕스로 전환
-export default function LikeBtn({ count }: Props) {
-  const [active, setActive] = useState(false);
+export default function LikeBtn({ count, isLiked = false }: Props) {
+  const [active, setActive] = useState(isLiked);
   const [like, setLike] = useState(count);
 
   const addLike = () => {};
