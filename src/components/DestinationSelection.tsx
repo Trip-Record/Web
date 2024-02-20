@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { HOST } from "../constants";
 
 interface Place {
   placeId: number;
@@ -14,12 +15,10 @@ interface Continent {
 
 interface Props {
   onLocationSelect: (locations: string[]) => void;
-  setSelectedLocationIdArray: (locationId: number[]) => void;
   closeModal: () => void;
 }
 
 export default function DestinationSelection({
-  setSelectedLocationIdArray,
   onLocationSelect,
   closeModal,
 }: Props) {
@@ -40,9 +39,7 @@ export default function DestinationSelection({
   useEffect(() => {
     const fetchPlaces = async () => {
       try {
-        const response = await axios.get<Continent[]>(
-          "http://15.164.19.143:8080/locations"
-        );
+        const response = await axios.get<Continent[]>(HOST + "/locations");
 
         const continentsSet = new Set<string>();
         const countriesSet = new Set<string>();
@@ -120,6 +117,7 @@ export default function DestinationSelection({
       setSelectedCity("");
       setSelectionLimitReached(false);
       if (selectedPlaceId !== null) {
+        console.log("Selected placeId:", selectedPlaceId);
         // 선택된 도시의 placeId를 selectedPlaceIds에 추가
         setSelectedPlaceIds([...selectedPlaceIds, selectedPlaceId]);
       }
@@ -130,7 +128,8 @@ export default function DestinationSelection({
 
   // handleSelectionEnd 함수에서 콘솔에 선택된 도시들의 placeId를 출력하는 부분 추가
   const handleSelectionEnd = () => {
-    setSelectedLocationIdArray(selectedPlaceIds);
+    console.log("Selected PlaceIds:", selectedPlaceIds);
+
     onLocationSelect(selectedDestinations);
     closeModal();
   };
