@@ -70,7 +70,7 @@ export default function Slider({ images, count = 0, onModal = false }: Props) {
                 key={image}
               />
             ) : (
-              <PostImage images={images} key={image} count={i} />
+              <PostImage images={images} key={image + i} count={i} />
             )
           )}
         </div>
