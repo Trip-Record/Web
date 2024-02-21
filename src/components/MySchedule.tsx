@@ -50,7 +50,7 @@ export default function MySchedule({ mySchedulePost }: Props) {
         <div className="flex  gap-2">
           <LikeBtn count={1} />
           <ModalButton
-            button={<CommentBtn postId={id} />}
+            button={<CommentBtn count={0} />}
             modal={<CommentModal postId={id} />}
             isOpenModal={showModal}
             setModal={switchModal}

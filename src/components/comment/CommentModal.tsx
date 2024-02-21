@@ -21,13 +21,13 @@ export default function CommentModal({ postId }: Props) {
   };
 
   const addCommentSubmit = async (value: string) => {
-    updatePost({
-      id: 1,
-      body: value,
-      email: "testemail",
-      name: "testname",
-      postId,
-    });
+    // updatePost({
+    //   id: 1,
+    //   body: value,
+    //   email: "testemail",
+    //   name: "testname",
+    //   postId,
+    // });
 
     commentRef.current?.scrollTo(0, 0);
 
@@ -41,7 +41,8 @@ export default function CommentModal({ postId }: Props) {
 
   return (
     <section className="w-[90vw] max-w-[50rem] h-[70vh] flex flex-col p-2 border overflow-hidden rounded-md bg-white">
-      <div className="border-b border-black p-2 flex justify-center items-center relative">
+      {/* TODO: 중복제거 */}
+      {/* <div className="border-b border-black p-2 flex justify-center items-center relative">
         <span className="text-2xl font-bold">댓글 {comments?.length}</span>
         <span className="text-sm absolute right-2 border p-1">게시글 보기</span>
       </div>
@@ -68,7 +69,7 @@ export default function CommentModal({ postId }: Props) {
         />
 
         <ColorButton text="게시" className="w-14" />
-      </form>
+      </form> */}
     </section>
   );
 }

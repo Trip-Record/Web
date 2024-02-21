@@ -14,11 +14,12 @@ export default function LikeAndcomment({
   isOpenModal,
   setModal,
 }: Props) {
+  // TODO: CommentBtn에 개수 전달 필요
   return (
     <div className="flex items-center mt-auto gap-3">
       <LikeBtn count={1} />
       <ModalButton
-        button={<CommentBtn postId={postId} />}
+        button={<CommentBtn count={0} />}
         modal={<CommentModal postId={postId} />}
         isOpenModal={isOpenModal}
         setModal={setModal}
