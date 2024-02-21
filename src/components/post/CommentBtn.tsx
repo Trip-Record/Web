@@ -3,16 +3,16 @@ import CommentIcon from "../ui/icons/CommentIcon";
 import { useGetCommentsQuery } from "../../api/dummy";
 
 interface Props {
-  postId: number;
+  count: number;
 }
-export default function CommentBtn({ postId }: Props) {
+export default function CommentBtn({ count }: Props) {
   //   const ref = useRef<HTMLDialogElement>(null);
-  const { data: commentData } = useGetCommentsQuery(postId);
+  // const { data: commentData } = useGetCommentsQuery(postId);
 
   return (
     <>
       <div className="flex items-center gap-1">
-        <CommentIcon /> {commentData?.length}
+        <CommentIcon /> {count}
       </div>
     </>
   );

@@ -19,8 +19,6 @@ export default function Posts() {
   const showPageCount = 5;
   const { cardType, records, setCardType } = useRecord(page, showPageCount);
 
-  console.log(records);
-
   if (!records)
     return (
       <>

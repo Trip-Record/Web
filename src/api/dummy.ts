@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { UserProfile } from "../hooks/useUser";
 
 export interface Data {
   userId: number;
@@ -21,11 +22,9 @@ export interface SchedulePostData {
 }
 
 export interface CommentData {
-  postId: number;
-  id: number;
-  name: string;
-  email: string;
-  body: string;
+  userProfile: UserProfile;
+  commentContent: string;
+  commentCreatedTime: string;
 }
 
 export const api = createApi({
@@ -59,34 +58,34 @@ export const api = createApi({
         },
       }),
 
-      onQueryStarted: async (
-        { postId, ...patch },
-        { dispatch, queryFulfilled }
-      ) => {
-        const patchResult = dispatch(
-          api.util.updateQueryData("getComments", postId, (draft) => {
-            // Object.assign(draft, patch);
+      // onQueryStarted: async (
+      //   { postId, ...patch },
+      //   { dispatch, queryFulfilled }
+      // ) => {
+      //   const patchResult = dispatch(
+      //     api.util.updateQueryData("getComments", postId, (draft) => {
+      //       // Object.assign(draft, patch);
 
-            draft.unshift({
-              id: patch.id,
-              body: patch.body,
-              email: patch.email,
-              name: patch.name,
-              postId: postId,
-            });
-          })
-        );
+      //       draft.unshift({
+      //         id: patch.id,
+      //         body: patch.body,
+      //         email: patch.email,
+      //         name: patch.name,
+      //         postId: postId,
+      //       });
+      //     })
+      //   );
 
-        try {
-          console.log("시도");
+      //   try {
+      //     console.log("시도");
 
-          await queryFulfilled;
-        } catch {
-          console.log("실패");
+      //     await queryFulfilled;
+      //   } catch {
+      //     console.log("실패");
 
-          patchResult.undo();
-        }
-      },
+      //     patchResult.undo();
+      //   }
+      // },
     }),
   }),
 });
