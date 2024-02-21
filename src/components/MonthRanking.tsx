@@ -6,33 +6,39 @@ import Ranking3 from "./ui/icons/Ranking3.png";
 import GraphIcon from "./ui/icons/graph.png";
 import LocationIcon from "./writing-icons/LocationIcon.png";
 import ExclamationMarkIcon from "./ui/icons/exclamation-mark 1.png";
+import { HOST } from "../constants";
 
 interface RankingData {
-  count: number;
-  city: string;
+  visitCount: number;
+  rank: number;
+  placeBasicData: {
+    placeId: number;
+    countryName: string;
+    placeName: string;
+  };
 }
 
 const MonthRanking = () => {
   const [selectedYear, setSelectedYear] = useState<string | null>("2024");
-  const [selectedMonth, setSelectedMonth] = useState<string | null>("1월");
+  const [selectedMonth, setSelectedMonth] = useState<string | null>("01");
   const [rankingData, setRankingData] = useState<RankingData[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<any>(null);
 
   const years = ["2022", "2023", "2024"];
   const months = [
-    "1월",
-    "2월",
-    "3월",
-    "4월",
-    "5월",
-    "6월",
-    "7월",
-    "8월",
-    "9월",
-    "10월",
-    "11월",
-    "12월",
+    "01",
+    "02",
+    "03",
+    "04",
+    "05",
+    "06",
+    "07",
+    "08",
+    "09",
+    "10",
+    "11",
+    "12",
   ];
 
   useEffect(() => {
@@ -41,7 +47,7 @@ const MonthRanking = () => {
         setLoading(true);
         setError(null);
         const response = await axios.get<RankingData[]>(
-          "http://175.115.13.86:5000/ranking?range=month&year=2024&month=1"
+          HOST + `/ranks/months?year=${selectedYear}&month=${selectedMonth}`
         );
         setRankingData(response.data);
       } catch (error) {
@@ -54,6 +60,22 @@ const MonthRanking = () => {
       fetchData();
     }
   }, [selectedYear, selectedMonth]);
+
+  const getRankingIcon = (rank: number, isSmall: boolean) => {
+    if (rank === 1 || rank === 2 || rank === 3) {
+      return (
+        <img
+          src={rank === 1 ? Ranking1 : rank === 2 ? Ranking2 : Ranking3}
+          alt={`Ranking ${rank}`}
+          className={`flex justify-center mb-4 ${
+            isSmall ? "w-8 h-8" : "w-20 h-20"
+          }`}
+        />
+      );
+    } else {
+      return <span className="font-bold">{rank}</span>;
+    }
+  };
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>An error occurred</div>;
@@ -93,6 +115,7 @@ const MonthRanking = () => {
         </select>
       </div>
 
+      {/* 첫 번째 섹션: 상위 세 개의 데이터 */}
       <div className="flex mb-4">
         {rankingData.slice(0, 3).map((item, index) => (
           <div
@@ -101,7 +124,7 @@ const MonthRanking = () => {
           >
             <p>
               <span className="flex justify-center">
-                {getRankingIcon(index + 1)}
+                {getRankingIcon(item.rank, false)}
               </span>
               <span className="flex justify-center font-bold">
                 <img
@@ -109,7 +132,8 @@ const MonthRanking = () => {
                   alt="Location Icon"
                   className="w-6 h-6 mr-2"
                 />
-                {item.city}{" "}
+                {item.placeBasicData.countryName},{" "}
+                {item.placeBasicData.placeName}
               </span>
               <span className="flex justify-center text-red-500 mt-8 font-bold">
                 <img
@@ -117,36 +141,40 @@ const MonthRanking = () => {
                   alt="Graph Icon"
                   className="w-6 h-6 mr-2"
                 />
-                방문 횟수 {item.count}
+                방문 횟수 {item.visitCount}
               </span>
             </p>
           </div>
         ))}
       </div>
 
+      {/* 두 번째 섹션: 나머지 데이터 */}
       <div className="flex flex-wrap mx-8">
-        {rankingData.slice(4, 8).map((item, index) => (
+        {rankingData.slice(3).map((item, index) => (
           <div
             key={index + 4}
-            className="w-full p-4 border border-black mb-4 rounded"
+            className="w-full p-10 border border-black mb-5 rounded"
           >
-            <p className="font-bold ml-4">
-              <span>{index + 4}</span>
-              <span className="absolute left-32">
+            <p className="font-bold mb-7">
+              <span className="absolute">
+                {getRankingIcon(item.rank, true)}
+              </span>
+              <span className="absolute left-32 ml-8">
                 <img
                   src={LocationIcon}
                   alt="Location Icon"
                   className="w-6 h-6 absolute"
                 />
-                &ensp; &emsp; {item.city}
+                &ensp; &emsp; {item.placeBasicData.countryName},{" "}
+                {item.placeBasicData.placeName}
               </span>
               <span className="text-red-500 absolute right-40">
                 <img
                   src={GraphIcon}
                   alt="Graph Icon"
-                  className="w-6 h-6 absolute right-28"
+                  className="w-6 h-6 absolute right-26"
                 />
-                방문 횟수 {item.count}
+                &ensp; &emsp; 방문 횟수 {item.visitCount}
               </span>
             </p>
           </div>
@@ -163,46 +191,15 @@ const MonthRanking = () => {
           <h2>랭킹 집계 안내</h2>
         </div>
         <div className="text-gray-600 ml-8 p-2">
-          <h4>집계 대상 &nbsp; 여행 기록 게시글</h4>
+          <h4>집계 대상 여행 기록 게시글</h4>
           <h4>
-            집계 기간 &nbsp; 월 별/계절 별 랭킹은 여행 출발일을 기준으로 하여
-            집계 됩니다.
+            집계 기간 월 별/계절 별 랭킹은 여행 출발일을 기준으로 하여 집계
+            됩니다.
           </h4>
         </div>
       </div>
     </div>
   );
-};
-
-const getRankingIcon = (rank: number) => {
-  switch (rank) {
-    case 1:
-      return (
-        <img
-          src={Ranking1}
-          alt={`Ranking ${rank}`}
-          className="w-20 h-20 flex justify-center mb-4 ml-4"
-        />
-      );
-    case 2:
-      return (
-        <img
-          src={Ranking2}
-          alt={`Ranking ${rank}`}
-          className="w-20 h-20 flex justify-center mb-4 ml-2"
-        />
-      );
-    case 3:
-      return (
-        <img
-          src={Ranking3}
-          alt={`Ranking ${rank}`}
-          className="w-20 h-20 flex justify-center mb-4"
-        />
-      );
-    default:
-      return null;
-  }
 };
 
 export default MonthRanking;
