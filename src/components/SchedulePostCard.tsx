@@ -51,6 +51,18 @@ export default function SchedulePost({ scheduleData }: Props) {
     return `${startDate.replace(/-/g, ".")} - ${endDate.replace(/-/g, ".")}`;
   };
 
+  const formatDateWithWeekday = (dateStr: string) => {
+    const date = new Date(dateStr);
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, "0"); // getMonth()는 0부터 시작하므로 +1 필요
+    const day = date.getDate().toString().padStart(2, "0");
+
+    const weekdays = ["일", "월", "화", "수", "목", "금", "토"];
+    const weekday = weekdays[date.getDay()];
+
+    return `${year}.${month}.${day} (${weekday})`;
+  };
+
   return (
     <div>
       {schedules.map((schedulePost: SchedulePost, index: number) => {
@@ -74,7 +86,9 @@ export default function SchedulePost({ scheduleData }: Props) {
                   <div>{}</div>
                   <div className="flex" key={date.scheduleDetailDate}>
                     <h1 className="font-bold">{`DAY ${index + 1}`}</h1>
-                    <p className="ml-3">{date.scheduleDetailDate}</p>
+                    <p className="ml-3">
+                      {formatDateWithWeekday(date.scheduleDetailDate)}
+                    </p>
                   </div>
                   <p>{date.scheduleContent}</p>
                 </div>

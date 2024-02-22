@@ -36,9 +36,9 @@ interface SchedulePost {
 export default function TravelSchedule() {
   const [searchParams] = useSearchParams();
   const page = Number(searchParams.get("page") ?? 0);
-  const { data } = useGetSchedulePostsQuery(page);
+  const { data } = useGetSchedulePostsQuery(page - 1);
   const { user } = useUser();
-  // console.log();
+  console.log(page);
   const [hoverState, setHoverState] = useState<"none" | "in" | "out">("none");
 
   const link_record = user ? "/write-record" : "/login";
