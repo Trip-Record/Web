@@ -6,7 +6,7 @@ interface Props {
   images: string[];
   count: number;
 }
-export default function PostImage({ images, count = 0 }: Props) {
+export default function ModalImage({ images, count = 0 }: Props) {
   const [isModalOpen, setModal] = useModal();
   return (
     <>

@@ -2,7 +2,7 @@ import { useState } from "react";
 import DotBar from "../post/BotBar";
 import { useModal } from "../../hooks/useModal";
 import ModalButton from "../Modal";
-import PostImage from "../post/PostImage";
+import ModalImage from "../post/PostImage";
 
 interface Props {
   images: string[];
@@ -70,7 +70,7 @@ export default function Slider({ images, count = 0, onModal = false }: Props) {
                 />
               </div>
             ) : (
-              <PostImage images={images} key={image + i} count={i} />
+              <ModalImage images={images} key={image + i} count={i} />
             )
           )}
         </div>
