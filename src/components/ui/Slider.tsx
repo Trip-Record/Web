@@ -20,6 +20,9 @@ const MOVELEFT =
 const MOVELEFT_SM =
   "w-[50%] h-full md:w-6 md:h-6 md:top-[50%] z-10 absolute left-1 shadow-md rounded-full bg-white justify-center items-center bg-white flex md:group-hover:opacity-60 opacity-0";
 
+export const IMG_BOX = "aspect-square max-h-[80vh] items-center gap-2 mx-auto";
+export const IMG_BOX_MODAL = ` ${IMG_BOX}`;
+export const IMG_BOX_NORMAL = `aspect-square ${IMG_BOX}`;
 export default function Slider({ images, count = 0, onModal = false }: Props) {
   const [imageCount, setImageCount] = useState(count);
   // Slider사용시 주석해제 *count* -1 고려할것*
@@ -47,11 +50,7 @@ export default function Slider({ images, count = 0, onModal = false }: Props) {
   };
 
   return (
-    <div
-      className={`flex flex-col ${
-        onModal ? "w-full aspect-square" : "w-full max-w-96"
-      } max-h-[80vh] items-center gap-2 mx-auto`}
-    >
+    <div className={`flex flex-col ${IMG_BOX}`}>
       <div className="relative flex border w-full h-full aspect-square overflow-hidden group">
         <div
           className="flex relative h-full"
@@ -62,12 +61,14 @@ export default function Slider({ images, count = 0, onModal = false }: Props) {
         >
           {images.map((image, i) =>
             onModal ? (
-              <img
-                src={image}
-                alt="포스트 이미지"
-                className="object-contain bg-black"
-                key={image}
-              />
+              <div className={IMG_BOX}>
+                <img
+                  src={image}
+                  alt="포스트 이미지"
+                  className="object-contain bg-black w-full h-full"
+                  key={image}
+                />
+              </div>
             ) : (
               <PostImage images={images} key={image + i} count={i} />
             )
