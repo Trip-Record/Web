@@ -1,21 +1,17 @@
 import { useModal } from "../../hooks/useModal";
 import ModalButton from "../Modal";
+import PostImage from "../ui/PostImage";
 import Slider from "../ui/Slider";
 
 interface Props {
   images: string[];
   count: number;
 }
-export default function PostImage({ images, count = 0 }: Props) {
+export default function ModalImage({ images, count = 0 }: Props) {
   const [isModalOpen, setModal] = useModal();
   return (
     <>
-      <img
-        src={images[count]}
-        alt="포스트 이미지"
-        className="object-contain bg-black"
-        onClick={() => setModal(true)}
-      />
+      <PostImage image={images[count]} onClick={() => setModal(false)} />
       <ModalButton
         key={images[count]}
         button={<></>}

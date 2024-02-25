@@ -8,7 +8,7 @@ interface Props {
 }
 
 export default function AvatarInfo({ userProfile }: Props) {
-  if (!userProfile) return <></>;
+  if (!userProfile?.userTripStyleName) return <></>;
 
   const { userNickname, userProfileImg, userTripStyleName } = userProfile;
 
