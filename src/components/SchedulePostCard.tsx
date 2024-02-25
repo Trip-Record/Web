@@ -18,8 +18,8 @@ interface ScheduleDetail {
   scheduleContent: string;
 }
 
-interface ScheduleData {
-  totalpage: number;
+export interface ScheduleData {
+  totalPages: number;
   pageNumber: number;
   schedules: SchedulePost[];
 }
@@ -48,7 +48,11 @@ export default function SchedulePost({ scheduleData }: Props) {
 
   const { schedules } = scheduleData;
   const makeStartEndDateString = (startDate: string, endDate: string) => {
-    return `${startDate.replace(/-/g, ".")} - ${endDate.replace(/-/g, ".")}`;
+    const DATE_FORM_MINUS = /-/g;
+    return `${startDate.replace(DATE_FORM_MINUS, ".")} - ${endDate.replace(
+      DATE_FORM_MINUS,
+      "."
+    )}`;
   };
 
   const formatDateWithWeekday = (dateStr: string) => {
@@ -96,7 +100,9 @@ export default function SchedulePost({ scheduleData }: Props) {
             })}
             <div className="flex gap-2 justify-between">
               <LikeBtn count={schedulePost.scheduleLikeCount} />
-              <Link to={`/schedule/0`}>모든 일정 보기</Link>
+              <Link to={`/schedule/${schedulePost.scheduleId}`}>
+                모든 일정 보기
+              </Link>
             </div>
           </div>
         );
