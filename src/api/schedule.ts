@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { getLoginToken } from "../services/storage";
-import { ScheduleData } from "../components/SchedulePostCard";
+import { ScheduleData, SchedulePost } from "../components/SchedulePostCard";
 
 export const scheduleApi = createApi({
   reducerPath: "schedule",
@@ -21,7 +21,11 @@ export const scheduleApi = createApi({
     getSchedulePosts: builder.query<ScheduleData, number>({
       query: (pageNumber) => `schedules?page=${pageNumber}`,
     }),
+    getScheduleDetail: builder.query<SchedulePost, string | undefined>({
+      query: (scheduleId) => `schedules/${scheduleId}`,
+    }),
   }),
 });
 
-export const { useGetSchedulePostsQuery } = scheduleApi;
+export const { useGetSchedulePostsQuery, useGetScheduleDetailQuery } =
+  scheduleApi;
