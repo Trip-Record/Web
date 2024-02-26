@@ -12,9 +12,8 @@ interface Props {
   onModal?: boolean;
 }
 
-export const IMG_BOX = "aspect-square max-h-[80vh] items-center gap-2 mx-auto";
-export const IMG_BOX_MODAL = ` ${IMG_BOX}`;
-export const IMG_BOX_NORMAL = `aspect-square ${IMG_BOX}`;
+export const IMG_BOX =
+  "flex flex-col aspect-square max-h-[80vh] items-center gap-2 mx-auto";
 export default function Slider({ images, count = 0, onModal = false }: Props) {
   const [imageCount, setImageCount] = useState(count);
 
@@ -30,10 +29,12 @@ export default function Slider({ images, count = 0, onModal = false }: Props) {
   };
 
   return (
-    <div className={`flex flex-col ${IMG_BOX}`}>
-      <div className="relative flex border w-full h-full aspect-square overflow-hidden group">
+    <div className={`${IMG_BOX} ${onModal && "max-w-[38rem] w-[100vw]"}`}>
+      <div
+        className={`relative flex border w-full h-full aspect-square overflow-hidden group`}
+      >
         <div
-          className="flex relative h-full"
+          className="flex relative w-full h-full"
           style={{
             transform: `translateX(${imageCount * -100}%)`,
             transition: "transform 500ms ease",

@@ -67,7 +67,7 @@ export default function PostDetail({ postId }: Props) {
           nothingImage && "h-52"
         }`}
       >
-        {!nothingImage && <Slider images={images} />}
+        {!nothingImage && <Slider images={images} onModal={false} />}
         <div>{recordContent}</div>
       </article>
       <div className="mt-auto">
