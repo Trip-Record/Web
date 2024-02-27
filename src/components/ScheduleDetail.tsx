@@ -26,7 +26,8 @@ export default function ScheduleDetail({ scheduleId }: Props) {
   return (
     <div className="flex flex-col gap-1 rounded-md p-2 bg-white shadow w-2/5 mx-auto my-3">
       <div className="flex justify-between ">
-        <AvatarInfo userId={userId} />
+        {/* TODO: 수정예정 */}
+        {/* <AvatarInfo userId={userId} /> */}
         <div className="flex items-center gap-1">
           <button className="flex items-center">
             <ModifyIcon size={16} /> <div className="w-10">수정</div>
@@ -96,7 +97,8 @@ export default function ScheduleDetail({ scheduleId }: Props) {
       </div>
       <hr className="my-2" />
       <div>
-        <AvatarInfo userId={userId} />
+        {/* TODO: 수정예정 */}
+        {/* <AvatarInfo userId={userId} /> */}
         <p>
           의무교육은 무상으로 한다. 모든 국민은 사생활의 비밀과 자유를 침해받지
           아니한다. 대통령이 궐위되거나 사고로 인하여 직무를 수행할 수 없을
@@ -107,7 +109,8 @@ export default function ScheduleDetail({ scheduleId }: Props) {
       </div>
       <hr className="my-2" />
       <div>
-        <AvatarInfo userId={userId} />
+        {/* TODO: 수정예정 */}
+        {/* <AvatarInfo userId={userId} /> */}
         <p>
           의무교육은 무상으로 한다. 모든 국민은 사생활의 비밀과 자유를 침해받지
           아니한다. 대통령이 궐위되거나 사고로 인하여 직무를 수행할 수 없을
@@ -118,7 +121,8 @@ export default function ScheduleDetail({ scheduleId }: Props) {
       </div>
       <hr className="my-2" />
       <div>
-        <AvatarInfo userId={userId} />
+        {/* TODO: 수정예정 */}
+        {/* <AvatarInfo userId={userId} /> */}
         <p>
           의무교육은 무상으로 한다. 모든 국민은 사생활의 비밀과 자유를 침해받지
           아니한다. 대통령이 궐위되거나 사고로 인하여 직무를 수행할 수 없을

@@ -21,6 +21,8 @@ export default function PostCard({ record, type = "blog" }: Props) {
   const region = "대한민국, 부산";
   const signatureImg = "/logo192.png";
 
+  console.log(recordUserProfile);
+
   if (type === "blog") {
     return (
       //TODO: 인스타형 포스트 onclick 적용
