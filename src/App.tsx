@@ -33,8 +33,8 @@ export default function App() {
           <Route path="/record/:id" element={<PostDetailPage />} />
           <Route path="/schedule/:id" element={<ScheduleDetailPage />} />
           <Route path="test" element={<Test />} />
-          <Route path="style" element={<SelectTravelStyle />} />
         </Route>
+        <Route path="style" element={<SelectTravelStyle />} />
       </Routes>
       <Routes>
         <Route path="/login" element={<LoginPage />} />
