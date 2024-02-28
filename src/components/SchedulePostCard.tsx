@@ -8,12 +8,12 @@ import { useModal } from "../hooks/useModal";
 import ModalButton from "./Modal";
 import { UserProfile } from "../hooks/useUser";
 
-interface SchedulePlace {
+export interface SchedulePlace {
   placeCountry: string;
   placeName: string;
 }
 
-interface ScheduleDetail {
+export interface ScheduleDetail {
   scheduleDetailDate: string;
   scheduleContent: string;
 }
@@ -24,7 +24,7 @@ export interface ScheduleData {
   schedules: SchedulePost[];
 }
 
-interface SchedulePost {
+export interface SchedulePost {
   userProfile: UserProfile;
   scheduleId: number;
   scheduleTitle: string;
@@ -87,7 +87,6 @@ export default function SchedulePost({ scheduleData }: Props) {
             {schedulePost.scheduleDetails.map((date, index) => {
               return (
                 <div className="border-2 rounded-lg shadow mb-1 p-2">
-                  <div>{}</div>
                   <div className="flex" key={date.scheduleDetailDate}>
                     <h1 className="font-bold">{`DAY ${index + 1}`}</h1>
                     <p className="ml-3">

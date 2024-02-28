@@ -1,4 +1,5 @@
 import { STYLES } from "../SelectTravelStyle";
+
 export type Travel_Style =
   | "쇼핑형"
   | "명소 방문형"
@@ -11,14 +12,24 @@ export type Travel_Style =
 
 interface Props {
   selectStyle: Travel_Style;
+  onClick?: () => void;
 }
 
-export default function TravelStyle({ selectStyle }: Props) {
+export default function TravelStyle({ selectStyle, onClick }: Props) {
   const findStyle = STYLES.find((style) => style.title === selectStyle);
   const img = findStyle?.image;
 
+  const handleClick = () => {
+    if (onClick) {
+      onClick();
+    }
+  };
+
   return (
-    <div className="flex items-center gap-1 h-7 bg-blue-200 p-1 px-2 rounded-full">
+    <div
+      className="flex items-center gap-1 h-7 bg-blue-200 p-1 px-2 rounded-full"
+      onClick={handleClick}
+    >
       <img src={img} alt="travel_style" className="h-full"></img>
       <span className="hidden sm:block">{selectStyle}</span>
     </div>
