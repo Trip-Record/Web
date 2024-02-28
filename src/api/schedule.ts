@@ -2,6 +2,20 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { getLoginToken } from "../services/storage";
 import { ScheduleData, SchedulePost } from "../components/SchedulePostCard";
 
+interface SchedulePatch {
+  scheduleId: string;
+  scheduleTitle: string;
+  placeIds: number[];
+  scheduleStartDate: string;
+  scheduleEndDate: string;
+  scheduleDetails: ScheduleDetail[];
+}
+
+interface ScheduleDetail {
+  scheduleDetailDate: string;
+  scheduleDetailContent: string;
+}
+
 export const scheduleApi = createApi({
   reducerPath: "schedule",
   baseQuery: fetchBaseQuery({
@@ -24,8 +38,29 @@ export const scheduleApi = createApi({
     getScheduleDetail: builder.query<SchedulePost, string | undefined>({
       query: (scheduleId) => `schedules/${scheduleId}`,
     }),
+    patchScheduleDetail: builder.mutation<void, SchedulePatch>({
+      query: (schedulePatchData) => {
+        return {
+          url: `/schedules/${schedulePatchData.scheduleId}`,
+          method: "PATCH",
+          body: schedulePatchData,
+        };
+      },
+    }),
+    deleteScheduleDetail: builder.mutation<void, string>({
+      query: (scheduleId: string) => {
+        return {
+          url: `/schedules/${scheduleId}`,
+          method: "DELETE",
+        };
+      },
+    }),
   }),
 });
 
-export const { useGetSchedulePostsQuery, useGetScheduleDetailQuery } =
-  scheduleApi;
+export const {
+  useGetSchedulePostsQuery,
+  useGetScheduleDetailQuery,
+  usePatchScheduleDetailMutation,
+  useDeleteScheduleDetailMutation,
+} = scheduleApi;

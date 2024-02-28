@@ -7,15 +7,39 @@ import PageNation from "./ui/PageNation";
 import ModifyIcon from "./ui/icons/ModifyIcon";
 import DeleteIcon from "./ui/icons/DeleteIcon";
 import { useParams } from "react-router-dom";
-import { useGetScheduleDetailQuery } from "../api/schedule";
+import {
+  useGetScheduleDetailQuery,
+  usePatchScheduleDetailMutation,
+  useDeleteScheduleDetailMutation,
+} from "../api/schedule";
+import { useNavigate } from "react-router-dom";
 
 export default function ScheduleDetail() {
   const { scheduleId } = useParams();
   const { data } = useGetScheduleDetailQuery(scheduleId);
+  const [deleteScheduleDetail] = useDeleteScheduleDetailMutation();
+  const navi = useNavigate();
 
   if (!scheduleId) return <>페이지 없음...</>;
   if (!+scheduleId) return <>페이지 없음...</>;
   if (!data) return <>로딩중...</>;
+
+  const handleDeleteClick = (scheduleId: string) => {
+    const deleteCheck = window.confirm("해당 게시글을 삭제하시겠습니까?");
+    if (deleteCheck) {
+      // 훅에서 반환된 함수의 실행은 조건부가 될 수 있습니다.
+      deleteScheduleDetail(scheduleId)
+        .unwrap()
+        .then(() => {
+          alert("게시글이 삭제되었습니다.");
+          navi("/travel-schedule");
+        })
+        .catch((error) => {
+          console.error("Deleting schedule failed", error);
+          alert("게시글 삭제에 실패하였습니다.");
+        });
+    }
+  };
 
   const makeStartEndDateString = (startDate: string, endDate: string) => {
     const DATE_FORM_MINUS = /-/g;
@@ -36,6 +60,8 @@ export default function ScheduleDetail() {
 
     return `${year}.${month}.${day} (${weekday})`;
   };
+
+  // 이 함수는 이벤트 핸들러로, 사용자의 상호작용에 의해 호출됩니다.
 
   return (
     <div className="flex flex-col gap-1 rounded-md p-2 bg-white shadow w-2/5 mx-auto my-3">
@@ -60,7 +86,12 @@ export default function ScheduleDetail() {
             <button className="flex items-center">
               <ModifyIcon size={16} /> <div className="w-10">수정</div>
             </button>
-            <button className="flex items-center">
+            <button
+              className="flex items-center"
+              onClick={() => {
+                handleDeleteClick(scheduleId);
+              }}
+            >
               <DeleteIcon size={18} /> <div className="w-10">삭제</div>
             </button>
           </div>
