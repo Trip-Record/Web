@@ -1,29 +1,21 @@
 import { useState } from "react";
 import LikeIcon from "../ui/icons/LikeIcon";
+import { HOST } from "../../constants";
+import { useUser } from "../../hooks/useUser";
+import { useLike } from "../../hooks/useLike";
 
 interface Props {
   count: number;
   isLiked?: boolean;
+  id?: number;
 }
 
-// TODO: 리덕스로 전환
-export default function LikeBtn({ count, isLiked = false }: Props) {
-  const [active, setActive] = useState(isLiked);
-  const [like, setLike] = useState(count);
-
-  const addLike = () => {};
-  const removeLike = () => {};
-
-  const clickLikeButton = () => {
-    if (active) {
-      setLike(like - 1);
-      removeLike();
-    } else {
-      setLike(like + 1);
-      addLike();
-    }
-    setActive(!active);
-  };
+export default function LikeBtn({ count, isLiked = false, id }: Props) {
+  const { active, clickLikeButton, like } = useLike({
+    initCount: count,
+    initLike: isLiked,
+    recordId: id ?? -1,
+  });
 
   return (
     <div
