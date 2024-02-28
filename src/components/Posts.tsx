@@ -31,23 +31,25 @@ export default function Posts() {
     );
   return (
     <main className="flex flex-col items-center justify-center w-full bg-white px-10 py-5 gap-5">
-      <div className="ml-auto border flex items-center p-1">
-        <button className="border-r p-2" onClick={() => setCardType("blog")}>
-          <BlogIcon />
-        </button>
-        <button className="p-2" onClick={() => setCardType("instagram")}>
-          <CardIcon />
-        </button>
+      <div className="flex flex-col items-center w-full max-w-screen-md">
+        <div className="ml-auto border flex items-center justify-end p-1">
+          <button className="border-r p-2" onClick={() => setCardType("blog")}>
+            <BlogIcon />
+          </button>
+          <button className="p-2" onClick={() => setCardType("instagram")}>
+            <CardIcon />
+          </button>
+        </div>
+        <PostList
+          cardType={cardType}
+          showCount={showPageCount}
+          recordList={records.recordList}
+        />
+        <PageNation
+          maxPage={Math.ceil(records?.totalPages / showPageCount)}
+          showPage={showPageCount}
+        />
       </div>
-      <PostList
-        cardType={cardType}
-        showCount={showPageCount}
-        recordList={records.recordList}
-      />
-      <PageNation
-        maxPage={Math.ceil(records?.totalPages / showPageCount)}
-        showPage={showPageCount}
-      />
     </main>
   );
 }
