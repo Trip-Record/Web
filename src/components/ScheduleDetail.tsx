@@ -141,6 +141,7 @@ export default function ScheduleDetail() {
       <hr className="my-2" />
       <div>
         <AvatarInfo userProfile={data.userProfile} />
+
         <p>
           의무교육은 무상으로 한다. 모든 국민은 사생활의 비밀과 자유를 침해받지
           아니한다. 대통령이 궐위되거나 사고로 인하여 직무를 수행할 수 없을

@@ -3,13 +3,11 @@ import Avatar from "./Avatar";
 import TravelStyle from "./TravelStyle";
 
 interface Props {
-  userProfile?: UserProfile;
+  userProfile: UserProfile;
   userId?: number;
 }
 
 export default function AvatarInfo({ userProfile }: Props) {
-  if (!userProfile?.userTripStyleName) return <></>;
-
   const { userNickname, userProfileImg, userTripStyleName } = userProfile;
 
   return (
@@ -18,7 +16,7 @@ export default function AvatarInfo({ userProfile }: Props) {
         <Avatar img={userProfileImg} size="s" />
         <span>{userNickname}</span>
       </div>
-      <TravelStyle selectStyle={userTripStyleName} />
+      {userTripStyleName && <TravelStyle selectStyle={userTripStyleName} />}
     </div>
   );
 }

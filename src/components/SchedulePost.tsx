@@ -21,7 +21,8 @@ export default function SchedulePost({ schedulePost }: Props) {
 
   return (
     <div className="flex flex-col gap-1 rounded-md p-2 bg-white shadow w-2/5 mx-auto my-3">
-      <AvatarInfo userId={userId} />
+      {/* TODO: 수정예정 */}
+      {/* <AvatarInfo userId={userId} /> */}
       <div className="flex gap-3">
         <p>{region}</p>
         <p>{date}</p>

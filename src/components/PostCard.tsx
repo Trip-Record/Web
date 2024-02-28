@@ -13,13 +13,16 @@ interface Props {
   type?: "blog" | "instagram";
 }
 export default function PostCard({ record, type = "blog" }: Props) {
-  const { recordUserProfile, recordId, recordTitle, recordContent } = record;
+  const { recordUserProfile, recordId, recordTitle, recordContent, likeCount } =
+    record;
 
   const [showModal, switchModal] = useModal();
   const navi = useNavigate();
 
   const region = "대한민국, 부산";
   const signatureImg = "/logo192.png";
+
+  console.log(recordUserProfile);
 
   if (type === "blog") {
     return (
@@ -36,7 +39,7 @@ export default function PostCard({ record, type = "blog" }: Props) {
             <div className="line-clamp-4">{recordContent}</div>
           </div>
           <div className="mt-auto flex items-center gap-2">
-            <LikeBtn count={0} />
+            <LikeBtn count={likeCount} />
             <CommentBtn count={record.commentCount} />
           </div>
         </div>
