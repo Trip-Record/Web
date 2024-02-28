@@ -5,13 +5,14 @@ import { useRef } from "react";
 import { useInput } from "../../hooks/useInput";
 import Avatar from "../ui/Avatar";
 import { useGetComments2Query } from "../../api/record";
+import { useUser } from "../../hooks/useUser";
 
 interface Props {
   postId: number;
 }
 export default function Comments({ postId }: Props) {
   // const { data: comments } = useGetCommentsQuery(postId);
-
+  const { user } = useUser();
   const { data } = useGetComments2Query({
     recordId: postId,
     page: 0,
@@ -54,7 +55,7 @@ export default function Comments({ postId }: Props) {
         onSubmit={handleSubmit}
         className="w-full flex items-center gap-2 mt-auto"
       >
-        <Avatar img="/logo192.png" size="s" />
+        <Avatar img={user?.userProfile.userProfileImg || ""} size="s" />
         <input
           type="text"
           value={value}
