@@ -20,6 +20,7 @@ interface ScheduleDetail {
   scheduleDetailDate: string;
   scheduleContent: string;
 }
+
 interface SchedulePost {
   userProfile: UserProfile;
   scheduleId: number;
@@ -38,7 +39,6 @@ export default function TravelSchedule() {
   const page = Number(searchParams.get("page") ?? 0);
   const { data } = useGetSchedulePostsQuery(page - 1);
   const { user } = useUser();
-  console.log(data);
   const [hoverState, setHoverState] = useState<"none" | "in" | "out">("none");
 
   const link_record = user ? "/write-record" : "/login";
