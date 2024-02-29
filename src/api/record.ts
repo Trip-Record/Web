@@ -1,7 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { getLoginToken } from "../services/storage";
 import { Record, ResponseRecords } from "./records";
-import { CommentData } from "./dummy";
 
 export interface recordData {
   recordTitle: string;
@@ -10,12 +9,6 @@ export interface recordData {
   endDate: string;
   recordImages?: File[];
   placeIds: string[];
-}
-
-export interface ResponseComment {
-  totalPages: number;
-  pageNumber: number;
-  recordComments: CommentData[];
 }
 
 export const recordApi = createApi({
@@ -45,22 +38,12 @@ export const recordApi = createApi({
     getRecord: builder.query<Record, number>({
       query: (recordId) => `records/${recordId}`,
     }),
-    getComments2: builder.query<
-      ResponseComment,
-      { recordId: number; page: number }
-    >({
-      query: ({ page, recordId }) =>
-        `records/${recordId}/comments?page=${page}`,
-    }),
+
     getMyRecords: builder.query<ResponseRecords, void>({
       query: () => `users/records/`,
     }),
   }),
 });
 
-export const {
-  useSetRecordMutation,
-  useGetRecordQuery,
-  useGetComments2Query,
-  useGetMyRecordsQuery,
-} = recordApi;
+export const { useSetRecordMutation, useGetRecordQuery, useGetMyRecordsQuery } =
+  recordApi;

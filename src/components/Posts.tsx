@@ -1,5 +1,4 @@
 import { useSearchParams } from "react-router-dom";
-import { useAddCommentsMutation, useGetPostsQuery } from "../api/dummy";
 import PostCard from "./PostCard";
 import PageNation from "./ui/PageNation";
 import { useEffect, useState } from "react";

@@ -5,6 +5,7 @@ import { userApi } from "./api/user";
 import { scheduleApi } from "./api/schedule";
 import { recordsApi } from "./api/records";
 import { recordApi } from "./api/record";
+import { commentApi } from "./api/comment";
 
 export const store = configureStore({
   reducer: {
@@ -13,6 +14,7 @@ export const store = configureStore({
     [scheduleApi.reducerPath]: scheduleApi.reducer,
     [recordsApi.reducerPath]: recordsApi.reducer,
     [recordApi.reducerPath]: recordApi.reducer,
+    [commentApi.reducerPath]: commentApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
@@ -20,7 +22,8 @@ export const store = configureStore({
       .concat(userApi.middleware)
       .concat(scheduleApi.middleware)
       .concat(recordsApi.middleware)
-      .concat(recordApi.middleware),
+      .concat(recordApi.middleware)
+      .concat(commentApi.middleware),
 
   // getDefaultMiddleware().concat(userApi.middleware),
 });

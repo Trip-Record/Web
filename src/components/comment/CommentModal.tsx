@@ -1,19 +1,21 @@
 import { useRef } from "react";
-import {
-  CommentData,
-  useAddCommentsMutation,
-  useGetCommentsQuery,
-} from "../../api/dummy";
 import { useInput } from "../../hooks/useInput";
 import ColorButton from "../ui/ColorButton";
 import CommentLine from "./CommentLine";
+import {
+  useAddCommentsMutation,
+  useGetComments2Query,
+} from "../../api/comment";
 
 interface Props {
   postId: number;
 }
 
 export default function CommentModal({ postId }: Props) {
-  const { data: comments } = useGetCommentsQuery(postId);
+  const { data: comments } = useGetComments2Query({
+    recordId: postId,
+    page: 0,
+  });
   const [updatePost, result] = useAddCommentsMutation();
   const commentRef = useRef<HTMLDivElement>(null);
   const commentValidate = (value: string) => {

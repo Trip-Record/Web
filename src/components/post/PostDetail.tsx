@@ -29,6 +29,7 @@ export default function PostDetail({ postId }: Props) {
     likeCount,
     recordPlaces,
     isUserLiked,
+    commentCount,
   } = data;
 
   const images = recordImages.map((image) => image.recordImageUrl);
@@ -88,7 +89,7 @@ export default function PostDetail({ postId }: Props) {
         <LikeBtn count={likeCount} isLiked={isUserLiked} />
       </div>
 
-      <Comments postId={postId} />
+      <Comments postId={postId} commentCount={commentCount} />
     </main>
   );
 }
