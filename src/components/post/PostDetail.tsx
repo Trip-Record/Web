@@ -1,15 +1,13 @@
 import Slider from "../ui/Slider";
-import { useGetPostQuery } from "../../api/dummy";
 import DeleteIcon from "../ui/icons/DeleteIcon";
 import ModifyIcon from "../ui/icons/ModifyIcon";
 import AvatarInfo from "../ui/AvatarInfo";
 import SkeletonDetail from "../ui/skeleton/SkeletonDetail";
 import LikeBtn from "./LikeBtn";
 import Comments from "../comment/Comments";
-import { useGetRecordQuery } from "../../api/record";
-import { HOST } from "../../constants";
 import { useUser } from "../../hooks/useUser";
-import { useNavigate } from "react-router-dom";
+import { useRecord } from "../../hooks/useRecord";
+import { Place, ResponseImage } from "../../api/records";
 
 interface Props {
   postId: number;
@@ -17,9 +15,9 @@ interface Props {
 
 export default function PostDetail({ postId }: Props) {
   // const { data, isLoading } = useGetPostQuery(postId);
-  const { data } = useGetRecordQuery(postId);
+  const { data, deleteRecord } = useRecord(postId);
   const { user } = useUser();
-  const navi = useNavigate();
+
   if (!data) return <SkeletonDetail />;
   const {
     recordTitle,
@@ -40,25 +38,10 @@ export default function PostDetail({ postId }: Props) {
     .join("/");
 
   const nothingImage = images.length === 0;
-  const deleteRecord = () => {
-    fetch(`${HOST}/records/${postId}`, {
-      method: "DELETE",
-      headers: {
-        AUTHORIZATION: `Bearer ${user?.token}`,
-      },
-    })
-      .then((res) => {
-        if (res.ok) {
-          alert("삭제되었습니다");
-          navi("/");
-        } else {
-          alert("삭제에 실패하였습니다");
-        }
-      })
-      .catch(() => {
-        alert("삭제 중 오류가 발생하였습니다. 네트워크 상태를 확인하세요");
-      });
-  };
+
+  // TODO: 유저 고유 ID 검증 필요
+  const isMyRecord =
+    recordUserProfile.userNickname === user?.userProfile.userNickname;
 
   return (
     <main className="w-full max-w-screen-md flex flex-col gap-2">
@@ -78,12 +61,19 @@ export default function PostDetail({ postId }: Props) {
           </div>
         </div>
         <div className="flex items-center gap-1">
-          <button className="flex items-center">
-            <ModifyIcon size={16} /> 수정
-          </button>
-          <button className="flex items-center" onClick={() => deleteRecord()}>
-            <DeleteIcon size={18} /> 삭제
-          </button>
+          {isMyRecord && (
+            <>
+              <button className="flex items-center">
+                <ModifyIcon size={16} /> 수정
+              </button>
+              <button
+                className="flex items-center"
+                onClick={() => deleteRecord()}
+              >
+                <DeleteIcon size={18} /> 삭제
+              </button>
+            </>
+          )}
         </div>
       </div>
       <article
