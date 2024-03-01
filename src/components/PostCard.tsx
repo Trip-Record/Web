@@ -13,8 +13,15 @@ interface Props {
   type?: "blog" | "instagram";
 }
 export default function PostCard({ record, type = "blog" }: Props) {
-  const { recordUserProfile, recordId, recordTitle, recordContent, likeCount } =
-    record;
+  const {
+    recordUserProfile,
+    recordId,
+    recordTitle,
+    recordContent,
+    likeCount,
+    isUserLiked,
+    commentCount,
+  } = record;
 
   const [showModal, switchModal] = useModal();
   const navi = useNavigate();
@@ -39,7 +46,7 @@ export default function PostCard({ record, type = "blog" }: Props) {
             <div className="line-clamp-4">{recordContent}</div>
           </div>
           <div className="mt-auto flex items-center gap-2">
-            <LikeBtn count={likeCount} />
+            <LikeBtn count={likeCount} isLiked={isUserLiked} id={recordId} />
             <CommentBtn count={record.commentCount} />
           </div>
         </div>
@@ -68,9 +75,9 @@ export default function PostCard({ record, type = "blog" }: Props) {
           <div className="line-clamp-4">{recordContent}</div>
         </div>
         <div className="flex items-center w-full mt-4 gap-3">
-          <LikeBtn count={1} />
+          <LikeBtn count={1} id={recordId} />
           <ModalButton
-            button={<CommentBtn count={0} />}
+            button={<CommentBtn count={commentCount} />}
             modal={<CommentModal postId={recordId} />}
             isOpenModal={showModal}
             setModal={switchModal}

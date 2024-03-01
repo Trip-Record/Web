@@ -1,4 +1,4 @@
-import { CommentData } from "../../api/dummy";
+import { CommentData } from "../../api/comment";
 import Avatar from "../ui/Avatar";
 import AvatarInfo from "../ui/AvatarInfo";
 import TravelStyle from "../ui/TravelStyle";

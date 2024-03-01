@@ -1,22 +1,36 @@
-import { useEffect, useState } from "react";
-import { CardType } from "../components/Posts";
-import { useGetRecordsQuery } from "../api/records";
+import { useNavigate } from "react-router-dom";
+import { HOST } from "../constants";
+import { useUser } from "./useUser";
+import { useGetRecordQuery } from "../api/record";
 
-export function useRecord(page: number, showPageCount: number) {
-  const [cardType, setCardType] = useState<CardType>("blog");
+export function useRecord(recordId: number) {
+  const { user } = useUser();
+  const navi = useNavigate();
+  const { data } = useGetRecordQuery(recordId);
 
-  const { data: records, refetch } = useGetRecordsQuery({
-    page: page,
-    size: showPageCount,
-  });
+  const deleteRecord = () => {
+    fetch(`${HOST}/records/${recordId}`, {
+      method: "DELETE",
+      headers: {
+        AUTHORIZATION: `Bearer ${user?.token}`,
+      },
+    })
+      .then((res) => {
+        if (res.ok) {
+          alert("삭제되었습니다");
+          navi("/");
+        } else {
+          alert("삭제에 실패하였습니다");
+        }
+      })
+      .catch(() => {
+        alert("삭제 중 오류가 발생하였습니다. 네트워크 상태를 확인하세요");
+      });
+  };
 
-  useEffect(() => {
-    refetch();
-    window.scrollTo({
-      top: 0, // 스크롤을 맨 위로 이동
-      // behavior: "smooth", // 부드러운 스크롤 이동
-    });
-  }, [page, refetch]);
+  const modifyRecord = () => {
+    fetch("/");
+  };
 
-  return { cardType, records, refetch, setCardType };
+  return { deleteRecord, data, modifyRecord };
 }
