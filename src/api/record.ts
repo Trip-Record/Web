@@ -12,6 +12,12 @@ export interface recordData {
   placeIds: string[];
 }
 
+export interface Place {
+  placeId?: number;
+  placeCountry: string;
+  placeName: string;
+}
+
 export interface ResponseComment {
   totalPages: number;
   pageNumber: number;
