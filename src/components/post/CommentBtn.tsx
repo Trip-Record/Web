@@ -1,7 +1,5 @@
 import { useRef } from "react";
 import CommentIcon from "../ui/icons/CommentIcon";
-import { useGetCommentsQuery } from "../../api/dummy";
-
 interface Props {
   count: number;
 }
