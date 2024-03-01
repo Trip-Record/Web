@@ -16,6 +16,7 @@ import PostDetail from "./components/post/PostDetail";
 import PostDetailPage from "./components/PostDetailPage";
 import Test from "./components/Test";
 import ScheduleDetail from "./components/ScheduleDetail";
+import ModifySchedule from "./components/ModifySchedule";
 
 export default function App() {
   return (
@@ -32,6 +33,10 @@ export default function App() {
           <Route path="write-schedule" element={<WriteSchedule />} />
           <Route path="/record/:id" element={<PostDetailPage />} />
           <Route path="/schedule/:scheduleId" element={<ScheduleDetail />} />
+          <Route
+            path="/modify-schedule/:scheduleId"
+            element={<ModifySchedule />}
+          />
           <Route path="test" element={<Test />} />
         </Route>
         <Route path="style" element={<SelectTravelStyle />} />

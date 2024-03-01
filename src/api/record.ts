@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { getLoginToken } from "../services/storage";
 import { Record, ResponseRecords } from "./records";
+import { CommentData } from "./comment";
 
 export interface recordData {
   recordTitle: string;
@@ -9,6 +10,18 @@ export interface recordData {
   endDate: string;
   recordImages?: File[];
   placeIds: string[];
+}
+
+export interface Place {
+  placeId?: number;
+  placeCountry: string;
+  placeName: string;
+}
+
+export interface ResponseComment {
+  totalPages: number;
+  pageNumber: number;
+  recordComments: CommentData[];
 }
 
 export const recordApi = createApi({

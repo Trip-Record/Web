@@ -39,6 +39,7 @@ export default function TravelSchedule() {
   const page = Number(searchParams.get("page") ?? 0);
   const { data } = useGetSchedulePostsQuery(page - 1);
   const { user } = useUser();
+
   const [hoverState, setHoverState] = useState<"none" | "in" | "out">("none");
 
   const link_record = user ? "/write-record" : "/login";

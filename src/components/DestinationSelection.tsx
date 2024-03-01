@@ -274,7 +274,7 @@ export default function DestinationSelection({
           onClick={() => handleSelectionEnd()}
           className="mt-4 ml-2 p-2 bg-blue-500 text-white rounded hover:bg-blue-600 font-bold"
         >
-          종료
+          완료
         </button>
       </div>
     </div>

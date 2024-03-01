@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MdSubtitles } from "react-icons/md";
 import { FaLocationDot } from "react-icons/fa6";
 import { LuCalendarCheck } from "react-icons/lu";
@@ -7,13 +7,16 @@ import Calendar from "./comment/Calendar";
 import ModalButton from "./Modal";
 import { SelectDate } from "./comment/Calendar";
 import { useModal } from "../hooks/useModal";
-import axios from "axios";
 import DestinationSelection from "./DestinationSelection";
+import { useNavigate, useParams } from "react-router-dom";
+import { useGetScheduleDetailQuery } from "../api/schedule";
+import { Place } from "../api/record";
 
-export default function WriteSchedule() {
+export default function ModifySchedule() {
   const [travelName, setTravelName] = useState("");
   const [testTravelArea, setTestTravelArea] = useState<string[]>([]);
-  const [travelDetails, setTravelDetails] = useState("");
+  const [scheduleDetails, setScheduleDetails] = useState<any[]>([]);
+
   const [calendar, setCalendar] = useState(false);
   const [selectedDays, setSelectedDays] = useState<SelectDate>([new Date()]);
   const [isModalOpen, setModal] = useModal();
@@ -21,9 +24,51 @@ export default function WriteSchedule() {
   const [selectedLocationIdArray, setSelectedLocationIdArray] = useState<
     number[]
   >([]);
+  const [isOpenDestinationModal, setDestinationModal] = useModal();
+  const navi = useNavigate();
+  const { scheduleId } = useParams();
+  const { data } = useGetScheduleDetailQuery(scheduleId);
+
+  useEffect(() => {
+    if (data) {
+      setData();
+    }
+  }, [data]);
+
+  useEffect(() => {
+    setShowTextArea(Array(selectedDays.length).fill(false));
+  }, [selectedDays.length]);
+
+  if (!data) return <></>;
+  const setData = () => {
+    setTravelName(data.scheduleTitle);
+    setSelectedDays([
+      makeStringtoDate(data.scheduleStartDate),
+      makeStringtoDate(data.scheduleEndDate),
+    ]);
+    setTestTravelArea(formatSchedulePlaces(data.schedulePlaces));
+    setScheduleDetails(data.scheduleDetails);
+  };
+
+  const formatSchedulePlaces = (schedulePlaces: Place[]) => {
+    const formattedPlaces = schedulePlaces.map(
+      (place) => `${place.placeCountry}/${place.placeName}`
+    );
+
+    return formattedPlaces;
+  };
 
   const makeDaysString = (days: string[]): string => {
     return days.join(" ~ ");
+  };
+
+  const makeStringtoDate = (stringDay: string) => {
+    const parts = stringDay.split("-");
+    const year = parseInt(parts[0], 10);
+    const month = parseInt(parts[1], 10) - 1;
+    const day = parseInt(parts[2], 10);
+
+    return new Date(Date.UTC(year, month, day));
   };
 
   const sortDays = (selectDays: SelectDate) => {
@@ -33,18 +78,19 @@ export default function WriteSchedule() {
     return selectDays;
   };
 
-  console.log(selectedLocationIdArray);
+  const cancelModify = () => {
+    const cancel = window.confirm("수정을 취소하시겠습니까?");
+    if (cancel) {
+      navi("/travel-schedule");
+    }
+  };
 
   const dateFormat = (selectDays: SelectDate): string[] => {
-    sortDays(selectDays);
-    return selectDays.map((i) => {
-      return (
-        i.getFullYear() +
-        "-" +
-        (i.getMonth() + 1 < 10 ? "0" + (i.getMonth() + 1) : i.getMonth() + 1) +
-        "-" +
-        (i.getDate() < 10 ? "0" + i.getDate() : i.getDate())
-      );
+    return selectDays.map((date) => {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+      return `${year}-${month}-${day}`;
     });
   };
 
@@ -53,11 +99,11 @@ export default function WriteSchedule() {
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
+    console.log(selectedLocationIdArray);
     e.preventDefault();
     const formData = new FormData();
     formData.append("travelName", travelName);
     formData.append("travelArea", testTravelArea.join(", "));
-    formData.append("travelDetails", travelDetails);
 
     try {
       //const response = await axios.post("testAPI", formData, {
@@ -75,7 +121,11 @@ export default function WriteSchedule() {
     setTestTravelArea(locations);
   };
 
-  const [isOpenDestinationModal, setDestinationModal] = useModal();
+  const toggleShowTextArea = (index: number) => {
+    const newShowTextArea = [...showTextArea];
+    newShowTextArea[index] = !newShowTextArea[index];
+    setShowTextArea(newShowTextArea);
+  };
 
   const renderTravelScheduleBox = () => {
     const startDate = selectedDays[0];
@@ -89,20 +139,23 @@ export default function WriteSchedule() {
 
     for (let i = 0; i < numberOfDays; i++) {
       const currentDate = new Date(startDate.getTime() + i * 1000 * 3600 * 24);
+      const currentDateString = currentDate.toISOString().split("T")[0];
+
+      // 현재 날짜에 해당하는 일정 세부 정보 찾기
+      const detail = scheduleDetails.find(
+        (detail) => detail.scheduleDetailDate === currentDateString
+      );
+
       scheduleItems.push(
-        <div key={i} className="border border-gray-500 rounded-md p-2 mb-2">
+        <div key={i} className="border border-gray-500 rounded-md p-2 mb-2 ">
           <p className="font-bold ml-2">
             DAY {i + 1} &nbsp; {dateFormat([currentDate])}
           </p>
-          {showTextArea[i] ? (
+          {detail ? (
             <textarea
-              placeholder="여행 일정을 작성하세요."
-              value={travelDetails}
-              onChange={(e) => {
-                setTravelDetails(e.target.value);
-              }}
-              rows={5}
               className="border-gray-300 border-2 shadow-sm rounded-md text-black p-2 w-full mt-2"
+              defaultValue={detail.scheduleContent}
+              rows={5}
             />
           ) : (
             <div className="flex justify-center">
@@ -119,12 +172,6 @@ export default function WriteSchedule() {
     }
 
     return <div className="flex flex-col space-y-2">{scheduleItems}</div>;
-  };
-
-  const toggleShowTextArea = (index: number) => {
-    const newShowTextArea = [...showTextArea];
-    newShowTextArea[index] = !newShowTextArea[index];
-    setShowTextArea(newShowTextArea);
   };
 
   return (
@@ -216,12 +263,20 @@ export default function WriteSchedule() {
         )}
         {selectedDays.length > 0 && renderTravelScheduleBox()}
         {selectedDays.length > 0 && (
-          <div className="flex justify-center">
+          <div className="flex justify-center gap-5">
             <input
               type="submit"
-              value={"업로드"}
+              value="수정"
               className="h-10 mt-2 mb-2 rounded-md border border-black/20 text-white font-bold bg-blue-400 w-1/5"
             />
+            <button
+              onClick={() => {
+                cancelModify();
+              }}
+              className="h-10 mt-2 mb-2 rounded-md border border-black/20 text-white font-bold bg-blue-400 w-1/5"
+            >
+              취소
+            </button>
           </div>
         )}
       </form>

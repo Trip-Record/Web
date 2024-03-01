@@ -61,8 +61,6 @@ export default function ScheduleDetail() {
     return `${year}.${month}.${day} (${weekday})`;
   };
 
-  // 이 함수는 이벤트 핸들러로, 사용자의 상호작용에 의해 호출됩니다.
-
   return (
     <div className="flex flex-col gap-1 rounded-md p-2 bg-white shadow w-2/5 mx-auto my-3">
       <div className="flex justify-between ">
@@ -83,7 +81,12 @@ export default function ScheduleDetail() {
             )}
           </p>
           <div className="flex items-center gap-1">
-            <button className="flex items-center">
+            <button
+              className="flex items-center"
+              onClick={() => {
+                navi(`/modify-schedule/${scheduleId}`);
+              }}
+            >
               <ModifyIcon size={16} /> <div className="w-10">수정</div>
             </button>
             <button
