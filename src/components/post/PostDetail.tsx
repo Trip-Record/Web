@@ -13,6 +13,14 @@ interface Props {
   postId: number;
 }
 
+const getDateYYYYMMDD = (date: Date): string => {
+  const year = date.getFullYear();
+  const month = (date.getMonth() + 1).toString().padStart(2, "0");
+  const day = date.getDate().toString().padStart(2, "0");
+  const dateString = year + "." + month + "." + day;
+  return dateString;
+};
+
 export default function PostDetail({ postId }: Props) {
   // const { data, isLoading } = useGetPostQuery(postId);
   const { data, deleteRecord } = useRecord(postId);
@@ -57,7 +65,8 @@ export default function PostDetail({ postId }: Props) {
           <div>
             [아이콘자리]
             <span>
-              {tripStartDate} - {tripEndDate}
+              {getDateYYYYMMDD(new Date(tripStartDate))} -{" "}
+              {getDateYYYYMMDD(new Date(tripEndDate))}
             </span>
           </div>
         </div>
