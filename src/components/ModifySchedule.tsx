@@ -11,12 +11,18 @@ import DestinationSelection from "./DestinationSelection";
 import { useNavigate, useParams } from "react-router-dom";
 import { useGetScheduleDetailQuery } from "../api/schedule";
 import { Place } from "../api/record";
+import { usePatchScheduleDetailMutation } from "../api/schedule";
+import axios from "axios";
 
 export default function ModifySchedule() {
   const [travelName, setTravelName] = useState("");
   const [testTravelArea, setTestTravelArea] = useState<string[]>([]);
   const [scheduleDetails, setScheduleDetails] = useState<any[]>([]);
-
+  const [selectedDestinations, setSelectedDestinations] = useState<string[]>(
+    []
+  );
+  const patchApi = usePatchScheduleDetailMutation();
+  const patch = patchApi[0];
   const [calendar, setCalendar] = useState(false);
   const [selectedDays, setSelectedDays] = useState<SelectDate>([new Date()]);
   const [isModalOpen, setModal] = useModal();
@@ -28,6 +34,31 @@ export default function ModifySchedule() {
   const navi = useNavigate();
   const { scheduleId } = useParams();
   const { data } = useGetScheduleDetailQuery(scheduleId);
+  const [scheduleContents, setScheduleContents] = useState<ScheduleContents>(
+    {}
+  );
+  let response: any;
+
+  interface Continent {
+    continentName: string;
+    placeBasicDataList: Place[];
+  }
+
+  interface ScheduleContents {
+    [key: string]: string;
+  }
+
+  useEffect(() => {
+    const fetchPlaces = async () => {
+      try {
+        response = await axios.get("http://15.164.19.143:8080/locations");
+      } catch (error) {
+        console.log(error);
+      }
+    };
+  });
+
+  console.log("리렌더링");
 
   useEffect(() => {
     if (data) {
@@ -48,6 +79,17 @@ export default function ModifySchedule() {
     ]);
     setTestTravelArea(formatSchedulePlaces(data.schedulePlaces));
     setScheduleDetails(data.scheduleDetails);
+
+    // scheduleDetails에서 scheduleContents 상태로 변환
+    const initialScheduleContents = data.scheduleDetails.reduce(
+      (acc: any, detail) => {
+        acc[detail.scheduleDetailDate] = detail.scheduleContent;
+        return acc;
+      },
+      {}
+    );
+
+    setScheduleContents(initialScheduleContents);
   };
 
   const formatSchedulePlaces = (schedulePlaces: Place[]) => {
@@ -60,6 +102,13 @@ export default function ModifySchedule() {
 
   const makeDaysString = (days: string[]): string => {
     return days.join(" ~ ");
+  };
+
+  const handleScheduleContentChange = (dateString: string, content: string) => {
+    setScheduleContents((prevContents: any) => ({
+      ...prevContents,
+      [dateString]: content,
+    }));
   };
 
   const makeStringtoDate = (stringDay: string) => {
@@ -98,20 +147,44 @@ export default function ModifySchedule() {
     setCalendar(!calendar);
   };
 
+  const formatDate = (date: Date) => {
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, "0"); // 월은 0부터 시작하므로 1을 더해주고, 두 자리로 만듭니다.
+    const day = date.getDate().toString().padStart(2, "0"); // 일을 두 자리로 만듭니다.
+
+    return `${year}-${month}-${day}`;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
-    console.log(selectedLocationIdArray);
     e.preventDefault();
-    const formData = new FormData();
-    formData.append("travelName", travelName);
-    formData.append("travelArea", testTravelArea.join(", "));
+
+    console.log(selectedDays);
+
+    let endDate = selectedDays[0];
+    if (selectedDays.length === 2) {
+      endDate = selectedDays[1];
+    }
+
+    const scheduleDetails = Object.entries(scheduleContents).map(
+      ([date, content]) => ({
+        scheduleDetailDate: date,
+        scheduleDetailContent: content,
+      })
+    );
 
     try {
-      //const response = await axios.post("testAPI", formData, {
-      //  headers: {
-      //    "Content-Type": "multipart/form-data",
-      //  },
-      //});
-      //console.log(response.data);
+      console.log(selectedDays);
+      const json = {
+        scheduleId: scheduleId,
+        scheduleTitle: travelName,
+        placeIds: selectedLocationIdArray,
+        scheduleStartDate: formatDate(selectedDays[0]),
+        scheduleEndDate: formatDate(endDate),
+        scheduleDetails,
+      };
+      console.log(scheduleDetails);
+      patch(json);
+      navi("/travel-schedule");
     } catch (error) {
       console.error(error);
     }
@@ -125,6 +198,21 @@ export default function ModifySchedule() {
     const newShowTextArea = [...showTextArea];
     newShowTextArea[index] = !newShowTextArea[index];
     setShowTextArea(newShowTextArea);
+  };
+
+  const findPlaceIds = (data: any, searchPlaces: string[]) => {
+    const placeIds: number[] = [];
+    // 데이터를 순회하면서 검색 조건에 맞는 장소의 ID를 찾음
+    data?.forEach((continent: any) => {
+      continent.placeBasicDataList.forEach((place: any) => {
+        const fullPlaceName = `${place.countryName}/${place.placeName}`;
+        if (searchPlaces.includes(fullPlaceName)) {
+          placeIds.push(place.placeId);
+        }
+      });
+    });
+
+    return placeIds;
   };
 
   const renderTravelScheduleBox = () => {
@@ -141,32 +229,19 @@ export default function ModifySchedule() {
       const currentDate = new Date(startDate.getTime() + i * 1000 * 3600 * 24);
       const currentDateString = currentDate.toISOString().split("T")[0];
 
-      // 현재 날짜에 해당하는 일정 세부 정보 찾기
-      const detail = scheduleDetails.find(
-        (detail) => detail.scheduleDetailDate === currentDateString
-      );
-
       scheduleItems.push(
-        <div key={i} className="border border-gray-500 rounded-md p-2 mb-2 ">
+        <div key={i} className="border border-gray-500 rounded-md p-2 mb-2">
           <p className="font-bold ml-2">
             DAY {i + 1} &nbsp; {dateFormat([currentDate])}
           </p>
-          {detail ? (
-            <textarea
-              className="border-gray-300 border-2 shadow-sm rounded-md text-black p-2 w-full mt-2"
-              defaultValue={detail.scheduleContent}
-              rows={5}
-            />
-          ) : (
-            <div className="flex justify-center">
-              <button
-                className="flex justify-center items-center cursor-pointer mb-6"
-                onClick={() => toggleShowTextArea(i)}
-              >
-                <CiSquarePlus size={40} color={"#60a4f9"} />
-              </button>
-            </div>
-          )}
+          <textarea
+            className="border-gray-300 border-2 shadow-sm rounded-md text-black p-2 w-full mt-2"
+            value={scheduleContents[currentDateString] || ""}
+            onChange={(e) =>
+              handleScheduleContentChange(currentDateString, e.target.value)
+            }
+            rows={5}
+          />
         </div>
       );
     }
@@ -210,6 +285,8 @@ export default function ModifySchedule() {
                 setSelectedLocationIdArray={setSelectedLocationIdArray}
                 onLocationSelect={handleTestTravelArea}
                 closeModal={setDestinationModal}
+                selectedDestinations={selectedDestinations}
+                setSelectedDestinations={setSelectedDestinations}
                 key={isOpenDestinationModal.toString()}
               />
             }
@@ -226,7 +303,7 @@ export default function ModifySchedule() {
                   {makeDaysString(dateFormat(selectedDays))}
                 </div>
                 <input
-                  placeholder=" 여행 기간을 선택해주세요."
+                  placeholder=" 여행 기간을 선택해주세요"
                   type="text"
                   readOnly
                   className="hidden"

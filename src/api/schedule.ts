@@ -3,7 +3,7 @@ import { getLoginToken } from "../services/storage";
 import { ScheduleData, SchedulePost } from "../components/SchedulePostCard";
 
 interface SchedulePatch {
-  scheduleId: string;
+  scheduleId: string | undefined;
   scheduleTitle: string;
   placeIds: number[];
   scheduleStartDate: string;
@@ -39,9 +39,11 @@ export const scheduleApi = createApi({
       query: (scheduleId) => `schedules/${scheduleId}`,
     }),
     patchScheduleDetail: builder.mutation<void, SchedulePatch>({
-      query: (schedulePatchData) => {
+      query: (schedulePatchData: SchedulePatch) => {
+        const scheduleId = schedulePatchData.scheduleId;
+        delete schedulePatchData.scheduleId;
         return {
-          url: `/schedules/${schedulePatchData.scheduleId}`,
+          url: `/schedules/${scheduleId}`,
           method: "PATCH",
           body: schedulePatchData,
         };

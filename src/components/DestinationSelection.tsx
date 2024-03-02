@@ -16,21 +16,25 @@ interface Props {
   onLocationSelect: (locations: string[]) => void;
   setSelectedLocationIdArray: (locationId: number[]) => void;
   closeModal: () => void;
+  selectedDestinations: string[];
+  setSelectedDestinations: (destinationString: string[]) => void;
 }
 
 export default function DestinationSelection({
   setSelectedLocationIdArray,
   onLocationSelect,
   closeModal,
+  selectedDestinations,
+  setSelectedDestinations,
 }: Props) {
   const [continents, setContinents] = useState<Continent[]>([]);
   const [selectedContinent, setSelectedContinent] =
     useState<string>("아시아/중동");
   const [selectedCountry, setSelectedCountry] = useState<string>("");
   const [selectedCity, setSelectedCity] = useState<string>("");
-  const [selectedDestinations, setSelectedDestinations] = useState<string[]>(
-    []
-  );
+  // const [selectedDestinations, setSelectedDestinations] = useState<string[]>(
+  //   []
+  // );
   const [selectionLimitReached, setSelectionLimitReached] =
     useState<boolean>(false);
   const [countries, setCountries] = useState<string[]>([]);

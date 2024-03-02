@@ -25,6 +25,9 @@ export default function WriteRecord() {
   const [selectedLocationIdArray, setSelectedLocationIdArray] = useState<
     number[]
   >([]);
+  const [selectedDestinations, setSelectedDestinations] = useState<string[]>(
+    []
+  );
 
   const handleLocationSelect = (location: string[]) => {
     setSelectedLocation(location);
@@ -149,6 +152,8 @@ export default function WriteRecord() {
                 setSelectedLocationIdArray={setSelectedLocationIdArray}
                 onLocationSelect={handleLocationSelect}
                 closeModal={setDestinationModal}
+                selectedDestinations={selectedDestinations}
+                setSelectedDestinations={setSelectedDestinations}
                 key={isOpenDestinationModal.toString()}
               />
             }
