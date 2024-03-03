@@ -21,6 +21,7 @@ export default function PostCard({ record, type = "blog" }: Props) {
     likeCount,
     isUserLiked,
     commentCount,
+    recordImages,
   } = record;
 
   const [showModal, switchModal] = useModal();
@@ -28,8 +29,6 @@ export default function PostCard({ record, type = "blog" }: Props) {
 
   const region = "대한민국, 부산";
   const signatureImg = "/logo192.png";
-
-  console.log(recordUserProfile);
 
   if (type === "blog") {
     return (
@@ -51,7 +50,7 @@ export default function PostCard({ record, type = "blog" }: Props) {
           </div>
         </div>
         <img
-          src={signatureImg}
+          src={recordImages[0]?.recordImageUrl}
           className="w-24 md:w-56 object-contain"
           alt="signature"
         ></img>
