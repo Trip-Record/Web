@@ -49,11 +49,13 @@ export default function PostCard({ record, type = "blog" }: Props) {
             <CommentBtn count={record.commentCount} />
           </div>
         </div>
-        <img
-          src={recordImages[0]?.recordImageUrl}
-          className="w-24 md:w-56 object-contain"
-          alt="signature"
-        ></img>
+        {recordImages[0]?.recordImageUrl && (
+          <img
+            src={recordImages[0]?.recordImageUrl}
+            className="w-24 md:w-56 object-cover"
+            alt="travel_sinature"
+          ></img>
+        )}
       </section>
     );
   } else {
@@ -65,11 +67,13 @@ export default function PostCard({ record, type = "blog" }: Props) {
           onClick={() => navi(`/record/${recordId}`)}
           className="w-full flex flex-col gap-2 justify-center items-center cursor-pointer"
         >
-          <img
-            src="/logo192.png"
-            alt="travel_image"
-            className="w-[80%] h-60 object-contain shadow-md rounded-md"
-          />
+          {recordImages[0]?.recordImageUrl && (
+            <img
+              src={recordImages[0]?.recordImageUrl}
+              alt="travel_sinature"
+              className="w-[80%] h-60 object-cover shadow-md rounded-md"
+            />
+          )}
           <div className="font-bold line-clamp-1">{recordTitle}</div>
           <div className="line-clamp-4">{recordContent}</div>
         </div>
