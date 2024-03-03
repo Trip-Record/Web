@@ -17,11 +17,7 @@ export default function PostList({ cardType, showCount, recordList }: Props) {
     <>
       {recordList.map((record, i) =>
         record ? (
-          <PostCard
-            record={record}
-            key={record.recordId + i + record.recordTitle}
-            type={cardType}
-          />
+          <PostCard record={record} key={record.recordId} type={cardType} />
         ) : (
           <SkeletonPostCard key={i} type={cardType} />
         )
