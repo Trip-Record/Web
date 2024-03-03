@@ -1,4 +1,4 @@
-import { useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import PostCard from "./PostCard";
 import PageNation from "./ui/PageNation";
 import { useEffect, useState } from "react";
@@ -8,6 +8,8 @@ import PostList from "./post/PostList";
 import { useGetRecordsQuery } from "../api/records";
 import SkeletonPostCard from "./ui/skeleton/SkeletonPostcard";
 import { useRecordList } from "../hooks/useRecordList";
+import NotFound from "./ui/NotFound";
+import { transformPageQuery } from "../utils/transformPageQuery";
 
 export type CardType = "blog" | "instagram";
 
@@ -16,7 +18,10 @@ export default function Posts() {
   const page = Number(searchParams.get("page") ?? 0);
 
   const showPageCount = 5;
-  const { cardType, records, setCardType } = useRecordList(page, showPageCount);
+  const { cardType, records, setCardType } = useRecordList(
+    transformPageQuery(page),
+    showPageCount
+  );
 
   if (!records)
     return (
@@ -26,6 +31,13 @@ export default function Posts() {
           .map((_, i) => (
             <SkeletonPostCard type="blog" key={i} />
           ))}
+      </div>
+    );
+
+  if (records?.recordList.length === 0)
+    return (
+      <div className="pt-10">
+        <NotFound />
       </div>
     );
   return (
@@ -44,10 +56,7 @@ export default function Posts() {
           showCount={showPageCount}
           recordList={records.recordList}
         />
-        <PageNation
-          maxPage={Math.ceil(records?.totalPages / showPageCount)}
-          showPage={showPageCount}
-        />
+        <PageNation maxPage={records?.totalPages} showPage={showPageCount} />
       </div>
     </main>
   );
