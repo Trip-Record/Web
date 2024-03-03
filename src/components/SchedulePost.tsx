@@ -52,7 +52,8 @@ export default function SchedulePost({ schedulePost }: Props) {
       </div>
       <div className="flex justify-between">
         <div className="flex  gap-2">
-          <LikeBtn count={1} />
+          {/* TODO: 데이터 필요 */}
+          {/* <LikeBtn id={id} count={} /> */}
           <ModalButton
             button={<CommentBtn count={0} />}
             modal={<CommentModal postId={id} />}

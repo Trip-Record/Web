@@ -75,7 +75,7 @@ export default function PostCard({ record, type = "blog" }: Props) {
           <div className="line-clamp-4">{recordContent}</div>
         </div>
         <div className="flex items-center w-full mt-4 gap-3">
-          <LikeBtn count={1} id={recordId} />
+          <LikeBtn count={likeCount} id={recordId} isLiked={isUserLiked} />
           <ModalButton
             button={<CommentBtn count={commentCount} />}
             modal={<CommentModal postId={recordId} />}

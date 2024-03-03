@@ -113,7 +113,11 @@ export default function ScheduleDetail() {
           );
         })}
         <div className="flex gap-2 justify-between">
-          <LikeBtn count={data.scheduleLikeCount} />
+          <LikeBtn
+            count={data.scheduleLikeCount}
+            id={data.scheduleId}
+            isLiked={data.isUserLiked}
+          />
         </div>
       </div>
       <hr className="my-2" />
