@@ -48,7 +48,6 @@ const BASIC_PROFILE = [
 
 const RegisterPage: React.FC<RegisterPageProps> = () => {
   const [email, setEmail] = useState("");
-  const [id, setId] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [name, setName] = useState("");
@@ -74,9 +73,6 @@ const RegisterPage: React.FC<RegisterPageProps> = () => {
     const emailError = registerValidation.email(email);
     if (emailError) return setError(emailError);
 
-    const idError = registerValidation.id(id);
-    if (idError) return setError(idError);
-
     const passwordError = registerValidation.password(password);
     if (passwordError) return setError(passwordError);
 
@@ -91,7 +87,6 @@ const RegisterPage: React.FC<RegisterPageProps> = () => {
 
     console.log("회원가입 정보:", {
       email,
-      id,
       password,
       name,
       birthDay,
@@ -146,14 +141,7 @@ const RegisterPage: React.FC<RegisterPageProps> = () => {
               error={error}
               inputType="email"
             />
-            <RegisterStringInput
-              label="아이디"
-              placeholder="아이디를 입력해주세요"
-              setValue={setId}
-              value={id}
-              type="id"
-              error={error}
-            />
+
             <RegisterStringInput
               label="비밀번호"
               placeholder="비밀번호를 8자 이상 입력해주세요"
@@ -174,7 +162,7 @@ const RegisterPage: React.FC<RegisterPageProps> = () => {
             />
             <RegisterStringInput
               label="사용자 이름"
-              placeholder="00에서 사용하실 이름을 입력해주세요"
+              placeholder="사용하실 이름을 입력해주세요"
               setValue={setName}
               value={name}
               type="name"
