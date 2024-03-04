@@ -21,7 +21,9 @@ export default function WriteSchedule() {
   const [selectedLocationIdArray, setSelectedLocationIdArray] = useState<
     number[]
   >([]);
-
+  const [selectedDestinations, setSelectedDestinations] = useState<string[]>(
+    []
+  );
   const makeDaysString = (days: string[]): string => {
     return days.join(" ~ ");
   };
@@ -163,6 +165,8 @@ export default function WriteSchedule() {
                 setSelectedLocationIdArray={setSelectedLocationIdArray}
                 onLocationSelect={handleTestTravelArea}
                 closeModal={setDestinationModal}
+                selectedDestinations={selectedDestinations}
+                setSelectedDestinations={setSelectedDestinations}
                 key={isOpenDestinationModal.toString()}
               />
             }
