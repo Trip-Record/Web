@@ -174,7 +174,7 @@ const RegisterPage: React.FC<RegisterPageProps> = () => {
             />
             <RegisterStringInput
               label="사용자 이름"
-              placeholder="00에서 사용하실 이름을 입력해주세요"
+              placeholder="사용하실 이름을 입력해주세요"
               setValue={setName}
               value={name}
               type="name"
