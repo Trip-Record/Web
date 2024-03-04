@@ -1,22 +1,21 @@
 import { useInput } from "../../hooks/useInput";
+import { commentValidation } from "../../validations/comment";
 import Avatar from "../ui/Avatar";
 import ColorButton from "../ui/ColorButton";
 
 interface Props {
   addCommentSubmit: (inputValue: string) => void;
-  commentValidate: (inputValue: string) => boolean | undefined;
   userProfileImage?: string;
 }
 
 export default function CommentInput({
   addCommentSubmit,
-  commentValidate,
   userProfileImage,
 }: Props) {
   const { onchange, error, handleSubmit, value } = useInput({
     init: "",
     submitCallback: addCommentSubmit,
-    validateCallback: commentValidate,
+    validateCallback: commentValidation.content,
   });
   return (
     <form

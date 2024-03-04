@@ -24,19 +24,14 @@ export default function Comments({ postId, commentCount }: Props) {
     recordId: postId,
     page,
   });
-  const commentValidate = (value: string) => {
-    if (value.length === 0) return false;
-  };
+  const [setComment, { isLoading }] = useAddCommentsMutation();
+  const commentRef = useRef<HTMLDivElement>(null);
 
   const addCommentSubmit = async (value: string) => {
     commentRef.current?.scrollTo(0, 0);
     if (!user) return;
     setComment({ content: value, user: user.userProfile, recordId: postId });
   };
-
-  const [setComment, { isLoading }] = useAddCommentsMutation();
-
-  const commentRef = useRef<HTMLDivElement>(null);
 
   if (!data) return <>Loading...</>;
   const comments = data.recordComments;
@@ -49,7 +44,6 @@ export default function Comments({ postId, commentCount }: Props) {
       {/*  */}
       <CommentInput
         addCommentSubmit={addCommentSubmit}
-        commentValidate={commentValidate}
         userProfileImage={user?.userProfile.userProfileImg}
       />
       <div className="overflow-y-scroll mt-2 scrollbar-hide" ref={commentRef}>
