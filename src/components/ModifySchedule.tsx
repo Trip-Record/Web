@@ -158,8 +158,6 @@ export default function ModifySchedule() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    console.log(selectedDays);
-
     let endDate = selectedDays[0];
     if (selectedDays.length === 2) {
       endDate = selectedDays[1];
@@ -173,7 +171,6 @@ export default function ModifySchedule() {
     );
 
     try {
-      console.log(selectedDays);
       const json = {
         scheduleId: scheduleId,
         scheduleTitle: travelName,
@@ -182,7 +179,6 @@ export default function ModifySchedule() {
         scheduleEndDate: formatDate(endDate),
         scheduleDetails,
       };
-      console.log(scheduleDetails);
       patch(json);
       navi("/travel-schedule");
     } catch (error) {
