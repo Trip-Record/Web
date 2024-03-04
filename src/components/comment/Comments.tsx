@@ -12,6 +12,7 @@ import PageNation from "../ui/PageNation";
 import { useSearchParams } from "react-router-dom";
 import { useCurrentPage } from "../../hooks/useCurrentPage";
 import CommentInput from "./CommentInput";
+import CommentHeader from "./CommentHeader";
 
 interface Props {
   postId: number;
@@ -38,14 +39,8 @@ export default function Comments({ postId, commentCount }: Props) {
 
   return (
     <>
-      <div className="flex justify-start items-center relative mt-10">
-        <span className="text-2xl font-bold">댓글 {commentCount}개</span>
-      </div>
-      {/*  */}
-      <CommentInput
-        addCommentSubmit={addCommentSubmit}
-        userProfileImage={user?.userProfile.userProfileImg}
-      />
+      <CommentHeader count={commentCount} />
+      <CommentInput addCommentSubmit={addCommentSubmit} />
       <div className="overflow-y-scroll mt-2 scrollbar-hide" ref={commentRef}>
         {comments?.map((comment, index) => (
           <CommentLine
