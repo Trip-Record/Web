@@ -40,7 +40,6 @@ export default function Comments({ postId, commentCount }: Props) {
   return (
     <>
       <CommentHeader count={commentCount} />
-      <CommentInput addCommentSubmit={addCommentSubmit} />
       <div className="overflow-y-scroll mt-2 scrollbar-hide" ref={commentRef}>
         {comments?.map((comment, index) => (
           <CommentLine
@@ -49,6 +48,7 @@ export default function Comments({ postId, commentCount }: Props) {
           />
         ))}
       </div>
+      <CommentInput addCommentSubmit={addCommentSubmit} />
       <PageNation maxPage={Math.ceil(commentCount / 4)} showPage={4} />
     </>
   );
