@@ -22,7 +22,6 @@ export const scheduleApi = createApi({
     baseUrl: "http://15.164.19.143:8080",
     prepareHeaders: (headers, { getState }) => {
       const token = getLoginToken();
-
       // If we have a token set in state, let's assume that we should be passing it.
       if (token) {
         headers.set("authorization", `Bearer ${token}`);
