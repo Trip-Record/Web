@@ -6,8 +6,8 @@ import { useLike } from "../../hooks/useLike";
 
 interface Props {
   count: number;
-  isLiked?: boolean;
-  id?: number;
+  isLiked: boolean;
+  id: number;
 }
 
 export default function LikeBtn({ count, isLiked = false, id }: Props) {

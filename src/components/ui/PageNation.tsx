@@ -14,7 +14,7 @@ export default function PageNation({ showPage, maxPage }: Props) {
   const page = new Array(showPage)
     .fill(0)
     .map((_, i) => i + startPage)
-    .filter((p) => p !== 0 && p < maxPage);
+    .filter((p) => p !== 0 && p <= maxPage);
 
   const prevPage = page[0] - 1 <= 0 ? null : page[0] - 1;
   const nextPage =
@@ -22,7 +22,7 @@ export default function PageNation({ showPage, maxPage }: Props) {
 
   return (
     // 버전1
-    <div className="w-full my-5 flex gap-2 justify-center text-2xl">
+    <div className="w-full flex gap-2 justify-center text-2xl">
       {prevPage && <Link to={`?page=${1}`}>{`<<`}</Link>}
       {prevPage && <Link to={`?page=${prevPage}`}> {`<`} </Link>}
       {page.map((i) => (

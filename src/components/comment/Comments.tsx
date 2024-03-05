@@ -11,6 +11,8 @@ import {
 import PageNation from "../ui/PageNation";
 import { useSearchParams } from "react-router-dom";
 import { useCurrentPage } from "../../hooks/useCurrentPage";
+import CommentInput from "./CommentInput";
+import CommentHeader from "./CommentHeader";
 
 interface Props {
   postId: number;
@@ -23,50 +25,21 @@ export default function Comments({ postId, commentCount }: Props) {
     recordId: postId,
     page,
   });
-  const commentValidate = (value: string) => {
-    if (value.length === 0) return false;
-  };
+  const [setComment, { isLoading }] = useAddCommentsMutation();
+  const commentRef = useRef<HTMLDivElement>(null);
 
   const addCommentSubmit = async (value: string) => {
     commentRef.current?.scrollTo(0, 0);
     if (!user) return;
     setComment({ content: value, user: user.userProfile, recordId: postId });
   };
-  const { onchange, error, handleSubmit, value } = useInput({
-    init: "",
-    submitCallback: addCommentSubmit,
-    validateCallback: commentValidate,
-  });
-
-  const [setComment, { isLoading }] = useAddCommentsMutation();
-
-  const commentRef = useRef<HTMLDivElement>(null);
 
   if (!data) return <>Loading...</>;
   const comments = data.recordComments;
 
   return (
     <>
-      <div className="flex justify-start items-center relative mt-10">
-        <span className="text-2xl font-bold">댓글 {commentCount}개</span>
-      </div>
-      <form
-        onSubmit={handleSubmit}
-        className="w-full flex items-center gap-2 mt-auto"
-      >
-        <Avatar img={user?.userProfile.userProfileImg || ""} size="s" />
-        <input
-          type="text"
-          value={value}
-          onChange={onchange}
-          placeholder="댓글을 추가하세요"
-          className={`w-full p-1 border-b outline-none ${
-            error && "border-red-400"
-          }`}
-        />
-
-        <ColorButton text="게시" className="w-14" />
-      </form>
+      <CommentHeader count={commentCount} />
       <div className="overflow-y-scroll mt-2 scrollbar-hide" ref={commentRef}>
         {comments?.map((comment, index) => (
           <CommentLine
@@ -76,6 +49,7 @@ export default function Comments({ postId, commentCount }: Props) {
         ))}
       </div>
       <PageNation maxPage={Math.ceil(commentCount / 4)} showPage={4} />
+      <CommentInput addCommentSubmit={addCommentSubmit} />
     </>
   );
 }
