@@ -48,8 +48,8 @@ export default function Comments({ postId, commentCount }: Props) {
           />
         ))}
       </div>
-      <CommentInput addCommentSubmit={addCommentSubmit} />
       <PageNation maxPage={Math.ceil(commentCount / 4)} showPage={4} />
+      <CommentInput addCommentSubmit={addCommentSubmit} />
     </>
   );
 }

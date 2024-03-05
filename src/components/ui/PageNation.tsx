@@ -22,7 +22,7 @@ export default function PageNation({ showPage, maxPage }: Props) {
 
   return (
     // 버전1
-    <div className="w-full my-5 flex gap-2 justify-center text-2xl">
+    <div className="w-full flex gap-2 justify-center text-2xl">
       {prevPage && <Link to={`?page=${1}`}>{`<<`}</Link>}
       {prevPage && <Link to={`?page=${prevPage}`}> {`<`} </Link>}
       {page.map((i) => (
