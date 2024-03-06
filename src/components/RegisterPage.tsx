@@ -21,26 +21,32 @@ export interface FormError {
 
 const BASIC_PROFILE = [
   {
+    id: 1,
     image: "/profile-icons/Cat.png",
     title: "고양이",
   },
   {
+    id: 2,
     image: "/profile-icons/Dog.png",
     title: "강아지",
   },
   {
+    id: 3,
     image: "/profile-icons/Elephant.png",
     title: "코끼리",
   },
   {
+    id: 4,
     image: "/profile-icons/Panda.png",
     title: "팬더",
   },
   {
+    id: 5,
     image: "/profile-icons/Rabbit.png",
     title: "토끼",
   },
   {
+    id: 6,
     image: "/profile-icons/Profile.png",
     title: "프로필 없음",
   },
@@ -54,7 +60,9 @@ const RegisterPage: React.FC<RegisterPageProps> = () => {
   const [name, setName] = useState("");
   const [birthDay, setBirthDay] = useState("");
   const [error, setError] = useState<FormError>({});
-  const [basicProfileValue, setBasicProfileValue] = useState("");
+  const [basicProfileValue, setBasicProfileValue] = useState<number | null>(
+    null
+  );
 
   const navi = useNavigate();
 
