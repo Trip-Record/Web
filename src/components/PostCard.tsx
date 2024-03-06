@@ -7,6 +7,7 @@ import CommentBtn from "./post/CommentBtn";
 import LikeBtn from "./post/LikeBtn";
 import AvatarInfo from "./ui/AvatarInfo";
 import { Record } from "../api/records";
+import { formatPlace } from "../utils/dataFormat";
 
 interface Props {
   record: Record;
@@ -22,12 +23,13 @@ export default function PostCard({ record, type = "blog" }: Props) {
     isUserLiked,
     commentCount,
     recordImages,
+    recordPlaces,
   } = record;
 
   const [showModal, switchModal] = useModal();
   const navi = useNavigate();
 
-  const region = "대한민국, 부산";
+  const region = formatPlace(recordPlaces);
   const signatureImg = "/logo192.png";
 
   if (type === "blog") {
@@ -52,7 +54,7 @@ export default function PostCard({ record, type = "blog" }: Props) {
         {recordImages[0]?.recordImageUrl && (
           <img
             src={recordImages[0]?.recordImageUrl}
-            className="w-24 md:w-56 object-cover"
+            className="w-24 md:w-56 object-cover rounded-md shadow-md"
             alt="travel_sinature"
           ></img>
         )}
