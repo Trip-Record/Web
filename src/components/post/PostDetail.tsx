@@ -65,7 +65,7 @@ export default function PostDetail({ postId }: Props) {
           <div>
             [아이콘자리]
             <span>
-              {getDateYYYYMMDD(new Date(tripStartDate))} -{" "}
+              {getDateYYYYMMDD(new Date(tripStartDate))} ~{" "}
               {getDateYYYYMMDD(new Date(tripEndDate))}
             </span>
           </div>
