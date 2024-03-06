@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, FormEvent } from "react";
 import { MdSubtitles } from "react-icons/md";
 import { FaLocationDot } from "react-icons/fa6";
 import { LuCalendarCheck } from "react-icons/lu";
@@ -9,6 +9,9 @@ import { SelectDate } from "./comment/Calendar";
 import { useModal } from "../hooks/useModal";
 import axios from "axios";
 import DestinationSelection from "./DestinationSelection";
+import { HOST } from "../constants";
+import { getLoginToken } from "../services/storage";
+import { useUser } from "../hooks/useUser";
 
 export default function WriteSchedule() {
   const [travelName, setTravelName] = useState("");
@@ -21,6 +24,9 @@ export default function WriteSchedule() {
   const [selectedLocationIdArray, setSelectedLocationIdArray] = useState<
     number[]
   >([]);
+  const [travelDetailsArray, setTravelDetailsArray] = useState<
+    { date: string; content: string }[]
+  >(Array(selectedDays.length).fill({ date: "", content: "" }));
 
   const makeDaysString = (days: string[]): string => {
     return days.join(" ~ ");
@@ -50,22 +56,49 @@ export default function WriteSchedule() {
     setCalendar(!calendar);
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const formData = new FormData();
-    formData.append("travelName", travelName);
-    formData.append("travelArea", testTravelArea.join(", "));
-    formData.append("travelDetails", travelDetails);
+    const token = getLoginToken();
 
-    try {
-      //const response = await axios.post("testAPI", formData, {
-      //  headers: {
-      //    "Content-Type": "multipart/form-data",
-      //  },
-      //});
-      //console.log(response.data);
-    } catch (error) {
-      console.error(error);
+    if (token) {
+      const startDate = selectedDays[0];
+      const endDate = selectedDays[selectedDays.length - 1];
+
+      if (startDate.getTime() > endDate.getTime()) {
+        console.error("일정 시작일은 종료일보다 늦을 수 없습니다.");
+        return;
+      }
+
+      const scheduleDetailsArray = selectedDays.map((date, index) => ({
+        scheduleDetailDate: dateFormat([date])[0],
+        scheduleDetailContent:
+          travelDetailsArray.find((item) => item.date === dateFormat([date])[0])
+            ?.content || "",
+      }));
+
+      const requestData = {
+        scheduleTitle: travelName,
+        placeIds: selectedLocationIdArray,
+        scheduleStartDate: dateFormat([startDate])[0],
+        scheduleEndDate: dateFormat([endDate])[0],
+        scheduleDetails:
+          scheduleDetailsArray.length > 0 ? scheduleDetailsArray : [],
+      };
+
+      try {
+        const response = await axios.post(HOST + "/schedules", requestData, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        console.log(response.data);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    } else {
+      console.error("User token is not available");
     }
   };
 
@@ -83,21 +116,26 @@ export default function WriteSchedule() {
         (endDate.getTime() - startDate.getTime()) / (1000 * 3600 * 24)
       ) + 1;
 
-    const scheduleItems = [];
-
-    for (let i = 0; i < numberOfDays; i++) {
-      const currentDate = new Date(startDate.getTime() + i * 1000 * 3600 * 24);
-      scheduleItems.push(
-        <div key={i} className="border border-gray-500 rounded-md p-2 mb-2">
+    const scheduleItems = Array.from({ length: numberOfDays }, (_, index) => {
+      const currentDate = new Date(
+        startDate.getTime() + index * 1000 * 3600 * 24
+      );
+      return (
+        <div key={index} className="border border-gray-500 rounded-md p-2 mb-2">
           <p className="font-bold ml-2">
-            DAY {i + 1} &nbsp; {dateFormat([currentDate])}
+            DAY {index + 1} &nbsp; {dateFormat([currentDate])}
           </p>
-          {showTextArea[i] ? (
+          {showTextArea[index] ? (
             <textarea
               placeholder="여행 일정을 작성하세요."
-              value={travelDetails}
+              value={travelDetailsArray[index]?.content}
               onChange={(e) => {
-                setTravelDetails(e.target.value);
+                const newDetailsArray = [...travelDetailsArray];
+                newDetailsArray[index] = {
+                  date: dateFormat([currentDate])[0],
+                  content: e.target.value,
+                };
+                setTravelDetailsArray(newDetailsArray);
               }}
               rows={5}
               className="border-gray-300 border-2 shadow-sm rounded-md text-black p-2 w-full mt-2"
@@ -106,7 +144,7 @@ export default function WriteSchedule() {
             <div className="flex justify-center">
               <button
                 className="flex justify-center items-center cursor-pointer mb-6"
-                onClick={() => toggleShowTextArea(i)}
+                onClick={() => toggleShowTextArea(index)}
               >
                 <CiSquarePlus size={40} color={"#60a4f9"} />
               </button>
@@ -114,7 +152,7 @@ export default function WriteSchedule() {
           )}
         </div>
       );
-    }
+    });
 
     return <div className="flex flex-col space-y-2">{scheduleItems}</div>;
   };
