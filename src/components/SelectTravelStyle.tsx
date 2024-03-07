@@ -1,6 +1,10 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Radios from "./form/Radios";
-import { useGetStylesQuery } from "../api/user";
+import axios from "axios";
+import { HOST } from "../constants";
+import { getLoginToken } from "../services/storage";
+import { useUser } from "../hooks/useUser";
 
 export const STYLES = [
   {
@@ -53,23 +57,44 @@ export const STYLES = [
   },
 ];
 
+interface TripStyleData {
+  message: string;
+}
+
 export default function SelectTravelStyle() {
-  const [select, setSelect] = useState("");
+  const [select, setSelect] = useState<number | null>(null);
+  const [tripStyleData, setTripStyleData] = useState<TripStyleData | null>(
+    null
+  );
+  const { logout, user } = useUser();
+  const navigate = useNavigate();
 
-  const { data } = useGetStylesQuery();
-
-  const name = "서현";
-
-  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const selectValue = e.currentTarget.styleToggle.value;
-    console.log(selectValue);
+    if (select !== null) {
+      try {
+        const token = getLoginToken();
+        const response = await axios.post(
+          HOST + `/users/trip-styles/${select}`,
+          {},
+          {
+            method: "POST",
+            headers: {
+              "Content-type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        navigate("/my-page");
+        setTripStyleData(response.data);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    }
   };
+
   return (
     <section className="flex flex-col items-center p-1">
-      <h2 className="text-3xl my-4 p-1 text-balance text-center">
-        <span className="font-bold">{name}</span>님 회원가입을 환영합니다
-      </h2>
       <h2 className="text-2xl my-4 p-1 text-balance text-center">
         여행 스타일을 선택하고 비슷한 유형의 여행자들을 만나보세요
       </h2>
@@ -78,8 +103,9 @@ export default function SelectTravelStyle() {
           <Radios valueList={STYLES} setSelect={setSelect} />
         </main>
         <button
+          type="submit"
           className="w-full h-12 rounded-lg border bg-blue-300 mt-4 text-black/70 font-bold disabled:text-gray-500/50"
-          disabled={select === ""}
+          disabled={select === null}
         >
           확인
         </button>
