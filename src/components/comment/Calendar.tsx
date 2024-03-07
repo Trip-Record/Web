@@ -198,13 +198,13 @@ export default function Calendar({
   return (
     <div className="w-[40vw] h-[60vh] flex flex-col text-center p-5 bg-white">
       <div>
-        <button data-testid="prevMonth" onClick={prevCalendar}>
+        <button type="button" data-testid="prevMonth" onClick={prevCalendar}>
           &lt;
         </button>
         <span>
           {currentMonth.getFullYear()}년 {currentMonth.getMonth() + 1}월
         </span>
-        <button data-testid="nextMonth" onClick={nextCalendar}>
+        <button type="button" data-testid="nextMonth" onClick={nextCalendar}>
           &gt;
         </button>
       </div>
@@ -228,6 +228,7 @@ export default function Calendar({
       </table>
       <div className=" h-[50px] mt-3">
         <button
+          type="button"
           onClick={() => {
             setSelectedDays(selectedDays);
             setModal();

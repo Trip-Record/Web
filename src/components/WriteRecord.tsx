@@ -11,6 +11,7 @@ import { SelectDate } from "./comment/Calendar";
 import { useModal } from "../hooks/useModal";
 import DestinationSelection from "./DestinationSelection";
 import { recordApi, useSetRecordMutation } from "../api/record";
+import { useNavigate } from "react-router-dom";
 
 export default function WriteRecord() {
   const [travelName, setTravelName] = useState("");
@@ -25,6 +26,10 @@ export default function WriteRecord() {
   const [selectedLocationIdArray, setSelectedLocationIdArray] = useState<
     number[]
   >([]);
+  const [selectedDestinations, setSelectedDestinations] = useState<string[]>(
+    []
+  );
+  const navi = useNavigate();
 
   const handleLocationSelect = (location: string[]) => {
     setSelectedLocation(location);
@@ -96,10 +101,8 @@ export default function WriteRecord() {
       formData.append("endDate", formatDate(selectedDays[1]));
     }
     try {
-      for (let value of formData.values()) {
-        console.log(value);
-      }
       const response = await setRecord(formData).unwrap();
+      navi("/travel-record");
       console.log(response);
     } catch (error) {
       console.error(error);
@@ -118,8 +121,6 @@ export default function WriteRecord() {
       <form
         onSubmit={handleSubmit}
         className="flex w-1/3 flex-col mx-auto shadow bg-white gap-3 rounded-md p-5 mt-10"
-        //method="post"
-        //encType="multipart/form-data"
       >
         <div className="flex  border-black border-b-[2px] pb-2 items-center">
           <MdSubtitles size={40} color={"#60a4f9"} className="mr-3" />
@@ -149,6 +150,8 @@ export default function WriteRecord() {
                 setSelectedLocationIdArray={setSelectedLocationIdArray}
                 onLocationSelect={handleLocationSelect}
                 closeModal={setDestinationModal}
+                selectedDestinations={selectedDestinations}
+                setSelectedDestinations={setSelectedDestinations}
                 key={isOpenDestinationModal.toString()}
               />
             }

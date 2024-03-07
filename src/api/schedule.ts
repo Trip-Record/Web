@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { getLoginToken } from "../services/storage";
 import { ScheduleData, SchedulePost } from "../components/SchedulePostCard";
+import { MyScheduleData } from "../components/MySchedule";
 
 interface SchedulePatch {
   scheduleId: string;
@@ -35,6 +36,9 @@ export const scheduleApi = createApi({
     getSchedulePosts: builder.query<ScheduleData, number>({
       query: (pageNumber) => `schedules?page=${pageNumber}`,
     }),
+    getMySchedulePosts: builder.query<MyScheduleData, number>({
+      query: (pageNumber) => `/users/schedules?page=${pageNumber}`,
+    }),
     getScheduleDetail: builder.query<SchedulePost, string | undefined>({
       query: (scheduleId) => `schedules/${scheduleId}`,
     }),
@@ -60,6 +64,7 @@ export const scheduleApi = createApi({
 
 export const {
   useGetSchedulePostsQuery,
+  useGetMySchedulePostsQuery,
   useGetScheduleDetailQuery,
   usePatchScheduleDetailMutation,
   useDeleteScheduleDetailMutation,

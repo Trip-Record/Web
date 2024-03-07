@@ -6,7 +6,7 @@ import SchedulePost from "./SchedulePostCard";
 import AddRecordAndSchedule from "./ui/AddRecordAndSchedule";
 import Posts from "./Posts";
 import { useUser } from "../hooks/useUser";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useGetSchedulePostsQuery } from "../api/schedule";
 import { UserProfile } from "../hooks/useUser";
 import { useSearchParams } from "react-router-dom";
@@ -38,16 +38,14 @@ export default function TravelSchedule() {
   const [searchParams] = useSearchParams();
   const page = Number(searchParams.get("page") ?? 0);
   const { data } = useGetSchedulePostsQuery(page - 1);
-  const { user } = useUser();
 
-  const [hoverState, setHoverState] = useState<"none" | "in" | "out">("none");
+  useEffect(() => {
+    window.scrollTo({
+      top: 0, // 스크롤을 맨 위로 이동
+      // behavior: "smooth", // 부드러운 스크롤 이동
+    });
+  }, [data]);
 
-  const link_record = user ? "/write-record" : "/login";
-  const link_schedule = user ? "/write-schedule" : "/login";
-
-  const newClass = `h-12 mb-1 mx-auto aspect-square shadow-lg leading-none items-center justify-center text-white bg-black/50 rounded-full ${
-    hoverState === "in" ? "flex" : "hidden"
-  }`;
   if (!data) return <></>;
   return (
     <div className="flex flex-col w-screen">

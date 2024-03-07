@@ -7,6 +7,7 @@ import CommentModal from "./comment/CommentModal";
 import { useModal } from "../hooks/useModal";
 import ModalButton from "./Modal";
 import { UserProfile } from "../hooks/useUser";
+import { useId } from "react";
 
 export interface SchedulePlace {
   placeCountry: string;
@@ -43,6 +44,7 @@ interface Props {
 
 export default function SchedulePost({ scheduleData }: Props) {
   const [showModal, switchModal] = useModal();
+  const id = useId();
 
   if (!scheduleData) return <></>;
 
@@ -73,7 +75,7 @@ export default function SchedulePost({ scheduleData }: Props) {
         return (
           <div
             className="flex flex-col gap-1 rounded-md p-2 bg-white shadow w-2/5 mx-auto my-3"
-            key={schedulePost.scheduleId + index}
+            key={`${id}`}
           >
             <AvatarInfo userProfile={schedulePost.userProfile} />
             <div className="flex gap-3">
