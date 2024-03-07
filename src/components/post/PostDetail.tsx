@@ -8,6 +8,8 @@ import Comments from "../comment/Comments";
 import { useUser } from "../../hooks/useUser";
 import { useRecord } from "../../hooks/useRecord";
 import { Place, ResponseImage } from "../../api/records";
+import LocationIcon from "../ui/icons/LocationIcon.png";
+import DateIcon from "../ui/icons/DateIcon.png";
 
 interface Props {
   postId: number;
@@ -58,12 +60,12 @@ export default function PostDetail({ postId }: Props) {
       <AvatarInfo userProfile={recordUserProfile} />
       <div className="flex items-center justify-between border-b border-black/80 pb-2">
         <div className="flex text-gray-500 flex-col">
-          <div>
-            <span>[아이콘자리]</span>
+          <div className="flex gap-2">
+            <img src={LocationIcon} width="25" />
             <span>{place}</span>
           </div>
-          <div>
-            [아이콘자리]
+          <div className="flex gap-2">
+            <img src={DateIcon} width="25" />
             <span>
               {getDateYYYYMMDD(new Date(tripStartDate))} ~{" "}
               {getDateYYYYMMDD(new Date(tripEndDate))}
