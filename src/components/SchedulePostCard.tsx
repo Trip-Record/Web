@@ -86,7 +86,7 @@ export default function SchedulePost({ scheduleData }: Props) {
               )}`}</p>
             </div>
             <div>{schedulePost.scheduleTitle}</div>
-            {schedulePost.scheduleDetails.map((date, index) => {
+            {schedulePost.scheduleDetails.slice(0, 3).map((date, index) => {
               return (
                 <div className="border-2 rounded-lg shadow mb-1 p-2">
                   <div className="flex" key={date.scheduleDetailDate}>
