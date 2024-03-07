@@ -29,25 +29,12 @@ interface UserData {
 export default function MyPage() {
   const [activeTab, setActiveTab] = useState("기록");
   const [userData, setUserData] = useState<UserData | null>(null);
-  const [imsiPostNumber] = useState([1, 1, 1]);
+  // const [imsiPostNumber] = useState([1, 1, 1]);
   const { logout, user } = useUser();
   const navigate = useNavigate();
 
-  const dummySchedulePost = {
-    userId: 1,
-    id: 2,
-    date: 5,
-    title: "임시 제목",
-  };
-  const dummyRecordPost = {
-    userId: 1,
-    id: 2,
-    body: "부산은 맛집에서부터 역사적인 명소까지 다양한 즐길거리가 많아 여행자로서 정말 만족스러웠습니다. 다음에도 부산에 가서 더 많은 이야기를 만들고 싶네요! 파도소리 함께 일몰을 감상하는 것은 정말 잊을 수 없는 순간이에요.",
-    title: "임시 제목",
-  };
-
   useEffect(() => {
-    if (user) {
+    if (user && !userData) {
       const fetchData = async () => {
         try {
           const token = getLoginToken();
@@ -63,9 +50,10 @@ export default function MyPage() {
           console.error("Error:", error);
         }
       };
+
       fetchData();
     }
-  }, [user]);
+  }, [user, userData]);
 
   const handleTabChange = (tab: string) => {
     setActiveTab(tab);
@@ -95,12 +83,23 @@ export default function MyPage() {
               <h2 className="text-xl font-semibold mr-4 mb-2">
                 {userData.userProfile.userNickname}
               </h2>
-              <TravelStyle
-                selectStyle={
-                  userData.userProfile.userTripStyleName as Travel_Style
-                }
-                onClick={handleTravelStyleClick}
-              />
+              {!userData.userProfile.userTripStyleName && (
+                <p
+                  className="text-blue-500 cursor-pointer"
+                  onClick={handleTravelStyleClick}
+                >
+                  여행 스타일을 선택해주세요.
+                </p>
+              )}
+
+              {userData.userProfile.userTripStyleName && (
+                <TravelStyle
+                  selectStyle={
+                    userData.userProfile.userTripStyleName as Travel_Style
+                  }
+                  // onClick={handleTravelStyleClick}
+                />
+              )}
             </div>
           </div>
           <div className="flex mr-16 mt-6">
@@ -155,19 +154,9 @@ export default function MyPage() {
             일정
           </button>
         </div>
-
-        {activeTab === "기록" &&
-          imsiPostNumber.map((item, index) => {
-            return <MyRecord key={index} myPost={dummyRecordPost} />;
-          })}
-        {activeTab === "일정" &&
-          imsiPostNumber.map((item, index) => {
-            return (
-              <MySchedule key={index} mySchedulePost={dummySchedulePost} />
-            );
-          })}
       </div>
-      <PageNation maxPage={12} showPage={5} />
+      {activeTab === "기록" && <MyRecord />}
+      {activeTab === "일정" && <MySchedule />}
     </main>
   );
 }
