@@ -79,7 +79,6 @@ const MonthRanking = () => {
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>An error occurred</div>;
-  if (!rankingData || rankingData.length === 0) return null;
 
   return (
     <div className="bg-white">
@@ -115,89 +114,99 @@ const MonthRanking = () => {
         </select>
       </div>
 
-      {/* 첫 번째 섹션: 상위 세 개의 데이터 */}
-      <div className="flex mb-4">
-        {rankingData.slice(0, 3).map((item, index) => (
-          <div
-            key={index + 1}
-            className="flex justify-center w-1/3 p-32 border border-black mb-4 mx-8 rounded-lg"
-          >
-            <p>
-              <span className="flex justify-center">
-                {getRankingIcon(item.rank, false)}
-              </span>
-              <span className="flex justify-center font-bold">
-                <img
-                  src={LocationIcon}
-                  alt="Location Icon"
-                  className="w-6 h-6 mr-2"
-                />
-                {item.placeBasicData.countryName},{" "}
-                {item.placeBasicData.placeName}
-              </span>
-              <span className="flex justify-center text-red-500 mt-8 font-bold">
-                <img
-                  src={GraphIcon}
-                  alt="Graph Icon"
-                  className="w-6 h-6 mr-2"
-                />
-                방문 횟수 {item.visitCount}
-              </span>
-            </p>
-          </div>
-        ))}
-      </div>
-
-      {/* 두 번째 섹션: 나머지 데이터 */}
-      <div className="flex flex-wrap mx-8">
-        {rankingData.slice(3).map((item, index) => (
-          <div
-            key={index + 4}
-            className="w-full p-10 border border-black mb-5 rounded"
-          >
-            <p className="font-bold mb-7">
-              <span className="absolute">
-                {getRankingIcon(item.rank, true)}
-              </span>
-              <span className="absolute left-32 ml-8">
-                <img
-                  src={LocationIcon}
-                  alt="Location Icon"
-                  className="w-6 h-6 absolute"
-                />
-                &ensp; &emsp; {item.placeBasicData.countryName},{" "}
-                {item.placeBasicData.placeName}
-              </span>
-              <span className="text-red-500 absolute right-40">
-                <img
-                  src={GraphIcon}
-                  alt="Graph Icon"
-                  className="w-6 h-6 absolute right-26"
-                />
-                &ensp; &emsp; 방문 횟수 {item.visitCount}
-              </span>
-            </p>
-          </div>
-        ))}
-      </div>
-
-      <div className="bg-gray-200 rounded-lg mx-8">
-        <div className="flex items-center font-bold text-lg p-2">
-          <img
-            src={ExclamationMarkIcon}
-            alt="Exclamation Mark"
-            className="w-4 h-4 mx-2"
-          />
-          <h2>랭킹 집계 안내</h2>
+      {rankingData.length === 0 ? (
+        <div className="text-center mt-8">
+          <h2 className="text-xl font-bold">
+            해당 기간의 랭킹 데이터가 없습니다.
+          </h2>
         </div>
-        <div className="text-gray-600 ml-8 p-2">
-          <h4>집계 대상 여행 기록 게시글</h4>
-          <h4>
-            집계 기간 월 별/계절 별 랭킹은 여행 출발일을 기준으로 하여 집계
-            됩니다.
-          </h4>
-        </div>
-      </div>
+      ) : (
+        <>
+          {/* 첫 번째 섹션: 상위 세 개의 데이터 */}
+          <div className="flex mb-4">
+            {rankingData.slice(0, 3).map((item, index) => (
+              <div
+                key={index + 1}
+                className="flex justify-center w-1/3 p-32 border border-black mb-4 mx-8 rounded-lg"
+              >
+                <p>
+                  <span className="flex justify-center">
+                    {getRankingIcon(item.rank, false)}
+                  </span>
+                  <span className="flex justify-center font-bold">
+                    <img
+                      src={LocationIcon}
+                      alt="Location Icon"
+                      className="w-6 h-6 mr-2"
+                    />
+                    {item.placeBasicData.countryName},{" "}
+                    {item.placeBasicData.placeName}
+                  </span>
+                  <span className="flex justify-center text-red-500 mt-8 font-bold">
+                    <img
+                      src={GraphIcon}
+                      alt="Graph Icon"
+                      className="w-6 h-6 mr-2"
+                    />
+                    방문 횟수 {item.visitCount}
+                  </span>
+                </p>
+              </div>
+            ))}
+          </div>
+
+          {/* 두 번째 섹션: 나머지 데이터 */}
+          <div className="flex flex-wrap mx-8">
+            {rankingData.slice(3).map((item, index) => (
+              <div
+                key={index + 4}
+                className="w-full p-10 border border-black mb-5 rounded"
+              >
+                <p className="font-bold mb-7">
+                  <span className="absolute">
+                    {getRankingIcon(item.rank, true)}
+                  </span>
+                  <span className="absolute left-32 ml-8">
+                    <img
+                      src={LocationIcon}
+                      alt="Location Icon"
+                      className="w-6 h-6 absolute"
+                    />
+                    &ensp; &emsp; {item.placeBasicData.countryName},{" "}
+                    {item.placeBasicData.placeName}
+                  </span>
+                  <span className="text-red-500 absolute right-40">
+                    <img
+                      src={GraphIcon}
+                      alt="Graph Icon"
+                      className="w-6 h-6 absolute right-26"
+                    />
+                    &ensp; &emsp; 방문 횟수 {item.visitCount}
+                  </span>
+                </p>
+              </div>
+            ))}
+          </div>
+
+          <div className="bg-gray-200 rounded-lg mx-8">
+            <div className="flex items-center font-bold text-lg p-2">
+              <img
+                src={ExclamationMarkIcon}
+                alt="Exclamation Mark"
+                className="w-4 h-4 mx-2"
+              />
+              <h2>랭킹 집계 안내</h2>
+            </div>
+            <div className="text-gray-600 ml-8 p-2">
+              <h4>집계 대상 여행 기록 게시글</h4>
+              <h4>
+                집계 기간 월 별/계절 별 랭킹은 여행 출발일을 기준으로 하여 집계
+                됩니다.
+              </h4>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 };

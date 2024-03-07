@@ -172,7 +172,7 @@ export default function ModifySchedule() {
 
     try {
       const json = {
-        scheduleId: scheduleId,
+        scheduleId: scheduleId || "", // scheduleId가 정의되었는지 확인
         scheduleTitle: travelName,
         placeIds: selectedLocationIdArray,
         scheduleStartDate: formatDate(selectedDays[0]),

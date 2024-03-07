@@ -1,15 +1,18 @@
 interface RadioValue {
+  id: number;
   image: string;
   title: string;
   subtitle?: string;
 }
+
 interface Props {
   valueList: Array<RadioValue>;
-  setSelect?: (title: string) => void;
+  setSelect?: (id: number) => void;
   hiddnTitle?: boolean;
   className?: string;
   imageBackGround?: boolean;
 }
+
 export default function Radios({
   valueList,
   setSelect,
@@ -19,21 +22,22 @@ export default function Radios({
 }: Props) {
   return (
     <>
-      {valueList.map(({ image, subtitle, title }) => (
-        <div key={title} className={className}>
+      {valueList.map(({ id, image, subtitle, title }) => (
+        <div key={id} className={className}>
+          {" "}
           <input
             type="radio"
             name="styleToggle"
-            id={title}
+            id={id.toString()}
             className="w-full peer hidden"
-            value={title}
+            value={id}
             onChange={() => {
-              if (setSelect) setSelect(title);
+              if (setSelect) setSelect(id);
             }}
           />
           <label
-            key={title}
-            htmlFor={title}
+            key={id}
+            htmlFor={id.toString()}
             className="flex flex-col items-center rounded-md p-2 border border-white hover:border-black/20 hover:shadow-md peer-checked:border peer-checked:bg-blue-50"
           >
             <div
