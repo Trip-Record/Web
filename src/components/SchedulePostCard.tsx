@@ -99,12 +99,15 @@ export default function SchedulePost({ scheduleData }: Props) {
                 </div>
               );
             })}
-            <div className="flex gap-2 justify-between">
-              <LikeBtn
-                count={schedulePost.scheduleLikeCount}
-                isLiked={schedulePost.isUserLiked}
-                id={schedulePost.scheduleId}
-              />
+            <div className="flex justify-between">
+              <div className="flex gap-2">
+                <LikeBtn
+                  count={schedulePost.scheduleLikeCount}
+                  isLiked={schedulePost.isUserLiked}
+                  id={schedulePost.scheduleId}
+                />
+                <CommentBtn count={schedulePost.scheduleCommentCount} />
+              </div>
               <Link to={`/schedule/${schedulePost.scheduleId}`}>
                 모든 일정 보기
               </Link>
