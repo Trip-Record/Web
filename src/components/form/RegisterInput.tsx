@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { InputType, FormError } from "../RegisterPage";
 
 export interface InputProps {
@@ -25,9 +25,11 @@ export default function RegisterStringInput({
 }: InputProps) {
   const ref = useRef<HTMLInputElement>(null);
 
-  if (error && type === error?.errorType) {
-    ref.current?.focus();
-  }
+  useEffect(() => {
+    if (error && type === error?.errorType) {
+      ref.current?.focus();
+    }
+  }, [error, type]);
 
   return (
     <>
