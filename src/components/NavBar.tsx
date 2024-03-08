@@ -22,7 +22,7 @@ export default function NavBar() {
           </Link>
         )}
       </div>
-      <div className="tab-menu flex flex-col sm:flex-row justify-between mb-2 p-0 bg-white">
+      <div className="tab-menu flex flex-col sm:flex-row justify-between mb-2 p-0 bg-white mx-36">
         <Link
           to="/travel-record"
           className={`tab-link py-4 px-6 block text-gray-600 hover:text-blue-500 focus:outline-none ${
