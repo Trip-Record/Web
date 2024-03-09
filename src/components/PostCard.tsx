@@ -43,7 +43,7 @@ export default function PostCard({ record, type = "blog" }: Props) {
 
   if (type === "blog") {
     return (
-      //TODO: 인스타형 포스트 onclick 적용
+      //TODO: 컴포넌트 전체에 onclick 적용 및 이벤트 버블링 방지
       <section className="flex flex-row w-full h-60 bg-white border-b last:border-b-white p-2 pb-5">
         <div className="flex flex-col flex-1 gap-1">
           {recordUserProfile && <AvatarInfo userProfile={recordUserProfile} />}
@@ -65,6 +65,7 @@ export default function PostCard({ record, type = "blog" }: Props) {
             src={recordImages[0]?.recordImageUrl}
             className="w-24 md:w-56 object-cover rounded-md shadow-md"
             alt="travel_sinature"
+            onClick={() => navi(`/record/${recordId}`)}
           ></img>
         )}
       </section>
