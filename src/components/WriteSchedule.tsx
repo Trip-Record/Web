@@ -12,6 +12,7 @@ import DestinationSelection from "./DestinationSelection";
 import { HOST } from "../constants";
 import { getLoginToken } from "../services/storage";
 import { useUser } from "../hooks/useUser";
+import { useNavigate } from "react-router-dom";
 
 export default function WriteSchedule() {
   const [travelName, setTravelName] = useState("");
@@ -27,6 +28,8 @@ export default function WriteSchedule() {
   const [travelDetailsArray, setTravelDetailsArray] = useState<
     { date: string; content: string }[]
   >(Array(selectedDays.length).fill({ date: "", content: "" }));
+
+  const navigate = useNavigate();
 
   const makeDaysString = (days: string[]): string => {
     return days.join(" ~ ");
@@ -56,6 +59,20 @@ export default function WriteSchedule() {
     setCalendar(!calendar);
   };
 
+  function createDatesArray([startDate, endDate]: SelectDate) {
+    let datesArray = [];
+    let currentDate = new Date(startDate);
+    currentDate.setHours(0, 0, 0);
+    endDate.setHours(23, 59, 59);
+
+    while (currentDate <= endDate) {
+      datesArray.push(new Date(currentDate));
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+
+    return datesArray;
+  }
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const token = getLoginToken();
@@ -69,13 +86,17 @@ export default function WriteSchedule() {
         return;
       }
 
-      const scheduleDetailsArray = selectedDays.map((date, index) => ({
-        scheduleDetailDate: dateFormat([date])[0],
-        scheduleDetailContent:
-          travelDetailsArray.find((item) => item.date === dateFormat([date])[0])
-            ?.content || "",
-      }));
-
+      const scheduleDetailsArray = createDatesArray(selectedDays).map(
+        (date, index) => {
+          return {
+            scheduleDetailDate: dateFormat([date])[0],
+            scheduleDetailContent:
+              travelDetailsArray.find(
+                (item) => item.date === dateFormat([date])[0]
+              )?.content || "",
+          };
+        }
+      );
       const requestData = {
         scheduleTitle: travelName,
         placeIds: selectedLocationIdArray,
@@ -94,6 +115,7 @@ export default function WriteSchedule() {
           },
         });
         console.log(response.data);
+        navigate("/travel-schedule");
       } catch (error) {
         console.error("Error:", error);
       }
