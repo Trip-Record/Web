@@ -2,18 +2,20 @@ import { useState } from "react";
 import { useUser } from "./useUser";
 import { HOST } from "../constants";
 
+export type PostTypes = "records" | "schedules";
 interface Props {
   initLike: boolean;
   initCount: number;
-  recordId: number;
+  id: number;
+  type: PostTypes;
 }
-export function useLike({ initLike, initCount, recordId }: Props) {
+export function useLike({ initLike, initCount, id, type }: Props) {
   const [active, setActive] = useState(initLike);
   const [like, setLike] = useState(initCount);
   const { user } = useUser();
 
   const addLike = (prevLikeCount: number) => {
-    fetch(`${HOST}/records/${recordId}/likes`, {
+    fetch(`${HOST}/${type}/${id}/likes`, {
       method: "POST",
       headers: {
         authorization: `Bearer ${user?.token}`,
@@ -30,7 +32,7 @@ export function useLike({ initLike, initCount, recordId }: Props) {
       });
   };
   const removeLike = (prevLikeCount: number) => {
-    fetch(`${HOST}/records/${recordId}/likes`, {
+    fetch(`${HOST}/${type}/${id}/likes`, {
       method: "DELETE",
       headers: {
         authorization: `Bearer ${user?.token}`,
