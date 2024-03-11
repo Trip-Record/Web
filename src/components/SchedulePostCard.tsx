@@ -104,6 +104,7 @@ export default function SchedulePost({ scheduleData }: Props) {
                 count={schedulePost.scheduleLikeCount}
                 isLiked={schedulePost.isUserLiked}
                 id={schedulePost.scheduleId}
+                type="schedules"
               />
               <Link to={`/schedule/${schedulePost.scheduleId}`}>
                 모든 일정 보기

@@ -13,6 +13,7 @@ import {
   useDeleteScheduleDetailMutation,
 } from "../api/schedule";
 import { useNavigate } from "react-router-dom";
+import Comments from "./comment/Comments";
 
 export default function ScheduleDetail() {
   const { scheduleId } = useParams();
@@ -120,43 +121,12 @@ export default function ScheduleDetail() {
             count={data.scheduleLikeCount}
             id={data.scheduleId}
             isLiked={data.isUserLiked}
+            type="schedules"
           />
         </div>
       </div>
       <hr className="my-2" />
-      <div>
-        <AvatarInfo userProfile={data.userProfile} />
-        <p>
-          의무교육은 무상으로 한다. 모든 국민은 사생활의 비밀과 자유를 침해받지
-          아니한다. 대통령이 궐위되거나 사고로 인하여 직무를 수행할 수 없을
-          때에는 국무총리, 법률이 정한 국무위원의 순서로 그 권한을 대행한다.
-          각급 선거관리위원회의 조직·직무범위 기타 필요한 사항은 법률로 정한다.
-        </p>
-        <p>2024.02.04 21:43</p>
-      </div>
-      <hr className="my-2" />
-      <div>
-        <AvatarInfo userProfile={data.userProfile} />
-        <p>
-          의무교육은 무상으로 한다. 모든 국민은 사생활의 비밀과 자유를 침해받지
-          아니한다. 대통령이 궐위되거나 사고로 인하여 직무를 수행할 수 없을
-          때에는 국무총리, 법률이 정한 국무위원의 순서로 그 권한을 대행한다.
-          각급 선거관리위원회의 조직·직무범위 기타 필요한 사항은 법률로 정한다.
-        </p>
-        <p>2024.02.04 21:43</p>
-      </div>
-      <hr className="my-2" />
-      <div>
-        <AvatarInfo userProfile={data.userProfile} />
-
-        <p>
-          의무교육은 무상으로 한다. 모든 국민은 사생활의 비밀과 자유를 침해받지
-          아니한다. 대통령이 궐위되거나 사고로 인하여 직무를 수행할 수 없을
-          때에는 국무총리, 법률이 정한 국무위원의 순서로 그 권한을 대행한다.
-          각급 선거관리위원회의 조직·직무범위 기타 필요한 사항은 법률로 정한다.
-        </p>
-        <p>2024.02.04 21:43</p>
-      </div>
+      <Comments postId={+scheduleId} commentCount={1} />
       <PageNation maxPage={12} showPage={5} />
     </div>
   );

@@ -101,7 +101,12 @@ export default function PostDetail({ postId }: Props) {
         <div>{recordContent}</div>
       </article>
       <div className="mt-auto">
-        <LikeBtn count={likeCount} isLiked={isUserLiked} id={postId} />
+        <LikeBtn
+          count={likeCount}
+          isLiked={isUserLiked}
+          id={postId}
+          type="records"
+        />
       </div>
 
       <Comments postId={postId} commentCount={commentCount} />

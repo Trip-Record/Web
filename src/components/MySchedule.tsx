@@ -111,6 +111,7 @@ export default function MySchedule() {
                     count={schedulePost.scheduleLikeCount}
                     isLiked={schedulePost.isUserLiked} // 이 상태를 표시할 데이터가 없음
                     id={schedulePost.scheduleId}
+                    type="schedules"
                   />
                   <CommentBtn count={schedulePost.scheduleCommentCount} />
                 </div>
