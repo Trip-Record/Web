@@ -110,11 +110,11 @@ const SeasonRanking = () => {
       ) : (
         <>
           {/* 첫 번째 섹션: 상위 세 개의 데이터 */}
-          <div className="flex mb-4">
+          <div className="flex mb-4 grid-cols-3 px-8 gap-2">
             {rankingData.slice(0, 3).map((item, index) => (
               <div
                 key={index + 1}
-                className="flex justify-center w-1/3 p-32 border border-black mb-4 mx-8 rounded-lg"
+                className="flex justify-center border border-black rounded-lg p-3 w-full"
               >
                 <p>
                   <span className="flex justify-center">
