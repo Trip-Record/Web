@@ -123,7 +123,7 @@ const MonthRanking = () => {
       ) : (
         <>
           {/* 첫 번째 섹션: 상위 세 개의 데이터 */}
-          <div className="grid mb-4 grid-cols-3 px-8 gap-2">
+          <div className="md:flex-row md:grid-cols-3 flex-col mb-4 px-8 gap-2 ">
             {rankingData.slice(0, 3).map((item, index) => (
               <div
                 key={index + 1}
