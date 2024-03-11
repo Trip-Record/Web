@@ -117,10 +117,10 @@ export default function WriteRecord() {
   };
 
   return (
-    <div>
+    <div className="p-2">
       <form
         onSubmit={handleSubmit}
-        className="flex w-1/3 flex-col mx-auto shadow bg-white gap-3 rounded-md p-5 mt-10"
+        className="flex flex-col mx-auto shadow bg-white gap-3 rounded-md p-5 mt-10"
       >
         <div className="flex  border-black border-b-[2px] pb-2 items-center">
           <MdSubtitles size={40} color={"#60a4f9"} className="mr-3" />
