@@ -1,5 +1,6 @@
 import { useGetPostQuery } from "../api/dummy";
 import { useGetRecordQuery } from "../api/record";
+import { PostTypes } from "../hooks/useLike";
 import { switchModalFnType } from "../hooks/useModal";
 import ModalButton from "./Modal";
 import CommentModal from "./comment/CommentModal";
@@ -10,11 +11,13 @@ interface Props {
   postId: number;
   isOpenModal: boolean;
   setModal: switchModalFnType;
+  likeType: PostTypes;
 }
 export default function LikeAndcomment({
   postId,
   isOpenModal,
   setModal,
+  likeType,
 }: Props) {
   // TODO: CommentBtn에 개수 전달 필요
 
@@ -26,7 +29,12 @@ export default function LikeAndcomment({
 
   return (
     <div className="flex items-center mt-auto gap-3">
-      <LikeBtn count={likeCount} id={postId} isLiked={isUserLiked} />
+      <LikeBtn
+        count={likeCount}
+        id={postId}
+        isLiked={isUserLiked}
+        type={likeType}
+      />
       <ModalButton
         button={<CommentBtn count={0} />}
         modal={<CommentModal postId={postId} />}

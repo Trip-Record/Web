@@ -50,6 +50,7 @@ export function useLike({ initLike, initCount, id, type }: Props) {
   };
 
   const clickLikeButton = () => {
+    if (!user) return alert("로그인 후 이용해주세요");
     const prevLikeCount = like;
     if (active) {
       setLike(prevLikeCount - 1);

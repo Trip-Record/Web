@@ -29,7 +29,7 @@ export default function ModalButton({
         onMouseDown={(e) => {
           if (e.target === e.currentTarget) setModal(false);
         }}
-        className="backdrop:bg-black/50 max-w-[100vw] bg-transparent"
+        className="backdrop:bg-black/50 max-w-[100vw] bg-transparent outline-none"
       >
         {modal}
       </dialog>

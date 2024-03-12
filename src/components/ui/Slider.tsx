@@ -29,7 +29,13 @@ export default function Slider({ images, count = 0, onModal = false }: Props) {
   };
 
   return (
-    <div className={`${IMG_BOX} ${onModal && "max-w-[48rem] w-[100vw]"}`}>
+    <div
+      className={`${IMG_BOX} ${
+        onModal
+          ? "max-w-[48rem] w-[100vw] max-h-[90vh] outline-double border-none outline-none"
+          : "max-w-[70%]"
+      }`}
+    >
       <div
         className={`relative flex border w-full h-full aspect-square overflow-hidden group border-none rounded-md`}
       >
