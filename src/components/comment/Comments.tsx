@@ -61,6 +61,7 @@ export default function Comments({ postId, commentCount }: Props) {
           <CommentLine
             comment={comment}
             key={comment.commentCreatedTime + comment.commentContent + index}
+            refetch={refetch}
           />
         ))}
       </div>

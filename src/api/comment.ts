@@ -9,6 +9,7 @@ export interface CommentData {
   commentContent: string;
   commentCreatedTime: string;
   commentId: number;
+  isUserCreated: boolean;
 }
 
 export interface ResponseComment {
@@ -81,7 +82,24 @@ export const commentApi = createApi({
       //   }
       // },
     }),
+    editComment: builder.mutation<
+      { message: string },
+      { commentId: number; commentContent: string }
+    >({
+      query: ({ commentId, commentContent }) => ({
+        url: `records/comments/${commentId}`,
+        method: "PATCH",
+        body: JSON.stringify({ commentContent }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }),
+    }),
   }),
 });
 
-export const { useGetComments2Query, useAddCommentsMutation } = commentApi;
+export const {
+  useGetComments2Query,
+  useAddCommentsMutation,
+  useEditCommentMutation,
+} = commentApi;
