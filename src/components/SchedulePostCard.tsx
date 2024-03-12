@@ -35,6 +35,7 @@ export interface SchedulePost {
   scheduleDetails: ScheduleDetail[];
   isUserLiked: boolean;
   scheduleLikeCount: number;
+  isUserCreated: boolean;
   scheduleCommentCount: number;
 }
 

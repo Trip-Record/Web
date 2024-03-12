@@ -81,24 +81,26 @@ export default function ScheduleDetail() {
               data.scheduleEndDate
             )}
           </p>
-          <div className="flex items-center gap-1">
-            <button
-              className="flex items-center"
-              onClick={() => {
-                navi(`/modify-schedule/${scheduleId}`);
-              }}
-            >
-              <ModifyIcon size={16} /> <div className="w-10">수정</div>
-            </button>
-            <button
-              className="flex items-center"
-              onClick={() => {
-                handleDeleteClick(scheduleId);
-              }}
-            >
-              <DeleteIcon size={18} /> <div className="w-10">삭제</div>
-            </button>
-          </div>
+          {data.isUserCreated && (
+            <div className="flex items-center gap-1">
+              <button
+                className="flex items-center"
+                onClick={() => {
+                  navi(`/modify-schedule/${scheduleId}`);
+                }}
+              >
+                <ModifyIcon size={16} /> <div className="w-10">수정</div>
+              </button>
+              <button
+                className="flex items-center"
+                onClick={() => {
+                  handleDeleteClick(scheduleId);
+                }}
+              >
+                <DeleteIcon size={18} /> <div className="w-10">삭제</div>
+              </button>
+            </div>
+          )}
         </div>
       </div>
       <div>{data.scheduleTitle}</div>
