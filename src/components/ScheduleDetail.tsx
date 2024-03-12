@@ -120,6 +120,7 @@ export default function ScheduleDetail() {
             count={data.scheduleLikeCount}
             id={data.scheduleId}
             isLiked={data.isUserLiked}
+            type="schedules"
           />
         </div>
       </div>
