@@ -74,7 +74,7 @@ export default function SchedulePost({ scheduleData }: Props) {
       {schedules.map((schedulePost: SchedulePost, index: number) => {
         return (
           <div
-            className="flex flex-col gap-1 rounded-md p-2 bg-white shadow w-2/5 mx-auto my-3"
+            className="flex flex-col gap-1 rounded-md p-2 bg-white shadow  mx-auto my-3 max-w-md w-full "
             key={`${id}`}
           >
             <AvatarInfo userProfile={schedulePost.userProfile} />
