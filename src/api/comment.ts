@@ -8,6 +8,7 @@ export interface CommentData {
   userProfile: UserProfile;
   commentContent: string;
   commentCreatedTime: string;
+  commentId: number;
 }
 
 export interface ResponseComment {
@@ -51,33 +52,34 @@ export const commentApi = createApi({
         },
       }),
 
-      onQueryStarted: async ({ ...patch }, { dispatch, queryFulfilled }) => {
-        console.log("onQueryStarted");
-        const patchResult = dispatch(
-          commentApi.util.updateQueryData(
-            "getComments2",
-            { page: 0, recordId: patch.recordId },
-            (draft) => {
-              // Object.assign(draft, patch);
-              draft.recordComments.unshift({
-                commentContent: patch.content,
-                commentCreatedTime: formatTime(new Date()),
-                userProfile: patch.user,
-              });
-            }
-          )
-        );
+      // onQueryStarted: async ({ ...patch }, { dispatch, queryFulfilled }) => {
+      //   console.log("onQueryStarted");
+      //   const patchResult = dispatch(
+      //     commentApi.util.updateQueryData(
+      //       "getComments2",
+      //       { page: 0, recordId: patch.recordId },
+      //       (draft) => {
+      //         // Object.assign(draft, patch);
+      //         draft.recordComments.unshift({
+      //           commentContent: patch.content,
+      //           commentCreatedTime: formatTime(new Date()),
+      //           userProfile: patch.user,
+      //           commentId: Math.random(),
+      //         });
+      //       }
+      //     )
+      //   );
 
-        try {
-          console.log("시도");
+      //   try {
+      //     console.log("시도");
 
-          await queryFulfilled;
-        } catch {
-          console.log("실패");
+      //     await queryFulfilled;
+      //   } catch {
+      //     console.log("실패");
 
-          patchResult.undo();
-        }
-      },
+      //     patchResult.undo();
+      //   }
+      // },
     }),
   }),
 });
