@@ -1,7 +1,7 @@
 import { useSearchParams } from "react-router-dom";
 
 export function useCurrentPage(isStartZero: boolean = true) {
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const startPage = isStartZero ? 0 : 1;
 

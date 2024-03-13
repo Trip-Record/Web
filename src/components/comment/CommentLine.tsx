@@ -1,5 +1,9 @@
 import { useEffect, useState } from "react";
-import { CommentData, useEditCommentMutation } from "../../api/comment";
+import {
+  CommentData,
+  useDeleteCommentMutation,
+  useEditCommentMutation,
+} from "../../api/comment";
 import { useInput } from "../../hooks/useInput";
 import AvatarInfo from "../ui/AvatarInfo";
 import ColorButton from "../ui/ColorButton";
@@ -10,8 +14,10 @@ import EditCommentButton from "./EditCommentButton";
 interface Props {
   comment: CommentData;
   refetch?: () => void;
+  onDelete?: () => void;
+  onEdit?: () => void;
 }
-export default function CommentLine({ comment, refetch }: Props) {
+export default function CommentLine({ comment, refetch, onDelete }: Props) {
   const {
     commentContent,
     commentCreatedTime,
@@ -27,13 +33,22 @@ export default function CommentLine({ comment, refetch }: Props) {
     },
     validateCallback: commentValidation.content,
   });
-  const [editComment, { isSuccess }] = useEditCommentMutation();
-
+  const [editComment, { isSuccess: editSuccess }] = useEditCommentMutation();
+  const [deleteComment, { isSuccess: deleteSuccess }] =
+    useDeleteCommentMutation();
+  // TODO: 리팩토링
   useEffect(() => {
-    if (isSuccess) {
+    if (editSuccess) {
       refetch && refetch();
     }
-  }, [isSuccess, refetch]);
+  }, [editSuccess, refetch]);
+
+  useEffect(() => {
+    if (deleteSuccess) {
+      onDelete && onDelete();
+      refetch && refetch();
+    }
+  }, [deleteSuccess, refetch, onDelete]);
 
   return (
     <div className="flex flex-col py-2 border-b last:border-none gap-1">
@@ -44,7 +59,12 @@ export default function CommentLine({ comment, refetch }: Props) {
             <EditCommentButton
               onClick={() => setIsEditComment((prev) => !prev)}
             />
-            <button className="w-10 text-nowrap" onClick={() => {}}>
+            <button
+              className="w-10 text-nowrap"
+              onClick={() => {
+                deleteComment({ commentId: comment.commentId });
+              }}
+            >
               삭제
             </button>
           </>

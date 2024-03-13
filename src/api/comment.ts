@@ -95,6 +95,15 @@ export const commentApi = createApi({
         },
       }),
     }),
+
+    deleteComment: builder.mutation<{ message: string }, { commentId: number }>(
+      {
+        query: ({ commentId }) => ({
+          url: `records/comments/${commentId}`,
+          method: "DELETE",
+        }),
+      }
+    ),
   }),
 });
 
@@ -102,4 +111,5 @@ export const {
   useGetComments2Query,
   useAddCommentsMutation,
   useEditCommentMutation,
+  useDeleteCommentMutation,
 } = commentApi;

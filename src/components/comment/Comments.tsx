@@ -1,6 +1,6 @@
 import CommentLine from "../comment/CommentLine";
 import ColorButton from "../ui/ColorButton";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useInput } from "../../hooks/useInput";
 import Avatar from "../ui/Avatar";
 import { useUser } from "../../hooks/useUser";
@@ -50,6 +50,11 @@ export default function Comments({ postId, commentCount }: Props) {
     refetch();
   }, [page, refetch]);
 
+  // 삭제 후 해당 페이지에 댓글이 없다면 -1페이지로 이동
+  const onDelete = useCallback(() => {
+    if (data?.recordComments.length === 1) navigate("?page=" + page);
+  }, [data, navigate, page]);
+
   if (!data) return <>Loading...</>;
   const comments = data.recordComments;
 
@@ -62,6 +67,7 @@ export default function Comments({ postId, commentCount }: Props) {
             comment={comment}
             key={comment.commentCreatedTime + comment.commentContent + index}
             refetch={refetch}
+            onDelete={onDelete}
           />
         ))}
       </div>
