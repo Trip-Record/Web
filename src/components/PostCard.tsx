@@ -8,14 +8,19 @@ import LikeBtn from "./post/LikeBtn";
 import AvatarInfo from "./ui/AvatarInfo";
 import { Record } from "../api/records";
 import { formatPlace } from "../utils/dataFormat";
+import { MyRecord } from "./MyRecord";
 
 interface Props {
-  record: Record;
+  record: Record | MyRecord;
   type?: "blog" | "instagram";
 }
+
+function isRecord(record: Record | MyRecord): record is Record {
+  return (record as Record).recordUserProfile !== undefined;
+}
 export default function PostCard({ record, type = "blog" }: Props) {
+  // if(typeof record === MyRecord){}
   const {
-    recordUserProfile,
     recordId,
     recordTitle,
     recordContent,
@@ -32,12 +37,16 @@ export default function PostCard({ record, type = "blog" }: Props) {
   const region = formatPlace(recordPlaces);
   const signatureImg = "/logo192.png";
 
+  const recordUserProfile = isRecord(record)
+    ? record.recordUserProfile
+    : undefined;
+
   if (type === "blog") {
     return (
-      //TODO: 인스타형 포스트 onclick 적용
+      //TODO: 컴포넌트 전체에 onclick 적용 및 이벤트 버블링 방지
       <section className="flex flex-row w-full h-60 bg-white border-b last:border-b-white p-2 pb-5">
         <div className="flex flex-col flex-1 gap-1">
-          <AvatarInfo userProfile={recordUserProfile} />
+          {recordUserProfile && <AvatarInfo userProfile={recordUserProfile} />}
           <div
             onClick={() => navi(`/record/${recordId}`)}
             className="cursor-pointer"
@@ -47,7 +56,12 @@ export default function PostCard({ record, type = "blog" }: Props) {
             <div className="line-clamp-4">{recordContent}</div>
           </div>
           <div className="mt-auto flex items-center gap-2">
-            <LikeBtn count={likeCount} isLiked={isUserLiked} id={recordId} />
+            <LikeBtn
+              count={likeCount}
+              isLiked={isUserLiked}
+              id={recordId}
+              type="records"
+            />
             <CommentBtn count={record.commentCount} />
           </div>
         </div>
@@ -56,6 +70,7 @@ export default function PostCard({ record, type = "blog" }: Props) {
             src={recordImages[0]?.recordImageUrl}
             className="w-24 md:w-56 object-cover rounded-md shadow-md"
             alt="travel_sinature"
+            onClick={() => navi(`/record/${recordId}`)}
           ></img>
         )}
       </section>
@@ -63,7 +78,7 @@ export default function PostCard({ record, type = "blog" }: Props) {
   } else {
     return (
       <section className="flex flex-col w-full items-center max-w-lg bg-white p-5 border-b gap-2">
-        <AvatarInfo userProfile={recordUserProfile} />
+        {recordUserProfile && <AvatarInfo userProfile={recordUserProfile} />}
         <h2 className="text-gray-400 text-ellipsis text-sm w-full">{region}</h2>
         <div
           onClick={() => navi(`/record/${recordId}`)}
@@ -80,7 +95,12 @@ export default function PostCard({ record, type = "blog" }: Props) {
           <div className="line-clamp-4">{recordContent}</div>
         </div>
         <div className="flex items-center w-full mt-4 gap-3">
-          <LikeBtn count={likeCount} id={recordId} isLiked={isUserLiked} />
+          <LikeBtn
+            count={likeCount}
+            id={recordId}
+            isLiked={isUserLiked}
+            type="records"
+          />
           <ModalButton
             button={<CommentBtn count={commentCount} />}
             modal={<CommentModal postId={recordId} />}

@@ -35,6 +35,7 @@ export interface SchedulePost {
   scheduleDetails: ScheduleDetail[];
   isUserLiked: boolean;
   scheduleLikeCount: number;
+  isUserCreated: boolean;
   scheduleCommentCount: number;
 }
 
@@ -74,7 +75,7 @@ export default function SchedulePost({ scheduleData }: Props) {
       {schedules.map((schedulePost: SchedulePost, index: number) => {
         return (
           <div
-            className="flex flex-col gap-1 rounded-md p-2 bg-white shadow w-2/5 mx-auto my-3"
+            className="flex flex-col gap-1 rounded-md p-2 bg-white shadow  mx-auto my-3 max-w-screen-md w-full"
             key={`${id}`}
           >
             <AvatarInfo userProfile={schedulePost.userProfile} />
@@ -99,15 +100,13 @@ export default function SchedulePost({ scheduleData }: Props) {
                 </div>
               );
             })}
-            <div className="flex justify-between">
-              <div className="flex gap-2">
-                <LikeBtn
-                  count={schedulePost.scheduleLikeCount}
-                  isLiked={schedulePost.isUserLiked}
-                  id={schedulePost.scheduleId}
-                />
-                <CommentBtn count={schedulePost.scheduleCommentCount} />
-              </div>
+            <div className="flex gap-2 justify-between">
+              <LikeBtn
+                count={schedulePost.scheduleLikeCount}
+                isLiked={schedulePost.isUserLiked}
+                id={schedulePost.scheduleId}
+                type="schedules"
+              />
               <Link to={`/schedule/${schedulePost.scheduleId}`}>
                 모든 일정 보기
               </Link>

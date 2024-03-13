@@ -93,11 +93,20 @@ export default function PostDetail({ postId }: Props) {
           nothingImage && "h-52"
         }`}
       >
-        {!nothingImage && <Slider images={images} onModal={false} />}
+        {!nothingImage && (
+          <div className="p-10">
+            <Slider images={images} onModal={false} />
+          </div>
+        )}
         <div>{recordContent}</div>
       </article>
       <div className="mt-auto">
-        <LikeBtn count={likeCount} isLiked={isUserLiked} id={postId} />
+        <LikeBtn
+          count={likeCount}
+          isLiked={isUserLiked}
+          id={postId}
+          type="records"
+        />
       </div>
 
       <Comments postId={postId} commentCount={commentCount} />

@@ -2,6 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { UserProfile } from "../hooks/useUser";
 import { HOST } from "../constants";
 import { getLoginToken } from "../services/storage";
+import { formatDate, formatTime } from "../utils/dataFormat";
 
 export interface CommentData {
   userProfile: UserProfile;
@@ -60,7 +61,7 @@ export const commentApi = createApi({
               // Object.assign(draft, patch);
               draft.recordComments.unshift({
                 commentContent: patch.content,
-                commentCreatedTime: new Date().getDate().toString(),
+                commentCreatedTime: formatTime(new Date()),
                 userProfile: patch.user,
               });
             }

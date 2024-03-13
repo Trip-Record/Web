@@ -170,15 +170,15 @@ export default function DestinationSelection({
   };
 
   return (
-    <div className="mt-16 p-4 bg-white border rounded-md fixed top-20 left-96 w-1/2 h-3/5 overflow-y-auto">
+    <div className="bg-white w-[100vw] max-w-[90vw] p-3">
       <h2 className="text-black-500 font-bold mb-2 text-3xl">주요 도시</h2>
       <div className="flex gap-4">
-        <div className="w-1/2">
+        <div className="">
           <ul className="list-none p-0 mt-4 border border-blue-300 border-solid rounded-md">
             {continents.map((continent) => (
               <li
                 key={continent.continentName}
-                className={`cursor-pointer mt-4 mb-4 ml-32 ${
+                className={`cursor-pointer mt-4 mb-4 p-4 ${
                   selectedContinent === continent.continentName
                     ? "text-blue-500 font-bold"
                     : "text-gray-700"
@@ -191,8 +191,8 @@ export default function DestinationSelection({
           </ul>
         </div>
 
-        <div className="w-1/2">
-          <ul className="list-none mt-4 p-0 border border-blue-300 border-solid rounded-md">
+        <div className="flex-1">
+          <ul className="list-none mt-4 border border-blue-300 border-solid rounded-md p-4">
             {selectedContinent &&
               countries
                 .filter((country) =>
@@ -205,7 +205,7 @@ export default function DestinationSelection({
                 .map((country) => (
                   <li key={country}>
                     <div
-                      className={`cursor-pointer mt-4 mb-4 ml-32 ${
+                      className={`cursor-pointer mt-4 mb-4 ${
                         selectedCountry === country
                           ? "text-blue-500 font-bold"
                           : "text-gray-700"

@@ -29,7 +29,7 @@ export default function LoginPage() {
               type="id"
               setValue={setId}
               inputType="text"
-              placeholder="아이디를 입력해주세요"
+              placeholder="이메일을 입력해주세요"
             />
             <LoginInput
               label="비밀번호"
