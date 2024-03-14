@@ -5,27 +5,40 @@ import { useInput } from "../../hooks/useInput";
 import Avatar from "../ui/Avatar";
 import { useUser } from "../../hooks/useUser";
 import {
+  ResponseRecordComments,
+  ResponseScheduleComments,
   useAddCommentsMutation,
   useGetComments2Query,
 } from "../../api/comment";
 import PageNation from "../ui/PageNation";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useCurrentPage } from "../../hooks/useCurrentPage";
 import CommentInput from "./CommentInput";
 import CommentHeader from "./CommentHeader";
+import { PostTypes } from "../../hooks/useLike";
 
 interface Props {
   postId: number;
   commentCount: number;
+  type: PostTypes;
 }
-export default function Comments({ postId, commentCount }: Props) {
-  // TODO: 마지막페이지로 이동
+
+function instanceOfRecord(object: any): object is ResponseRecordComments {
+  return "recordComments" in object;
+}
+
+function instanceOfSchedule(object: any): object is ResponseScheduleComments {
+  return "scheduleComments" in object;
+}
+
+export default function Comments({ postId, commentCount, type }: Props) {
   const { user } = useUser();
   const page = useCurrentPage();
   const navigate = useNavigate();
   const { data, refetch } = useGetComments2Query({
     recordId: postId,
     page,
+    type,
   });
   const [setComment, { isLoading, isSuccess }] = useAddCommentsMutation();
   const commentRef = useRef<HTMLDivElement>(null);
@@ -33,7 +46,12 @@ export default function Comments({ postId, commentCount }: Props) {
   const addCommentSubmit = async (value: string) => {
     commentRef.current?.scrollTo(0, 0);
     if (!user) return;
-    setComment({ content: value, user: user.userProfile, recordId: postId });
+    setComment({
+      content: value,
+      user: user.userProfile,
+      recordId: postId,
+      type,
+    });
   };
 
   useEffect(() => {
@@ -52,12 +70,17 @@ export default function Comments({ postId, commentCount }: Props) {
 
   // 삭제 후 해당 페이지에 댓글이 없다면 -1페이지로 이동
   const onDelete = useCallback(() => {
-    if (data?.recordComments.length === 1) navigate("?page=" + page);
+    if (instanceOfRecord(data) && data?.recordComments.length === 1)
+      navigate("?page=" + page);
+    else if (instanceOfSchedule(data) && data?.scheduleComments.length === 1) {
+      navigate("?page=" + page);
+    }
   }, [data, navigate, page]);
 
   if (!data) return <>Loading...</>;
-  const comments = data.recordComments;
-
+  const comments = instanceOfRecord(data)
+    ? data.recordComments
+    : data.scheduleComments;
   return (
     <>
       <CommentHeader count={commentCount} />
@@ -68,6 +91,7 @@ export default function Comments({ postId, commentCount }: Props) {
             key={comment.commentCreatedTime + comment.commentContent + index}
             refetch={refetch}
             onDelete={onDelete}
+            type={type}
           />
         ))}
       </div>

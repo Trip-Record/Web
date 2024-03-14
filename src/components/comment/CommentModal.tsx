@@ -6,15 +6,18 @@ import {
   useAddCommentsMutation,
   useGetComments2Query,
 } from "../../api/comment";
+import { PostTypes } from "../../hooks/useLike";
 
 interface Props {
   postId: number;
+  type: PostTypes;
 }
 
-export default function CommentModal({ postId }: Props) {
+export default function CommentModal({ postId, type }: Props) {
   const { data: comments } = useGetComments2Query({
     recordId: postId,
     page: 0,
+    type,
   });
   const [updatePost, result] = useAddCommentsMutation();
   const commentRef = useRef<HTMLDivElement>(null);

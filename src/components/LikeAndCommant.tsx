@@ -37,7 +37,7 @@ export default function LikeAndcomment({
       />
       <ModalButton
         button={<CommentBtn count={0} />}
-        modal={<CommentModal postId={postId} />}
+        modal={<CommentModal postId={postId} type={likeType} />}
         isOpenModal={isOpenModal}
         setModal={setModal}
       />

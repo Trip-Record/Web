@@ -3,6 +3,7 @@ import { UserProfile } from "../hooks/useUser";
 import { HOST } from "../constants";
 import { getLoginToken } from "../services/storage";
 import { formatDate, formatTime } from "../utils/dataFormat";
+import { PostTypes } from "../hooks/useLike";
 
 export interface CommentData {
   userProfile: UserProfile;
@@ -15,7 +16,14 @@ export interface CommentData {
 export interface ResponseComment {
   totalPages: number;
   pageNumber: number;
+}
+
+export interface ResponseRecordComments extends ResponseComment {
   recordComments: CommentData[];
+}
+
+export interface ResponseScheduleComments extends ResponseComment {
+  scheduleComments: CommentData[];
 }
 
 export const commentApi = createApi({
@@ -33,25 +41,29 @@ export const commentApi = createApi({
   }),
   endpoints: (builder) => ({
     getComments2: builder.query<
-      ResponseComment,
-      { recordId: number; page: number }
+      ResponseScheduleComments | ResponseRecordComments,
+      { recordId: number; page: number; type: PostTypes }
     >({
-      query: ({ page, recordId }) =>
-        `records/${recordId}/comments?page=${page}`,
+      query: ({ page, recordId, type }) =>
+        `${type}/${recordId}/comments?page=${page}`,
     }),
 
     addComments: builder.mutation<
       void,
-      { content: string; user: UserProfile; recordId: number }
+      { content: string; user: UserProfile; recordId: number; type: PostTypes }
     >({
-      query: ({ recordId, content }) => ({
-        url: `records/${recordId}/comments`,
-        method: "post",
-        body: JSON.stringify({ commentContent: content }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }),
+      query: ({ recordId, content, type }) => {
+        const body =
+          type === "records" ? { commentContent: content } : { content };
+        return {
+          url: `${type}/${recordId}/comments`,
+          method: "post",
+          body: JSON.stringify(body),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        };
+      },
 
       // onQueryStarted: async ({ ...patch }, { dispatch, queryFulfilled }) => {
       //   console.log("onQueryStarted");
@@ -84,10 +96,10 @@ export const commentApi = createApi({
     }),
     editComment: builder.mutation<
       { message: string },
-      { commentId: number; commentContent: string }
+      { commentId: number; commentContent: string; type: PostTypes }
     >({
-      query: ({ commentId, commentContent }) => ({
-        url: `records/comments/${commentId}`,
+      query: ({ commentId, commentContent, type }) => ({
+        url: `${type}/comments/${commentId}`,
         method: "PATCH",
         body: JSON.stringify({ commentContent }),
         headers: {
@@ -96,14 +108,15 @@ export const commentApi = createApi({
       }),
     }),
 
-    deleteComment: builder.mutation<{ message: string }, { commentId: number }>(
-      {
-        query: ({ commentId }) => ({
-          url: `records/comments/${commentId}`,
-          method: "DELETE",
-        }),
-      }
-    ),
+    deleteComment: builder.mutation<
+      { message: string },
+      { commentId: number; type: PostTypes }
+    >({
+      query: ({ commentId, type }) => ({
+        url: `${type}/comments/${commentId}`,
+        method: "DELETE",
+      }),
+    }),
   }),
 });
 

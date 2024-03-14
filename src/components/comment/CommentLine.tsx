@@ -10,14 +10,21 @@ import ColorButton from "../ui/ColorButton";
 import { commentValidation } from "../../validations/comment";
 import EditComment from "./EditComment";
 import EditCommentButton from "./EditCommentButton";
+import { PostTypes } from "../../hooks/useLike";
 
 interface Props {
   comment: CommentData;
+  type: PostTypes;
   refetch?: () => void;
   onDelete?: () => void;
   onEdit?: () => void;
 }
-export default function CommentLine({ comment, refetch, onDelete }: Props) {
+export default function CommentLine({
+  comment,
+  refetch,
+  onDelete,
+  type,
+}: Props) {
   const {
     commentContent,
     commentCreatedTime,
@@ -29,7 +36,7 @@ export default function CommentLine({ comment, refetch, onDelete }: Props) {
   const { value, onchange, handleSubmit } = useInput({
     init: commentContent,
     submitCallback(value) {
-      editComment({ commentContent: value, commentId });
+      editComment({ commentContent: value, commentId, type });
     },
     validateCallback: commentValidation.content,
   });
@@ -37,6 +44,7 @@ export default function CommentLine({ comment, refetch, onDelete }: Props) {
   const [deleteComment, { isSuccess: deleteSuccess }] =
     useDeleteCommentMutation();
   // TODO: 리팩토링
+  //TODO: 스케줄에도 작동하도록 변경
   useEffect(() => {
     if (editSuccess) {
       refetch && refetch();
@@ -62,7 +70,7 @@ export default function CommentLine({ comment, refetch, onDelete }: Props) {
             <button
               className="w-10 text-nowrap"
               onClick={() => {
-                deleteComment({ commentId: comment.commentId });
+                deleteComment({ commentId: comment.commentId, type });
               }}
             >
               삭제
