@@ -98,14 +98,20 @@ export const commentApi = createApi({
       { message: string },
       { commentId: number; commentContent: string; type: PostTypes }
     >({
-      query: ({ commentId, commentContent, type }) => ({
-        url: `${type}/comments/${commentId}`,
-        method: "PATCH",
-        body: JSON.stringify({ commentContent }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }),
+      query: ({ commentId, commentContent, type }) => {
+        const body =
+          type === "records"
+            ? { commentContent: commentContent }
+            : { content: commentContent };
+        return {
+          url: `${type}/comments/${commentId}`,
+          method: "PATCH",
+          body: JSON.stringify(body),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        };
+      },
     }),
 
     deleteComment: builder.mutation<
