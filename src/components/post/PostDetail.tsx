@@ -109,7 +109,7 @@ export default function PostDetail({ postId }: Props) {
         />
       </div>
 
-      <Comments postId={postId} commentCount={commentCount} />
+      <Comments postId={postId} commentCount={commentCount} type="records" />
     </main>
   );
 }

@@ -103,7 +103,7 @@ export default function PostCard({ record, type = "blog" }: Props) {
           />
           <ModalButton
             button={<CommentBtn count={commentCount} />}
-            modal={<CommentModal postId={recordId} />}
+            modal={<CommentModal postId={recordId} type="records" />}
             isOpenModal={showModal}
             setModal={switchModal}
           />

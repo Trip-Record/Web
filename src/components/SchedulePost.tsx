@@ -56,7 +56,7 @@ export default function SchedulePost({ schedulePost }: Props) {
           {/* <LikeBtn id={id} count={} /> */}
           <ModalButton
             button={<CommentBtn count={0} />}
-            modal={<CommentModal postId={id} />}
+            modal={<CommentModal postId={id} type="schedules" />}
             isOpenModal={showModal}
             setModal={switchModal}
           />

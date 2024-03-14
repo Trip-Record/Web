@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { UserProfile } from "../hooks/useUser";
 import { HOST } from "../constants";
+import { getLoginToken } from "../services/storage";
 
 export interface Place {
   placeId: number;
@@ -38,7 +39,15 @@ export const recordsApi = createApi({
   // highlight-end
   baseQuery: fetchBaseQuery({
     baseUrl: HOST,
+    prepareHeaders: (headers, { getState }) => {
+      const token = getLoginToken();
+      if (token) {
+        headers.set("authorization", `Bearer ${token}`);
+      }
+      return headers;
+    },
   }),
+
   endpoints: (builder) => ({
     getRecords: builder.query<ResponseRecords, { page: number; size: number }>({
       query: ({ page, size }) => `records?page=${page}&size=${size}`,

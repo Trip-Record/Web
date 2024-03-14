@@ -18,7 +18,7 @@ export default function PageNation({ showPage, maxPage }: Props) {
 
   const prevPage = page[0] - 1 <= 0 ? null : page[0] - 1;
   const nextPage =
-    page[page.length - 1] + 1 >= maxPage ? null : page[page.length - 1] + 1;
+    page[page.length - 1] + 1 > maxPage ? null : page[page.length - 1] + 1;
 
   return (
     // 버전1

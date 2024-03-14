@@ -128,8 +128,12 @@ export default function ScheduleDetail() {
         </div>
       </div>
       <hr className="my-2" />
-      <Comments postId={+scheduleId} commentCount={1} />
-      <PageNation maxPage={12} showPage={5} />
+      <Comments
+        postId={+scheduleId}
+        commentCount={data.scheduleCommentCount}
+        type="schedules"
+      />
+      {/* <PageNation maxPage={} showPage={5} /> */}
     </div>
   );
 }
