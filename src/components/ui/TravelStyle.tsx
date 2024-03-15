@@ -27,7 +27,7 @@ export default function TravelStyle({ selectStyle, onClick }: Props) {
 
   return (
     <div
-      className="flex items-center gap-1 h-7 bg-blue-200 p-1 px-2 rounded-full"
+      className="flex items-center gap-1 h-7 bg-blue-200 p-1 px-2 rounded-full w-fit"
       onClick={handleClick}
     >
       <img src={img} alt="travel_style" className="h-full"></img>
