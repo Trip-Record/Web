@@ -45,14 +45,14 @@ export default function Radios({
           >
             <div
               className={`p-1 ${
-                imageBackGround ? "bg-blue-300" : "bg-none"
+                imageBackGround ? "bg-[#D9E5FF]" : "bg-none"
               } rounded-full w-20 h-20 flex items-center justify-center `}
             >
               <img
                 src={image}
                 alt="스타일"
                 className={`w-14 h-14 ${
-                  imageBackGround ? "bg-blue-300" : "bg-none"
+                  imageBackGround ? "bg-[#D9E5FF]" : "bg-none"
                 }`}
               />
             </div>

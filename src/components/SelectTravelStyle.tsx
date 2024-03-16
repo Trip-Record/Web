@@ -98,13 +98,13 @@ export default function SelectTravelStyle() {
       <h2 className="text-2xl my-4 p-1 text-balance text-center">
         여행 스타일을 선택하고 비슷한 유형의 여행자들을 만나보세요
       </h2>
-      <form onSubmit={onSubmit}>
+      <form onSubmit={onSubmit} className="flex flex-col items-center">
         <main className="grid grid-cols-2 sm:grid-cols-4 gap-4 w-full max-w-screen-lg border border-black/20 bg-white rounded-lg p-4 shadow-md">
           <Radios valueList={STYLES} setSelect={setSelect} />
         </main>
         <button
           type="submit"
-          className="w-full h-12 rounded-lg border bg-blue-300 mt-4 text-black/70 font-bold disabled:text-gray-500/50"
+          className="w-1/3 h-12 rounded-lg border bg-blue-300 mt-4 text-black/70 font-bold disabled:text-gray-500/50"
           disabled={select === null}
         >
           확인
