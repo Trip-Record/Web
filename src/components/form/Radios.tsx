@@ -32,7 +32,10 @@ export default function Radios({
             className="w-full peer hidden"
             value={id}
             onChange={() => {
-              if (setSelect) setSelect(id);
+              if (setSelect) {
+                setSelect(id);
+                console.log(id);
+              }
             }}
           />
           <label
