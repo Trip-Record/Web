@@ -123,7 +123,7 @@ const MonthRanking = () => {
       ) : (
         <>
           {/* 첫 번째 섹션: 상위 세 개의 데이터 */}
-          <div className="md:flex-row md:grid-cols-3 flex-col mb-4 px-8 gap-2 ">
+          <div className="md:grid md:grid-cols-3 flex flex-col mb-4 px-8 gap-2 ">
             {rankingData.slice(0, 3).map((item, index) => (
               <div
                 key={index + 1}
@@ -160,12 +160,10 @@ const MonthRanking = () => {
             {rankingData.slice(3).map((item, index) => (
               <div
                 key={index + 4}
-                className="w-full p-10 border border-black mb-5 rounded"
+                className="w-full p-5 md:p-10 border border-black mb-5 rounded"
               >
                 <p className="font-bold flex items-center">
-                  <span className="mt-3">
-                    {getRankingIcon(item.rank, true)}
-                  </span>
+                  <span className="mt-3">{item.rank}</span>
                   <span className="flex ml-8 items-center gap-2">
                     <img
                       src={LocationIcon}
