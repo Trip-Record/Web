@@ -22,8 +22,8 @@ export interface FormError {
 const BASIC_PROFILE = [
   {
     id: 1,
-    image: "/profile-icons/Cat.png",
-    title: "고양이",
+    image: "/profile-icons/Rabbit.png",
+    title: "토끼",
   },
   {
     id: 2,
@@ -32,19 +32,20 @@ const BASIC_PROFILE = [
   },
   {
     id: 3,
+    image: "/profile-icons/Cat.png",
+    title: "고양이",
+  },
+  {
+    id: 4,
     image: "/profile-icons/Elephant.png",
     title: "코끼리",
   },
   {
-    id: 4,
+    id: 5,
     image: "/profile-icons/Panda.png",
     title: "팬더",
   },
-  {
-    id: 5,
-    image: "/profile-icons/Rabbit.png",
-    title: "토끼",
-  },
+
   {
     id: 6,
     image: "/profile-icons/Profile.png",
