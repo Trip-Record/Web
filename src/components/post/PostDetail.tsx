@@ -10,6 +10,8 @@ import { useRecord } from "../../hooks/useRecord";
 import { Place, ResponseImage } from "../../api/records";
 import LocationIcon from "../ui/icons/LocationIcon.png";
 import DateIcon from "../ui/icons/DateIcon.png";
+import { useDeleteRecordDetailMutation } from "../../api/record";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   postId: number;
@@ -27,6 +29,8 @@ export default function PostDetail({ postId }: Props) {
   // const { data, isLoading } = useGetPostQuery(postId);
   const { data, deleteRecord } = useRecord(postId);
   const { user } = useUser();
+  const [deleteRecordDetail] = useDeleteRecordDetailMutation();
+  const navi = useNavigate();
 
   if (!data) return <SkeletonDetail />;
   const {
@@ -54,6 +58,22 @@ export default function PostDetail({ postId }: Props) {
   const isMyRecord =
     recordUserProfile.userNickname === user?.userProfile.userNickname;
 
+  const handleDeleteClick = (recordId: number) => {
+    const deleteCheck = window.confirm("해당 게시글을 삭제하시겠습니까?");
+    if (deleteCheck) {
+      deleteRecordDetail(recordId)
+        .unwrap()
+        .then(() => {
+          alert("게시글이 삭제되었습니다.");
+          navi("/travel-record");
+        })
+        .catch((error) => {
+          console.error("Deleting record failed", error);
+          alert("게시글 삭제에 실패하였습니다.");
+        });
+    }
+  };
+
   return (
     <main className="w-full max-w-screen-md flex flex-col gap-2">
       <h2 className="font-semibold">{recordTitle}</h2>
@@ -80,7 +100,9 @@ export default function PostDetail({ postId }: Props) {
               </button>
               <button
                 className="flex items-center"
-                onClick={() => deleteRecord()}
+                onClick={() => {
+                  handleDeleteClick(postId);
+                }}
               >
                 <DeleteIcon size={18} /> 삭제
               </button>
