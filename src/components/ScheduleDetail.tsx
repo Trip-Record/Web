@@ -28,7 +28,6 @@ export default function ScheduleDetail() {
   const handleDeleteClick = (scheduleId: string) => {
     const deleteCheck = window.confirm("해당 게시글을 삭제하시겠습니까?");
     if (deleteCheck) {
-      // 훅에서 반환된 함수의 실행은 조건부가 될 수 있습니다.
       deleteScheduleDetail(scheduleId)
         .unwrap()
         .then(() => {

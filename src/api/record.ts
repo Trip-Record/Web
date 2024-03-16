@@ -52,12 +52,23 @@ export const recordApi = createApi({
     getRecord: builder.query<Record, number>({
       query: (recordId) => `records/${recordId}`,
     }),
-
     getMyRecords: builder.query<RecordData, number>({
       query: (pageNumber) => `users/records?page=${pageNumber}`,
+    }),
+    deleteRecordDetail: builder.mutation<void, number>({
+      query: (recordId: number) => {
+        return {
+          url: `records/${recordId}`,
+          method: "DELETE",
+        };
+      },
     }),
   }),
 });
 
-export const { useSetRecordMutation, useGetRecordQuery, useGetMyRecordsQuery } =
-  recordApi;
+export const {
+  useSetRecordMutation,
+  useGetRecordQuery,
+  useGetMyRecordsQuery,
+  useDeleteRecordDetailMutation,
+} = recordApi;
