@@ -19,8 +19,28 @@ interface RankingData {
 }
 
 const SeasonRanking = () => {
-  const [selectedYear, setSelectedYear] = useState<string | null>("2024");
-  const [selectedSeason, setSelectedSeason] = useState<string | null>("겨울");
+  const [selectedYear, setSelectedYear] = useState<string | null>(
+    new Date().getFullYear().toString()
+  );
+  const [selectedSeason, setSelectedSeason] = useState<string | null>("");
+
+  useEffect(() => {
+    const currentMonth = new Date().getMonth();
+    let season: string;
+
+    if (currentMonth >= 2 && currentMonth <= 4) {
+      season = "봄";
+    } else if (currentMonth >= 5 && currentMonth <= 7) {
+      season = "여름";
+    } else if (currentMonth >= 8 && currentMonth <= 10) {
+      season = "가을";
+    } else {
+      season = "겨울";
+    }
+
+    setSelectedSeason(season);
+  }, []);
+
   const [rankingData, setRankingData] = useState<RankingData[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<any>(null);
@@ -110,11 +130,11 @@ const SeasonRanking = () => {
       ) : (
         <>
           {/* 첫 번째 섹션: 상위 세 개의 데이터 */}
-          <div className="flex mb-4">
+          <div className="md:grid md:grid-cols-3 flex flex-col mb-4 px-8 gap-2">
             {rankingData.slice(0, 3).map((item, index) => (
               <div
                 key={index + 1}
-                className="flex justify-center w-1/3 p-32 border border-black mb-4 mx-8 rounded-lg"
+                className="flex justify-center border border-black rounded-lg p-3 w-full"
               >
                 <p>
                   <span className="flex justify-center">
@@ -147,28 +167,26 @@ const SeasonRanking = () => {
             {rankingData.slice(3).map((item, index) => (
               <div
                 key={index + 4}
-                className="w-full p-10 border border-black mb-5 rounded"
+                className="w-full p-5 md:p-10 border border-black mb-5 rounded"
               >
-                <p className="font-bold mb-7">
-                  <span className="absolute">
-                    {getRankingIcon(item.rank, true)}
-                  </span>
-                  <span className="absolute left-32 ml-8">
+                <p className="font-bold flex items-center">
+                  <span className="mt-3">{item.rank}</span>
+                  <span className="flex ml-8 items-center gap-2">
                     <img
                       src={LocationIcon}
                       alt="Location Icon"
-                      className="w-6 h-6 absolute"
+                      className="w-6 h-6"
                     />
-                    &ensp; &emsp; {item.placeBasicData.countryName},{" "}
+                    {item.placeBasicData.countryName},{" "}
                     {item.placeBasicData.placeName}
                   </span>
-                  <span className="text-red-500 absolute right-40">
+                  <span className="text-red-500 right-40 ml-auto flex gap-2">
                     <img
                       src={GraphIcon}
                       alt="Graph Icon"
-                      className="w-6 h-6 absolute right-26"
+                      className="w-6 h-6 right-26"
                     />
-                    &ensp; &emsp; 방문 횟수 {item.visitCount}
+                    방문 횟수 {item.visitCount}
                   </span>
                 </p>
               </div>
