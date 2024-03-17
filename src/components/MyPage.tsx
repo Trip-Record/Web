@@ -73,11 +73,11 @@ export default function MyPage() {
     <main className="bg-white">
       {userData && (
         <div className="flex bg-blue-50 p-8 justify-between">
-          <div className="ml-16 my-4 flex items-center">
+          <div className="flex my-4 items-center">
             <img
               src={`${userData.userProfile.userProfileImg}`}
               alt="Profile Icon"
-              className="w-24 h-24"
+              className="size-10 md:size-24"
             />
             <div className="ml-4">
               <h2 className="text-xl font-semibold mr-4 mb-2">
@@ -102,36 +102,44 @@ export default function MyPage() {
               )}
             </div>
           </div>
-          <div className="flex mr-16 mt-6">
-            <div className="flex flex-col items-center mr-16">
-              <img src={RecordIcon} alt="Record Icon" className="h-6 w-6" />
-              <p>기록</p>
+          <div className="grid grid-cols-2 md:flex gap-10 mt-6">
+            <div className="flex flex-col items-center">
+              <img
+                src={RecordIcon}
+                alt="Record Icon"
+                className="size-6 nowrap"
+              />
+              <p className="whitespace-nowrap">기록</p>
               <p className="font-bold text-xl">{userData.recordTotal}</p>
             </div>
-            <div className="flex flex-col items-center mr-16">
-              <img src={DateIcon} alt="Date Icon" className="h-6 w-6" />
-              <p>일정</p>
+            <div className="flex flex-col items-center">
+              <img src={DateIcon} alt="Date Icon" className="size-6" />
+              <p className="whitespace-nowrap">일정</p>
               <p className="font-bold text-xl">{userData.scheduleTotal}</p>
             </div>
-            <div className="flex flex-col items-center mr-16">
-              <img src={LocationIcon} alt="Location Icon" className="h-6 w-6" />
-              <p>장소</p>
+            <div className="flex flex-col items-center">
+              <img
+                src={LocationIcon}
+                alt="Location Icon"
+                className="size-6 nowrap"
+              />
+              <p className="whitespace-nowrap">장소</p>
               <p className="font-bold text-xl">{userData.placeTotal}</p>
             </div>
             <div className="flex flex-col items-center">
               <img
                 src={RecommendIcon}
                 alt="Recommend Icon"
-                className="h-6 w-6"
+                className="size-6 nowrap"
               />
-              <p>추천</p>
+              <p className="whitespace-nowrap">추천</p>
               <p className="font-bold text-xl">{userData.likeTotal}</p>
             </div>
           </div>
         </div>
       )}
       <div className="bg-white">
-        <div className="flex justify-start ml-4 mb-4">
+        <div className="flex justify-start ml-56 mb-4">
           <button
             className={`ml-32 mt-10 text-xl ${
               activeTab === "기록"
