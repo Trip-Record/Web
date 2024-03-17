@@ -14,6 +14,8 @@ import {
 } from "../api/schedule";
 import { useNavigate } from "react-router-dom";
 import Comments from "./comment/Comments";
+import LocationIcon from "./ui/icons/LocationIcon.png";
+import DateIcon from "./ui/icons/DateIcon.png";
 
 export default function ScheduleDetail() {
   const { scheduleId } = useParams();
@@ -66,20 +68,27 @@ export default function ScheduleDetail() {
       <div className="flex justify-between ">
         <AvatarInfo userProfile={data.userProfile} />
       </div>
-      <div className="flex flex-col">
+      <div className="flex flex-col text-gray-500">
         <div className="flex gap-2">
-          {data.schedulePlaces.map((place) => {
-            //추후 "/" 넣기
-            return <p>{`${place.placeCountry},${place.placeName}`}</p>;
-          })}
+          <img src={LocationIcon} width="25" />
+          <div className="flex gap-2">
+            {data.schedulePlaces.map((place) => {
+              //추후 "/" 넣기
+              return <p>{`${place.placeCountry},${place.placeName}`}</p>;
+            })}
+          </div>
         </div>
         <div className="flex justify-between">
-          <p>
-            {makeStartEndDateString(
-              data.scheduleStartDate,
-              data.scheduleEndDate
-            )}
-          </p>
+          <div className="flex gap-2">
+            <img src={DateIcon} width="25" />
+            <p>
+              {makeStartEndDateString(
+                data.scheduleStartDate,
+                data.scheduleEndDate
+              )}
+            </p>
+          </div>
+
           {data.isUserCreated && (
             <div className="flex items-center gap-1">
               <button
@@ -126,7 +135,6 @@ export default function ScheduleDetail() {
           />
         </div>
       </div>
-      <hr className="my-2" />
       <Comments
         postId={+scheduleId}
         commentCount={data.scheduleCommentCount}
