@@ -48,7 +48,7 @@ export default function TravelSchedule() {
 
   if (!data) return <></>;
   return (
-    <div className="flex flex-col w-screen">
+    <div className="flex flex-col">
       <SchedulePost scheduleData={data} />;
       <PageNation maxPage={data?.totalPages} showPage={5} />
       <AddRecordAndSchedule />
