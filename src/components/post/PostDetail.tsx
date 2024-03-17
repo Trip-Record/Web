@@ -12,6 +12,7 @@ import LocationIcon from "../ui/icons/LocationIcon.png";
 import DateIcon from "../ui/icons/DateIcon.png";
 import { useDeleteRecordDetailMutation } from "../../api/record";
 import { useNavigate } from "react-router-dom";
+import noimage from "../ui/icons/noimage.png";
 
 interface Props {
   postId: number;
@@ -113,12 +114,14 @@ export default function PostDetail({ postId }: Props) {
           )}
         </div>
       </div>
-      <article
-        className={`flex flex-col items-center justify-center ${
-          nothingImage && "h-52"
-        }`}
-      >
-        {!nothingImage && (
+      <article className={`flex flex-col items-center justify-center`}>
+        {nothingImage ? (
+          <img
+            src={noimage}
+            className="w-24 md:w-56 object-cover rounded-md shadow-md"
+            alt="travel_sinature"
+          ></img>
+        ) : (
           <div className="p-10">
             <Slider images={images} onModal={false} />
           </div>

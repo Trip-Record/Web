@@ -75,18 +75,18 @@ export default function SchedulePost({ scheduleData }: Props) {
       {schedules.map((schedulePost: SchedulePost, index: number) => {
         return (
           <div
-            className="flex flex-col gap-1 rounded-md p-2 bg-white shadow  mx-auto my-3 max-w-screen-md w-full"
+            className="flex flex-col rounded-md p-2 bg-white shadow  mx-auto my-3 max-w-screen-md w-full"
             key={`${id}`}
           >
             <AvatarInfo userProfile={schedulePost.userProfile} />
-            <div className="flex gap-3">
+            <div className="flex gap-3 text-ellipsis text-sm text-gray-400">
               <p>{`${schedulePost.schedulePlaces[0].placeCountry}, ${schedulePost.schedulePlaces[0].placeName}`}</p>
               <p>{`${makeStartEndDateString(
                 schedulePost.scheduleStartDate,
                 schedulePost.scheduleEndDate
               )}`}</p>
             </div>
-            <div>{schedulePost.scheduleTitle}</div>
+            <div className="font-bold mb-2">{schedulePost.scheduleTitle}</div>
             {schedulePost.scheduleDetails.slice(0, 3).map((date, index) => {
               return (
                 <div className="border-2 rounded-lg shadow mb-1 p-2">
@@ -100,16 +100,21 @@ export default function SchedulePost({ scheduleData }: Props) {
                 </div>
               );
             })}
-            <div className="flex gap-2 justify-between">
-              <LikeBtn
-                count={schedulePost.scheduleLikeCount}
-                isLiked={schedulePost.isUserLiked}
-                id={schedulePost.scheduleId}
-                type="schedules"
-              />
-              <Link to={`/schedule/${schedulePost.scheduleId}`}>
-                모든 일정 보기
-              </Link>
+            <div className="flex justify-between items-center">
+              <div className="flex gap-2">
+                <LikeBtn
+                  count={schedulePost.scheduleLikeCount}
+                  isLiked={schedulePost.isUserLiked}
+                  id={schedulePost.scheduleId}
+                  type="schedules"
+                />
+                <CommentBtn count={schedulePost.scheduleCommentCount} />
+              </div>
+              <div>
+                <Link to={`/schedule/${schedulePost.scheduleId}`}>
+                  모든 일정 보기
+                </Link>
+              </div>
             </div>
           </div>
         );
