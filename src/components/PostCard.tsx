@@ -9,6 +9,7 @@ import AvatarInfo from "./ui/AvatarInfo";
 import { Record } from "../api/records";
 import { formatPlace } from "../utils/dataFormat";
 import { MyRecord } from "./MyRecord";
+import noimage from "./ui/icons/noimage.png";
 
 interface Props {
   record: Record | MyRecord;
@@ -65,9 +66,16 @@ export default function PostCard({ record, type = "blog" }: Props) {
             <CommentBtn count={record.commentCount} />
           </div>
         </div>
-        {recordImages[0]?.recordImageUrl && (
+        {recordImages[0]?.recordImageUrl ? (
           <img
             src={recordImages[0]?.recordImageUrl}
+            className="w-24 md:w-56 object-cover rounded-md shadow-md"
+            alt="travel_sinature"
+            onClick={() => navi(`/record/${recordId}`)}
+          ></img>
+        ) : (
+          <img
+            src={noimage}
             className="w-24 md:w-56 object-cover rounded-md shadow-md"
             alt="travel_sinature"
             onClick={() => navi(`/record/${recordId}`)}
@@ -84,12 +92,20 @@ export default function PostCard({ record, type = "blog" }: Props) {
           onClick={() => navi(`/record/${recordId}`)}
           className="w-full flex flex-col gap-2 justify-center items-center cursor-pointer"
         >
-          {recordImages[0]?.recordImageUrl && (
+          {recordImages[0]?.recordImageUrl ? (
             <img
               src={recordImages[0]?.recordImageUrl}
+              className="w-24 md:w-56 object-cover rounded-md shadow-md"
               alt="travel_sinature"
-              className="w-[80%] h-60 object-cover shadow-md rounded-md"
-            />
+              onClick={() => navi(`/record/${recordId}`)}
+            ></img>
+          ) : (
+            <img
+              src={noimage}
+              className="w-24 md:w-56 object-cover rounded-md shadow-md"
+              alt="travel_sinature"
+              onClick={() => navi(`/record/${recordId}`)}
+            ></img>
           )}
           <div className="font-bold line-clamp-1">{recordTitle}</div>
           <div className="line-clamp-4">{recordContent}</div>
