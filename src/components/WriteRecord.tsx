@@ -1,5 +1,5 @@
 import RegisterStringInput from "./form/RegisterInput";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FormError } from "./RegisterPage";
 import { MdSubtitles } from "react-icons/md";
 import { FaLocationDot } from "react-icons/fa6";
@@ -10,25 +10,107 @@ import ModalButton from "./Modal";
 import { SelectDate } from "./comment/Calendar";
 import { useModal } from "../hooks/useModal";
 import DestinationSelection from "./DestinationSelection";
-import { recordApi, useSetRecordMutation } from "../api/record";
+import {
+  recordApi,
+  useDeleteRecordDetailMutation,
+  useSetRecordMutation,
+} from "../api/record";
 import { useNavigate } from "react-router-dom";
+import { Record, ResponseImage } from "../api/records";
 
-export default function WriteRecord() {
-  const [travelName, setTravelName] = useState("");
-  const [travelDetails, setTravelDetails] = useState("");
-  const [images, setImages] = useState<File[]>([]);
+export interface editRecordInitProps {
+  editData?: Record;
+  onSubmit?: (formdata: FormData) => void;
+}
+
+async function imageUrlToFile(imageUrl: string, filename: string) {
+  // 이미지를 Fetch API를 사용해 가져옴
+  const response = await fetch(imageUrl);
+  if (!response.ok) {
+    throw new Error(`Failed to fetch ${imageUrl}: ${response.statusText}`);
+  }
+  // 응답을 Blob으로 변환
+  const imageBlob = await response.blob();
+  // Blob을 File로 변환
+  const file = new File([imageBlob], filename, { type: imageBlob.type });
+  return file;
+}
+
+async function getfileData(imageUrls: ResponseImage[]) {
+  // TODO: CORS 해결
+  return [];
+  const files = await Promise.all(
+    imageUrls.map((url, i) => imageUrlToFile(url.recordImageUrl, i + ""))
+  );
+  return files;
+}
+
+function getSelectedDays(startDay?: string, endDay?: string) {
+  if (!startDay && !endDay) {
+    return undefined;
+  }
+
+  if (startDay)
+    return endDay
+      ? [new Date(startDay), new Date(endDay)]
+      : [new Date(startDay)];
+}
+
+export default function WriteRecord({
+  editData,
+  onSubmit,
+}: editRecordInitProps) {
+  const initData = {
+    travelName: editData?.recordTitle,
+    travelDetails: editData?.recordContent,
+    images: [],
+    selectedDays: getSelectedDays(
+      editData?.tripStartDate,
+      editData?.tripEndDate
+    ),
+    selectedDestinations: editData?.recordPlaces.map(
+      (place) => `${place.countryName} > ${place.placeName}`
+    ),
+    selectedLocation: editData?.recordPlaces.map(
+      (place) => `${place.countryName} > ${place.placeName}`
+    ),
+    selectedLocationIdArray: editData?.recordPlaces.map(
+      (place) => place.placeId
+    ),
+  };
+
+  useEffect(() => {
+    getfileData(editData?.recordImages ?? []).then((images) =>
+      setImages(images)
+    );
+  }, [editData]);
+
+  //서버로 보낼 데이터
+  const [travelName, setTravelName] = useState(initData.travelName ?? "");
+  const [travelDetails, setTravelDetails] = useState(
+    initData.travelDetails ?? ""
+  );
+  const [images, setImages] = useState<File[]>(initData.images ?? []);
+  const [selectedDays, setSelectedDays] = useState<SelectDate>(
+    initData.selectedDays ?? [new Date()]
+  );
+  const [selectedLocationIdArray, setSelectedLocationIdArray] = useState<
+    number[]
+  >(initData.selectedLocationIdArray ?? []);
+
+  //화면에 만 보일 데이터
+  const [selectedDestinations, setSelectedDestinations] = useState<string[]>(
+    initData.selectedDestinations ?? []
+  );
+  const [selectedLocation, setSelectedLocation] = useState<string[]>(
+    initData.selectedLocation ?? []
+  );
+
+  //기타 state
   const [calendar, setCalendar] = useState(false);
-  const [selectedDays, setSelectedDays] = useState<SelectDate>([new Date()]);
   const [isModalOpen, setModal] = useModal();
   const [isOpenDestinationModal, setDestinationModal] = useModal();
   const [isOpenPeriodModal, setPeriodModal] = useModal();
-  const [selectedLocation, setSelectedLocation] = useState<string[]>([]);
-  const [selectedLocationIdArray, setSelectedLocationIdArray] = useState<
-    number[]
-  >([]);
-  const [selectedDestinations, setSelectedDestinations] = useState<string[]>(
-    []
-  );
   const navi = useNavigate();
 
   const handleLocationSelect = (location: string[]) => {
@@ -84,8 +166,18 @@ export default function WriteRecord() {
   const [setRecord, { isLoading, isSuccess, isError, error }] =
     recordApi.useSetRecordMutation();
 
+  const [deleteRecordDetail] = useDeleteRecordDetailMutation();
+
+  const handleDeleteClick = (recordId: number) => {
+    // const deleteCheck = window.confirm("해당 게시글을 삭제하시겠습니까?");
+    // if (deleteCheck) {
+    deleteRecordDetail(recordId).unwrap();
+    // }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
     const formData = new FormData();
     formData.append("recordTitle", travelName);
     formData.append("recordContent", travelDetails);
@@ -99,6 +191,11 @@ export default function WriteRecord() {
       formData.append("endDate", formatDate(selectedDays[0]));
     } else {
       formData.append("endDate", formatDate(selectedDays[1]));
+    }
+    // 수정인경우
+    if (editData) {
+      console.log("삭제", editData?.recordId);
+      await handleDeleteClick(editData?.recordId);
     }
     try {
       const response = await setRecord(formData).unwrap();
@@ -119,7 +216,9 @@ export default function WriteRecord() {
   return (
     <div className="p-2 sm:max-w-[800px] mx-auto">
       <form
-        onSubmit={handleSubmit}
+        onSubmit={(e) => {
+          handleSubmit(e);
+        }}
         className="flex flex-col  shadow bg-white gap-3 rounded-md p-5 mt-10"
       >
         <div className="flex  border-black border-b-[2px] pb-2 items-center">
