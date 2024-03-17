@@ -86,24 +86,25 @@ export default function WriteSchedule() {
         return;
       }
 
-      const scheduleDetailsArray = createDatesArray(selectedDays).map(
-        (date, index) => {
-          return {
-            scheduleDetailDate: dateFormat([date])[0],
-            scheduleDetailContent:
-              travelDetailsArray.find(
-                (item) => item.date === dateFormat([date])[0]
-              )?.content || "",
-          };
-        }
+      if (!Array.isArray(travelDetailsArray)) {
+        console.error("travelDetailsArray가 제대로 초기화되지 않았습니다.");
+        return;
+      }
+
+      // 세부 일정이 없는 날짜를 필터링
+      const filteredDetailsArray = travelDetailsArray.filter(
+        (item) => item && item.content && item.content.trim() !== ""
       );
+
       const requestData = {
         scheduleTitle: travelName,
         placeIds: selectedLocationIdArray,
         scheduleStartDate: dateFormat([startDate])[0],
         scheduleEndDate: dateFormat([endDate])[0],
-        scheduleDetails:
-          scheduleDetailsArray.length > 0 ? scheduleDetailsArray : [],
+        scheduleDetails: filteredDetailsArray.map((item) => ({
+          scheduleDetailDate: item.date,
+          scheduleDetailContent: item.content,
+        })),
       };
 
       try {
