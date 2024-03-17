@@ -26,6 +26,7 @@ export interface Record {
   isUserLiked: boolean;
   likeCount: number;
   commentCount: number;
+  isUserCreated: boolean;
 }
 
 export interface ResponseRecords {

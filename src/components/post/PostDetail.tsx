@@ -81,11 +81,11 @@ export default function PostDetail({ postId }: Props) {
       <div className="flex items-center justify-between border-b border-black/80 pb-2">
         <div className="flex text-gray-500 flex-col">
           <div className="flex gap-2">
-            <img src={LocationIcon} width="25" />
+            <img src={LocationIcon} width="25" alt="장소 아이콘" />
             <span>{place}</span>
           </div>
           <div className="flex gap-2">
-            <img src={DateIcon} width="25" />
+            <img src={DateIcon} width="25" alt="날짜 아이콘" />
             <span>
               {getDateYYYYMMDD(new Date(tripStartDate))} ~{" "}
               {getDateYYYYMMDD(new Date(tripEndDate))}
@@ -95,7 +95,10 @@ export default function PostDetail({ postId }: Props) {
         <div className="flex items-center gap-1">
           {isMyRecord && (
             <>
-              <button className="flex items-center">
+              <button
+                className="flex items-center"
+                onClick={() => navi(`/modify-record/${postId}`)}
+              >
                 <ModifyIcon size={16} /> 수정
               </button>
               <button
