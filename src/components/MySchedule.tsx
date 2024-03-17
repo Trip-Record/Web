@@ -76,7 +76,7 @@ export default function MySchedule() {
         (schedulePost: ScheduleInfo, index: number) => {
           return (
             <div
-              className="flex flex-col gap-1 rounded-md p-2 bg-white shadow w-2/5 mx-auto my-3"
+              className="flex flex-col gap-1 rounded-md p-2 bg-white shadow max-w-screen-md mx-auto my-3"
               key={schedulePost.scheduleId + index}
             >
               <div className="flex gap-3">

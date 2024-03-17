@@ -19,8 +19,15 @@ interface RankingData {
 }
 
 const MonthRanking = () => {
-  const [selectedYear, setSelectedYear] = useState<string | null>("2024");
-  const [selectedMonth, setSelectedMonth] = useState<string | null>("01");
+  const currentYear = new Date().getFullYear().toString(); // 현재 년도
+  const currentMonth = new Date().getMonth() + 1; // 현재 월, 0부터 시작하므로 1을 더해줌.
+  const formattedMonth =
+    currentMonth < 10 ? `0${currentMonth}` : `${currentMonth}`; // 두 자리 숫자로 포맷
+
+  const [selectedYear, setSelectedYear] = useState<string | null>(currentYear);
+  const [selectedMonth, setSelectedMonth] = useState<string | null>(
+    formattedMonth
+  );
   const [rankingData, setRankingData] = useState<RankingData[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<any>(null);

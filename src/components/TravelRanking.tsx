@@ -10,7 +10,7 @@ export default function TravelRanking() {
   };
 
   return (
-    <div className="bg-white mt-8 ml-4">
+    <div className="bg-white mt-8 max-w-screen-md mx-auto">
       <div className="flex justify-start mt-4 ml-4 mb-4">
         <button
           className={`ml-4 mr-4 ${
