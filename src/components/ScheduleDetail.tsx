@@ -135,7 +135,6 @@ export default function ScheduleDetail() {
           />
         </div>
       </div>
-      <hr className="my-2" />
       <Comments
         postId={+scheduleId}
         commentCount={data.scheduleCommentCount}

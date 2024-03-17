@@ -108,19 +108,7 @@ export default function SchedulePost({ scheduleData }: Props) {
                   id={schedulePost.scheduleId}
                   type="schedules"
                 />
-                <ModalButton
-                  button={
-                    <CommentBtn count={schedulePost.scheduleCommentCount} />
-                  }
-                  modal={
-                    <CommentModal
-                      postId={schedulePost.scheduleId}
-                      type="schedules"
-                    />
-                  }
-                  isOpenModal={showModal}
-                  setModal={switchModal}
-                />
+                <CommentBtn count={schedulePost.scheduleCommentCount} />
               </div>
               <div>
                 <Link to={`/schedule/${schedulePost.scheduleId}`}>
