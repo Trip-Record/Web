@@ -76,7 +76,7 @@ export default function MySchedule() {
         (schedulePost: ScheduleInfo, index: number) => {
           return (
             <div
-              className="flex flex-col gap-1 rounded-md p-2 bg-white shadow w-2/5 mx-auto my-3"
+              className="flex flex-col gap-1 rounded-md p-2 bg-white shadow max-w-screen-md mx-auto my-3"
               key={schedulePost.scheduleId + index}
             >
               <div className="flex gap-3">
@@ -111,6 +111,7 @@ export default function MySchedule() {
                     count={schedulePost.scheduleLikeCount}
                     isLiked={schedulePost.isUserLiked} // 이 상태를 표시할 데이터가 없음
                     id={schedulePost.scheduleId}
+                    type="schedules"
                   />
                   <CommentBtn count={schedulePost.scheduleCommentCount} />
                 </div>
