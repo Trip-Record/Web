@@ -139,7 +139,7 @@ export default function MyPage() {
         </div>
       )}
       <div className="bg-white">
-        <div className="flex justify-start ml-4 mb-4">
+        <div className="flex justify-start ml-56 mb-4">
           <button
             className={`ml-32 mt-10 text-xl ${
               activeTab === "기록"
