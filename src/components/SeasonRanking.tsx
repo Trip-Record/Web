@@ -19,8 +19,28 @@ interface RankingData {
 }
 
 const SeasonRanking = () => {
-  const [selectedYear, setSelectedYear] = useState<string | null>("2024");
-  const [selectedSeason, setSelectedSeason] = useState<string | null>("겨울");
+  const [selectedYear, setSelectedYear] = useState<string | null>(
+    new Date().getFullYear().toString()
+  );
+  const [selectedSeason, setSelectedSeason] = useState<string | null>("");
+
+  useEffect(() => {
+    const currentMonth = new Date().getMonth();
+    let season: string;
+
+    if (currentMonth >= 2 && currentMonth <= 4) {
+      season = "봄";
+    } else if (currentMonth >= 5 && currentMonth <= 7) {
+      season = "여름";
+    } else if (currentMonth >= 8 && currentMonth <= 10) {
+      season = "가을";
+    } else {
+      season = "겨울";
+    }
+
+    setSelectedSeason(season);
+  }, []);
+
   const [rankingData, setRankingData] = useState<RankingData[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<any>(null);
