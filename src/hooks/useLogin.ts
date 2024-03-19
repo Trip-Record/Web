@@ -4,8 +4,8 @@ import { setLoginToken } from "../services/storage";
 import { useNavigate } from "react-router-dom";
 
 export function useLogin() {
-  const [id, setId] = useState("테스트계정2@gmail.com");
-  const [password, setPassword] = useState("1234");
+  const [id, setId] = useState("");
+  const [password, setPassword] = useState("");
 
   const navigation = useNavigate();
 
