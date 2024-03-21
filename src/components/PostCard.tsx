@@ -50,7 +50,7 @@ export default function PostCard({ record, type = "blog" }: Props) {
           {recordUserProfile && <AvatarInfo userProfile={recordUserProfile} />}
           <div
             onClick={() => navi(`/record/${recordId}`)}
-            className="cursor-pointer"
+            className="cursor-pointer h-full"
           >
             <h2 className="text-gray-400 text-ellipsis text-sm">{region}</h2>
             <h2 className="font-bold line-clamp-1">{recordTitle}</h2>
