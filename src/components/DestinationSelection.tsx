@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { HOST } from "../constants";
 
 interface Place {
   placeId: number;
@@ -44,9 +45,7 @@ export default function DestinationSelection({
   useEffect(() => {
     const fetchPlaces = async () => {
       try {
-        const response = await axios.get<Continent[]>(
-          "http://15.164.19.143:8080/locations"
-        );
+        const response = await axios.get<Continent[]>(`${HOST}/locations`);
 
         const continentsSet = new Set<string>();
         const countriesSet = new Set<string>();

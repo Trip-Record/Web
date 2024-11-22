@@ -2,6 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { getLoginToken } from "../services/storage";
 import { ScheduleData, SchedulePost } from "../components/SchedulePostCard";
 import { MyScheduleData } from "../components/MySchedule";
+import { HOST } from "../constants";
 
 interface SchedulePatch {
   scheduleId: string;
@@ -20,7 +21,7 @@ interface ScheduleDetail {
 export const scheduleApi = createApi({
   reducerPath: "schedule",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://15.164.19.143:8080",
+    baseUrl: `${HOST}`,
     prepareHeaders: (headers, { getState }) => {
       const token = getLoginToken();
 

@@ -1,9 +1,11 @@
+import { HOST } from "../constants";
+
 export default function Test() {
   const token =
     "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MDcxMjc0MjcsImV4cCI6MTcwNzIxMzgyNywidXNlcklkIjo2fQ.XbJqiVasApzfhHtp6Ia7sE1BvOG2Tv3_gyNnmJZ2w00";
 
   const like = () => {
-    fetch("http://15.164.19.143:8080/records/21/likes", {
+    fetch(`${HOST}/records/21/likes`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -15,7 +17,7 @@ export default function Test() {
   };
 
   const dislike = () => {
-    fetch("http://15.164.19.143:8080/records/21/likes", {
+    fetch(`${HOST}/records/21/likes`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -27,7 +29,7 @@ export default function Test() {
   };
 
   const register = () => {
-    fetch("http://15.164.19.143:8080/users/signup", {
+    fetch(`${HOST}/users/signup`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -50,7 +52,7 @@ export default function Test() {
   };
 
   const login = () => {
-    fetch("http://15.164.19.143:8080/users/login", {
+    fetch(`${HOST}/users/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -67,7 +69,7 @@ export default function Test() {
   };
 
   const testRecord = () => {
-    fetch("http://15.164.19.143:8080/records?page=1", {
+    fetch(`${HOST}/records?page=1`, {
       method: "GET", // 명시적으로 메소드를 지정하는 것이 좋습니다.
       headers: {
         "Content-type": "application/json",
@@ -85,7 +87,7 @@ export default function Test() {
   };
 
   const test = () => {
-    fetch("http://15.164.19.143:8080/trip-styles")
+    fetch(`${HOST}/trip-styles`)
       .then((res) => res.json())
       .then((data) => console.log(data));
   };
