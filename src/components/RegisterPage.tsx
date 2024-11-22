@@ -115,7 +115,7 @@ const RegisterPage: React.FC<RegisterPageProps> = () => {
         userPassword: password,
         userNickname: name,
         userAge: birthDay,
-        userBasicProfileId: basicProfileValue, //TODO: 정수형으로 요청
+        userBasicProfileId: basicProfileValue,
       }),
     }).then((res) => {
       if (res.ok) {

@@ -3,6 +3,7 @@ import { getLoginToken } from "../services/storage";
 import { Record, ResponseRecords } from "./records";
 import { CommentData } from "./comment";
 import { RecordData } from "../components/MyRecord";
+import { HOST } from "../constants";
 
 export interface recordData {
   recordTitle: string;
@@ -28,7 +29,7 @@ export interface ResponseComment {
 export const recordApi = createApi({
   reducerPath: "record",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://15.164.19.143:8080",
+    baseUrl: `${HOST}`,
     prepareHeaders: (headers, { getState }) => {
       const token = getLoginToken();
       if (token) {

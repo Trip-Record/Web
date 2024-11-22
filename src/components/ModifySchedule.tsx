@@ -13,6 +13,7 @@ import { useGetScheduleDetailQuery } from "../api/schedule";
 import { Place } from "../api/record";
 import { usePatchScheduleDetailMutation } from "../api/schedule";
 import axios from "axios";
+import { HOST } from "../constants";
 
 export default function ModifySchedule() {
   const [travelName, setTravelName] = useState("");
@@ -51,7 +52,7 @@ export default function ModifySchedule() {
   useEffect(() => {
     const fetchPlaces = async () => {
       try {
-        response = await axios.get("http://15.164.19.143:8080/locations");
+        response = await axios.get(`${HOST}/locations`);
       } catch (error) {
         console.log(error);
       }
