@@ -108,6 +108,10 @@ export default function WriteSchedule() {
       };
 
       try {
+        if (requestData.placeIds.length === 0) {
+          alert("여행지가 선택되지 않았습니다.");
+          throw new Error("여행지가 선택되지 않았습니다.");
+        }
         const response = await axios.post(HOST + "/schedules", requestData, {
           method: "POST",
           headers: {

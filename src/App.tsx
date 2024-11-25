@@ -41,12 +41,10 @@ export default function App() {
           />
           <Route path="/modify-record/:recordId" element={<EditRecordPage />} />
           <Route path="test" element={<Test />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="style" element={<SelectTravelStyle />} />
         </Route>
-        <Route path="style" element={<SelectTravelStyle />} />
-      </Routes>
-      <Routes>
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
       </Routes>
     </div>
   );
