@@ -48,7 +48,7 @@ export const recordsApi = createApi({
       return headers;
     },
   }),
-
+  refetchOnMountOrArgChange: true,
   endpoints: (builder) => ({
     getRecords: builder.query<ResponseRecords, { page: number; size: number }>({
       query: ({ page, size }) => `records?page=${page}&size=${size}`,

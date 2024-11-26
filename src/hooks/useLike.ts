@@ -16,31 +16,13 @@ export function useLike({ initLike, initCount, id, type }: Props) {
   const [like, setLike] = useState(initCount);
   const { user } = useUser();
 
-  const { data: recordData, refetch: recordRefetch } = useRecord(id);
-  const { data: scheduleData, refetch: scheduleRefetch } =
-    useGetScheduleDetailQuery(id + "");
+  useEffect(() => {
+    setActive(initLike);
+  }, [initLike]);
 
   useEffect(() => {
-    recordRefetch();
-  }, [id, recordRefetch]);
-
-  useEffect(() => {
-    scheduleRefetch();
-  }, [id, scheduleRefetch]);
-
-  useEffect(() => {
-    if (recordData) {
-      setActive(recordData.isUserLiked);
-      setLike(recordData.likeCount);
-    }
-  }, [recordData]);
-
-  useEffect(() => {
-    if (scheduleData) {
-      setActive(scheduleData.isUserLiked);
-      setLike(scheduleData.scheduleLikeCount);
-    }
-  }, [scheduleData]);
+    setLike(initCount);
+  }, [initCount]);
 
   const addLike = (prevLikeCount: number) => {
     fetch(`${HOST}/${type}/${id}/likes`, {
