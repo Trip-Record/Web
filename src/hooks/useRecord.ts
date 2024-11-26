@@ -6,7 +6,7 @@ import { useGetRecordQuery } from "../api/record";
 export function useRecord(recordId: number) {
   const { user } = useUser();
   const navi = useNavigate();
-  const { data } = useGetRecordQuery(recordId);
+  const { data, refetch } = useGetRecordQuery(recordId);
 
   const deleteRecord = () => {
     fetch(`${HOST}/records/${recordId}`, {
@@ -32,5 +32,5 @@ export function useRecord(recordId: number) {
     fetch("/");
   };
 
-  return { deleteRecord, data, modifyRecord };
+  return { deleteRecord, data, modifyRecord, refetch };
 }
