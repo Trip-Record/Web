@@ -83,7 +83,7 @@ export default function Comments({ postId, commentCount, type }: Props) {
     : data.scheduleComments;
   return (
     <>
-      <CommentHeader count={commentCount} />
+      <CommentHeader count={comments?.length || commentCount} />
       <div className="overflow-y-scroll mt-2 scrollbar-hide" ref={commentRef}>
         {comments?.map((comment, index) => (
           <CommentLine
