@@ -27,6 +27,7 @@ export const api = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "https://jsonplaceholder.typicode.com/",
   }),
+  refetchOnMountOrArgChange: true,
   endpoints: (builder) => ({
     // TODO: 실제 데이터가 오면 배열로 바꿀것 : PostData[]
     getPosts: builder.query<PostData, number>({

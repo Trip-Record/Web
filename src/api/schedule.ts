@@ -33,6 +33,7 @@ export const scheduleApi = createApi({
       return headers;
     },
   }),
+  refetchOnMountOrArgChange: true,
   endpoints: (builder) => ({
     getSchedulePosts: builder.query<ScheduleData, number>({
       query: (pageNumber) => `schedules?page=${pageNumber}`,

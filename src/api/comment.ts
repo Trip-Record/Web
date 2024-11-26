@@ -39,6 +39,7 @@ export const commentApi = createApi({
       return headers;
     },
   }),
+  refetchOnMountOrArgChange: true,
   endpoints: (builder) => ({
     getComments2: builder.query<
       ResponseScheduleComments | ResponseRecordComments,

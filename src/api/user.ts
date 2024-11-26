@@ -20,6 +20,7 @@ export const userApi = createApi({
       return headers;
     },
   }),
+  refetchOnMountOrArgChange: true,
   endpoints: (builder) => ({
     getUserInfo: builder.query<UserInfo, void>({
       query: () => `users/informations`,

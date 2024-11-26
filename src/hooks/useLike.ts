@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useUser } from "./useUser";
 import { HOST } from "../constants";
+import { useRecord } from "./useRecord";
+import { useGetScheduleDetailQuery } from "../api/schedule";
 
 export type PostTypes = "records" | "schedules";
 interface Props {
@@ -13,6 +15,14 @@ export function useLike({ initLike, initCount, id, type }: Props) {
   const [active, setActive] = useState(initLike);
   const [like, setLike] = useState(initCount);
   const { user } = useUser();
+
+  useEffect(() => {
+    setActive(initLike);
+  }, [initLike]);
+
+  useEffect(() => {
+    setLike(initCount);
+  }, [initCount]);
 
   const addLike = (prevLikeCount: number) => {
     fetch(`${HOST}/${type}/${id}/likes`, {

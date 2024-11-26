@@ -64,8 +64,6 @@ export default function MySchedule() {
     return `${year}.${month}.${day} (${weekday})`;
   };
 
-  console.log(data);
-
   if (loading) return <div>로딩중...</div>;
   if (error) return <div>에러 발생</div>;
   if (!data) return <div>작성한 게시물이 없습니다!</div>;

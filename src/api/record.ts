@@ -38,7 +38,7 @@ export const recordApi = createApi({
       return headers;
     },
   }),
-
+  refetchOnMountOrArgChange: true,
   endpoints: (builder) => ({
     setRecord: builder.mutation<void, FormData>({
       query: (formData: FormData) => {
